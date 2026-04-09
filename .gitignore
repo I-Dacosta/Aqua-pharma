@@ -1,0 +1,52 @@
+# Dependencies
+node_modules
+.pnpm-store
+pnpm-debug.log
+yarn-error.log
+npm-error.log
+
+# Build outputs
+dist
+build
+out
+.next
+.nuxt
+.cache
+.turbo
+.turbopack
+
+# IDE and editor
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+.env.local
+.env.*.local
+
+# Testing
+coverage
+.nyc_output
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.production.local
+
+# OS files
+thumbs.db
+Thumbs.db
+.DS_Store
+*.log
+
+# Temporary files
+*.tmp
+.cache
+/tmp
+
+# Large files that should be excluded
+intranet/.pnpm-store/**
+**/.pnpm-store/**
+**/.next/cache/**

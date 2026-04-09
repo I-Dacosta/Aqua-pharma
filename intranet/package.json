@@ -1,0 +1,33 @@
+{
+  "name": "intranet",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.29.3",
+  "scripts": {
+    "build": "turbo run build",
+    "build:apps:deps": "turbo run build --filter=@platform/auth --filter=@platform/config --filter=@platform/types --filter=@platform/ui",
+    "build:services:deps": "pnpm --filter @platform/db run prisma:generate && turbo run build --filter=@platform/auth --filter=@platform/config --filter=@platform/db --filter=@platform/types",
+    "check-types": "turbo run check-types",
+    "db:down": "docker compose -f infra/docker/docker-compose.yml down",
+    "db:logs": "docker compose -f infra/docker/docker-compose.yml logs -f postgres",
+    "db:migrate": "pnpm --filter @platform/db run prisma:migrate:dev",
+    "db:reset": "pnpm --filter @platform/db run prisma:migrate:reset",
+    "db:studio": "pnpm --filter @platform/db run prisma:studio",
+    "db:up": "docker compose -f infra/docker/docker-compose.yml up -d postgres",
+    "dev": "turbo run dev",
+    "dev:docker": "docker compose -f infra/docker/docker-compose.yml up -d postgres turbo-services turbo-frontend",
+    "dev:docker:frontend": "docker compose -f infra/docker/docker-compose.yml up -d turbo-frontend",
+    "dev:docker:frontend:logs": "docker compose -f infra/docker/docker-compose.yml logs -f turbo-frontend",
+    "dev:docker:logs": "docker compose -f infra/docker/docker-compose.yml logs -f turbo-services",
+    "dev:frontend": "pnpm run build:apps:deps && turbo run dev --filter=internal-portal --filter=customer-portal",
+    "dev:services": "pnpm run build:services:deps && turbo run dev --filter=@platform/graph-service --filter=@platform/customer-service --filter=@platform/document-service",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "turbo": "^2.8.16"
+  }
+}

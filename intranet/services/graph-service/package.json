@@ -1,0 +1,31 @@
+{
+  "name": "@platform/graph-service",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/server.js",
+  "types": "dist/server.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check-types": "tsc --noEmit",
+    "dev": "tsx watch src/server.ts",
+    "lint": "tsc --noEmit",
+    "start": "node dist/server.js",
+    "test": "node -e \"console.log('No tests configured for graph-service')\""
+  },
+  "dependencies": {
+    "@azure/identity": "^4.13.0",
+    "@fastify/cors": "^11.1.0",
+    "@fastify/sensible": "^6.0.3",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
+    "@platform/auth": "workspace:*",
+    "@platform/config": "workspace:*",
+    "@platform/types": "workspace:*",
+    "fastify": "^5.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.3"
+  }
+}
