@@ -1,6 +1,9 @@
+import Image from "next/image";
+import Link from "next/link";
 import { Navbar } from "@/components/core/Navbar";
 import { Footer } from "@/components/core/Footer";
 import { ContactSection } from "@/components/core/ContactSection";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 export const metadata = {
   title: "About Us | Aqua Pharma",
@@ -12,176 +15,207 @@ export default function AboutPage() {
     <div className="min-h-screen bg-(--brand-paper)">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="relative flex h-[500px] w-full items-end justify-center bg-(--brand-blue) md:h-[600px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(21,31,109,1) 0%, rgba(78,96,173,0.92) 62%, rgba(85,109,90,0.36) 100%)" }}>
-        <div className="absolute inset-0 opacity-20" style={{
-          backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%)',
-        }}></div>
-        
-        <div className="relative z-10 text-center pb-16 px-4 max-w-4xl mx-auto">
-          <p className="mb-4 text-sm font-semibold tracking-wider text-[var(--brand-tangerine)] md:text-base">ABOUT US</p>
-          <h1 className="font-heading text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Leading Aquaculture Care
-          </h1>
-          <p className="mx-auto max-w-3xl text-lg text-white/78 md:text-xl">
-            Over 50 years of innovation, dedication, and pioneering solutions for aquaculture farmers worldwide
+      {/* ── Hero ── */}
+      <section className="relative flex min-h-[78vh] w-full flex-col justify-end overflow-hidden bg-(--brand-blue)">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/wp/about/about-hero.jpg"
+            alt="Aqua Pharma aquaculture operations"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-50 motion-safe:animate-[zoomOut_12s_ease-out_forwards]"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(21,31,109,0.88)_0%,rgba(21,31,109,0.32)_60%,transparent_100%)]" />
+        </div>
+
+        <ScrollReveal className="relative z-10 px-6 pb-20 pt-40 md:px-12 lg:px-20 lg:pb-28" duration={1.15} yOffset={34}>
+          <p className="mb-6 text-[0.72rem] font-medium uppercase tracking-[0.28em] text-white/60">
+            About Aqua Pharma
           </p>
+          <h1 className="font-heading text-[clamp(3rem,6vw,5.5rem)] font-light leading-[1.05] tracking-wide text-white">
+            Veterinary Care<br />Below Water
+          </h1>
+          <p className="mt-8 max-w-xl text-[1.05rem] font-light leading-[1.8] text-white/75">
+            Leading veterinary services for aquaculture — designing and developing solutions for fish and shrimp health globally.
+          </p>
+        </ScrollReveal>
+      </section>
+
+      {/* ── Who We Are ── */}
+      <section className="border-b border-(--brand-blue)/8 px-6 py-24 md:px-12 md:py-32 lg:px-20">
+        <ScrollReveal className="mx-auto grid max-w-7xl grid-cols-1 gap-16 lg:grid-cols-[1fr_1.2fr] lg:gap-32" duration={0.9} start="top 90%" yOffset={26}>
+          <div>
+            <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
+              Who We Are
+            </p>
+            <h2 className="mt-6 font-heading text-[clamp(2rem,3.8vw,3.6rem)] font-light leading-[1.1] tracking-wide text-(--brand-blue)">
+              A science-led company shaped by the sea.
+            </h2>
+          </div>
+          <div className="flex flex-col justify-center gap-6">
+            <p className="text-[1.1rem] font-light leading-[1.85] text-(--brand-dark)/72">
+              Aqua Pharma is a leading veterinary services provider for the aquaculture industry. We design and develop solutions for fish and shrimp health globally. We operate in 9 countries — Australia, Belgium, Canada, Chile, Ecuador, Indonesia, Norway, Scotland and the USA — with around 50 employees across the world.
+            </p>
+            <p className="text-[1.1rem] font-light leading-[1.85] text-(--brand-dark)/72">
+              The main market for Aqua Pharma is salmon farming, but we also develop treatment solutions for other species: shrimp, kingfish, trout, seabass, and seabream. Aqua Pharma Group is structurally backed by two innovative parent companies — <a href="https://www.solvay.com" className="underline underline-offset-2 hover:text-(--brand-blue)">Solvay</a> (a global leader in sustainable materials and solutions) and <a href="https://aquatiq.com" className="underline underline-offset-2 hover:text-(--brand-blue)">Aquatiq</a> (a Norwegian reference in Food Safety).
+            </p>
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* ── Stats ── */}
+      <section className="border-b border-(--brand-blue)/8 px-6 py-20 md:px-12 lg:px-20">
+        <ScrollReveal className="mx-auto grid max-w-7xl grid-cols-2 gap-px bg-(--brand-blue)/8 md:grid-cols-4" duration={0.78} start="top 91%" yOffset={18} staggerChildren staggerAmount={0.08}>
+          {[
+            { stat: "9", label: "Countries" },
+            { stat: "50+", label: "Experts" },
+            { stat: "50+", label: "Years" },
+            { stat: "30+", label: "Dosing Systems" },
+          ].map(({ stat, label }) => (
+            <div key={label} className="flex flex-col justify-center bg-(--brand-paper) px-8 py-12 md:px-12">
+              <p className="font-heading text-[clamp(3rem,5vw,4.5rem)] font-light leading-none text-(--brand-blue)">
+                {stat}
+              </p>
+              <p className="mt-4 text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--brand-dark)/50">
+                {label}
+              </p>
+            </div>
+          ))}
+        </ScrollReveal>
+      </section>
+
+      {/* ── Values ── */}
+      <section className="border-b border-(--brand-blue)/8 px-6 py-24 md:px-12 md:py-32 lg:px-20">
+        <div className="mx-auto max-w-7xl">
+          <ScrollReveal className="max-w-2xl" duration={0.9} start="top 90%" yOffset={24}>
+            <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
+              Our Values
+            </p>
+            <h2 className="mt-6 font-heading text-[clamp(2rem,3.8vw,3.4rem)] font-light leading-[1.1] tracking-wide text-(--brand-blue)">
+              We Care. We Dare.
+            </h2>
+          </ScrollReveal>
+
+          <ScrollReveal className="mt-16 grid grid-cols-1 gap-px bg-(--brand-blue)/8 md:grid-cols-2" duration={0.84} start="top 90%" yOffset={20} staggerChildren staggerAmount={0.08}>
+            <div className="bg-(--brand-paper) p-10 md:p-14">
+              <p className="font-heading text-[clamp(1.6rem,2.5vw,2.4rem)] font-light tracking-wide text-(--brand-blue)">
+                We Care
+              </p>
+              <div className="my-6 h-px w-12 bg-(--brand-tangerine)/60" />
+              <p className="text-[1.05rem] font-light leading-[1.85] text-(--brand-dark)/70">
+              Aqua Pharma goes beyond basic expectations and continuously improves in prevention and control methods, where technology allows it. We contribute to maintaining a responsible aquaculture industry by evolving our systems to support producers in meeting their objectives.
+              </p>
+            </div>
+            <div className="bg-(--brand-paper) p-10 md:p-14">
+              <p className="font-heading text-[clamp(1.6rem,2.5vw,2.4rem)] font-light tracking-wide text-(--brand-blue)">
+                We Dare
+              </p>
+              <div className="my-6 h-px w-12 bg-(--brand-tangerine)/60" />
+              <p className="text-[1.05rem] font-light leading-[1.85] text-(--brand-dark)/70">
+              Our vision &ldquo;What it Takes&rdquo; reflects our employees&apos; attitude in their daily work and is the inspiration behind all our activities. Aqua Pharma always goes beyond the customer&apos;s expectations, bringing innovative thinking to old problems. We promote quality and take pride in the work we do — committed to our team and our customers, constantly working towards safe and sustainable approaches for management of life below water.
+              </p>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
-      {/* Company Overview Section */}
-      <section className="w-full bg-(--brand-paper) px-4 py-16 md:py-24">
-        <div className="max-w-4xl mx-auto">
-          <div className="space-y-8">
-            <div>
-              <h2 className="mb-4 font-heading text-3xl font-bold text-(--brand-blue) md:text-4xl">
-                Who We Are
-              </h2>
-              <p className="mb-4 text-lg leading-relaxed text-[rgba(51,51,51,0.8)]">
-                Aqua Pharma is a leading veterinary healthcare provider for the global aquaculture industry. With a presence in 8 countries and a dedicated team of 50 experts, we deliver innovative solutions that improve fish and shrimp welfare while supporting sustainable farming practices.
-              </p>
-              <p className="text-lg leading-relaxed text-[rgba(51,51,51,0.8)]">
-                Our mission is to empower aquaculture farmers with science-backed products and services that enhance productivity, health, and environmental responsibility across their operations.
-              </p>
-            </div>
+      {/* ── History Timeline ── */}
+      <section className="border-b border-(--brand-blue)/8 px-6 py-24 md:px-12 md:py-32 lg:px-20">
+        <div className="mx-auto max-w-7xl">
+          <ScrollReveal className="max-w-2xl" duration={0.9} start="top 90%" yOffset={24}>
+            <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
+              Our History
+            </p>
+            <h2 className="mt-6 font-heading text-[clamp(2rem,3.8vw,3.4rem)] font-light leading-[1.1] tracking-wide text-(--brand-blue)">
+              Five decades in the water.
+            </h2>
+          </ScrollReveal>
 
-            <div className="my-12 h-px bg-linear-to-r from-transparent via-(--brand-glaucous)/30 to-transparent"></div>
-
-            {/* Our Values */}
-            <div>
-              <h2 className="mb-8 font-heading text-3xl font-bold text-(--brand-blue) md:text-4xl">
-                Our Values
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-(--brand-blue-soft)">
-                    <span className="text-lg font-bold text-(--brand-blue)">♡</span>
-                  </div>
-                  <h3 className="font-heading text-2xl font-bold text-(--brand-blue)">We Care</h3>
-                  <p className="text-lg leading-relaxed text-[rgba(51,51,51,0.72)]">
-                    We deeply care about the health and welfare of farmed fish and shrimp, the sustainability of aquaculture, and the success of the farmers and communities we serve. Our commitment is unwavering.
-                  </p>
+          <div className="mt-16 space-y-0 divide-y divide-(--brand-blue)/8">
+            {[
+              { era: "1970", label: "Origins", body: "First salmon farming begins in Norway — pens in the sea. A new industry is born, creating an urgent need for veterinary healthcare solutions for farmed fish populations at scale." },
+              { era: "Late 1980s", label: "Industry Emerges", body: "Aquaculture expands rapidly with salmon and trout. Increasing fish density in cages accelerates the spread of disease. Salmon production loses approximately $1 billion a year to sea lice — a pressing challenge that will define Aqua Pharma's purpose." },
+              { era: "2009", label: "Aqua Pharma Founded", body: "Aquatiq Norway — experts in food safety — enter the scene, setting up Aqua Pharma. They develop a concept for safe and sustainable bath treatments for both tarpaulin and well boat treatments. Solvay supports product knowledge." },
+              { era: "2010 – 2018", label: "Global Expansion", body: "Other countries quickly follow, with operations set up in all the main salmon farming countries across Europe, North America, South America, and South-East Asia." },
+              { era: "2019 – Present", label: "Aqua Pharma Group", body: "In September 2019, a joint venture between Aquatiq and Solvay is created, and Aqua Pharma becomes Aqua Pharma Group. The partnership will accelerate research initiatives and support further growth in new aquaculture markets." },
+            ].map(({ era, label, body }, idx) => (
+              <ScrollReveal key={era} className="grid grid-cols-1 gap-6 py-10 md:grid-cols-[14rem_1fr] md:gap-16 md:py-12" delay={Math.min(idx * 0.025, 0.1)} duration={0.78} start="top 91%" yOffset={18}>
+                <div>
+                  <p className="font-heading text-[1.05rem] font-light text-(--brand-blue)/60">{era}</p>
+                  <p className="mt-1 text-[0.72rem] font-medium uppercase tracking-[0.2em] text-(--brand-glaucous)">{label}</p>
                 </div>
-
-                <div className="space-y-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-(--brand-tangerine)">
-                    <span className="text-white font-bold text-lg">★</span>
-                  </div>
-                  <h3 className="font-heading text-2xl font-bold text-(--brand-blue)">We Dare</h3>
-                  <p className="text-lg leading-relaxed text-[rgba(51,51,51,0.72)]">
-                    We are not afraid to challenge the status quo and pioneer new approaches. Through bold innovation and calculated risk-taking, we drive meaningful progress in aquaculture health and sustainability.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="my-12 h-px bg-linear-to-r from-transparent via-(--brand-glaucous)/30 to-transparent"></div>
-
-            {/* History Timeline */}
-            <div>
-              <h2 className="mb-8 font-heading text-3xl font-bold text-(--brand-blue) md:text-4xl">
-                Our History
-              </h2>
-              
-              <div className="space-y-6">
-                <div className="flex gap-4 md:gap-6">
-                  <div className="flex-shrink-0 pt-1">
-                    <div className="h-4 w-4 rounded-full border-2 border-(--brand-blue) bg-(--brand-tangerine)"></div>
-                  </div>
-                  <div>
-                    <h3 className="mb-1 font-heading text-xl font-bold text-(--brand-blue)">1970s - Founding</h3>
-                    <p className="text-lg text-[rgba(51,51,51,0.72)]">
-                      Aqua Pharma was founded with a vision to bring veterinary expertise to aquaculture, an emerging industry seeking professional healthcare solutions for farmed fish populations.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 md:gap-6">
-                  <div className="flex-shrink-0 pt-1">
-                    <div className="h-4 w-4 rounded-full border-2 border-(--brand-blue) bg-(--brand-glaucous)"></div>
-                  </div>
-                  <div>
-                    <h3 className="mb-1 font-heading text-xl font-bold text-(--brand-blue)">1980s-1990s - Growth & Expansion</h3>
-                    <p className="text-lg text-[rgba(51,51,51,0.72)]">
-                      As global aquaculture expanded, so did Aqua Pharma. We established operations across multiple continents, building partnerships with leading farming operations and establishing ourselves as innovation leaders in the sector.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 md:gap-6">
-                  <div className="flex-shrink-0 pt-1">
-                    <div className="h-4 w-4 rounded-full border-2 border-(--brand-blue) bg-(--brand-green)"></div>
-                  </div>
-                  <div>
-                    <h3 className="mb-1 font-heading text-xl font-bold text-(--brand-blue)">2000s - Product Innovation</h3>
-                    <p className="text-lg text-[rgba(51,51,51,0.72)]">
-                      The era of accelerated product development. We pioneered breakthrough solutions including bath treatments, dosing systems, and water conditioning technologies that became industry standards.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 md:gap-6">
-                  <div className="flex-shrink-0 pt-1">
-                    <div className="h-4 w-4 rounded-full border-2 border-(--brand-blue) bg-(--brand-tangerine)"></div>
-                  </div>
-                  <div>
-                    <h3 className="mb-1 font-heading text-xl font-bold text-(--brand-blue)">2010s-Present - Sustainability Focus</h3>
-                    <p className="text-lg text-[rgba(51,51,51,0.72)]">
-                      Recognizing the critical importance of environmental stewardship, we shifted focus toward sustainable antimicrobial alternatives and lower-impact solutions. Today, we lead the industry in responsibility and innovation.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="my-12 h-px bg-linear-to-r from-transparent via-(--brand-glaucous)/30 to-transparent"></div>
-
-            {/* Global Presence */}
-            <div>
-              <h2 className="mb-6 font-heading text-3xl font-bold text-(--brand-blue) md:text-4xl">
-                Global Presence
-              </h2>
-              <p className="mb-6 text-lg text-[rgba(51,51,51,0.72)]">
-                With operations across 8 countries and a team of veterinary experts, scientists, and aquaculture specialists, Aqua Pharma supports farmers on every continent where aquaculture thrives.
-              </p>
-              
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="rounded-lg bg-(--brand-blue-soft) p-4 text-center">
-                  <p className="text-3xl font-bold text-(--brand-blue)">8</p>
-                  <p className="mt-2 text-sm text-[rgba(51,51,51,0.72)]">Countries</p>
-                </div>
-                <div className="rounded-lg bg-(--brand-tangerine-soft) p-4 text-center">
-                  <p className="text-3xl font-bold text-(--brand-blue)">50+</p>
-                  <p className="mt-2 text-sm text-[rgba(51,51,51,0.72)]">Team Members</p>
-                </div>
-                <div className="rounded-lg bg-(--brand-green-soft) p-4 text-center">
-                  <p className="text-3xl font-bold text-(--brand-blue)">50+</p>
-                  <p className="mt-2 text-sm text-[rgba(51,51,51,0.72)]">Years</p>
-                </div>
-                <div className="rounded-lg bg-white p-4 text-center shadow-[0_12px_30px_rgba(21,31,109,0.06)]">
-                  <p className="text-3xl font-bold text-(--brand-blue)">100+</p>
-                  <p className="mt-2 text-sm text-[rgba(51,51,51,0.72)]">Partner Farms</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="my-12 h-px bg-linear-to-r from-transparent via-(--brand-glaucous)/30 to-transparent"></div>
-
-            {/* Explore More */}
-            <div className="text-center py-8">
-              <p className="mb-6 text-[rgba(51,51,51,0.72)]">Learn more about the people behind Aqua Pharma</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/about/team" className="rounded-lg bg-(--brand-tangerine) px-6 py-3 font-semibold text-(--brand-dark) transition-colors hover:bg-[#ef9a4e]">
-                  Meet The Team
-                </a>
-                <a href="/about/pioneering" className="rounded-lg border-2 border-(--brand-glaucous) px-6 py-3 font-semibold text-(--brand-glaucous) transition-colors hover:bg-(--brand-glaucous) hover:text-white">
-                  Our Innovation Story
-                </a>
-              </div>
-            </div>
+                <p className="text-[1.05rem] font-light leading-[1.85] text-(--brand-dark)/70">{body}</p>
+              </ScrollReveal>
+            ))}
           </div>
         </div>
+      </section>
+
+      {/* ── Archive Gallery ── */}
+      <section className="border-b border-(--brand-blue)/8 px-6 py-24 md:px-12 md:py-28 lg:px-20">
+        <div className="mx-auto max-w-7xl">
+          <ScrollReveal className="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1.3fr] lg:gap-20" duration={0.9} start="top 90%" yOffset={24}>
+            <div>
+              <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
+                From the Archive
+              </p>
+              <h2 className="mt-6 max-w-xl font-heading text-[clamp(2rem,3.6vw,3.2rem)] font-light leading-[1.08] tracking-wide text-(--brand-blue)">
+                The people, systems, and field realities that shaped the company.
+              </h2>
+            </div>
+            <p className="text-[1.05rem] font-light leading-[1.85] text-(--brand-dark)/70 lg:self-end">
+              These source images from the original Aqua Pharma site document the operational context behind the company&apos;s growth: live farm conditions, early treatment systems, pioneering field work, and the global team supporting customers in-market.
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal className="grid grid-cols-1 gap-px bg-(--brand-blue)/8 md:grid-cols-2 xl:grid-cols-4" duration={0.82} start="top 90%" yOffset={20} staggerChildren staggerAmount={0.08}>
+            {[
+              { src: "/images/wp/about/about-history.jpg", alt: "Early aquaculture history", label: "History" },
+              { src: "/images/wp/about/about-operations.jpg", alt: "Operational work in the field", label: "Operations" },
+              { src: "/images/wp/about/about-pioneering.jpg", alt: "Pioneering treatment development", label: "Pioneering" },
+              { src: "/images/wp/about/about-team.jpg", alt: "Aqua Pharma team in Chile", label: "Team" },
+            ].map((item) => (
+              <figure key={item.label} className="bg-(--brand-paper)">
+                <div className="overflow-hidden">
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    width={1280}
+                    height={1280}
+                    className="h-[18rem] w-full object-cover"
+                  />
+                </div>
+                <figcaption className="px-6 py-5 text-[0.72rem] font-medium uppercase tracking-[0.2em] text-(--brand-glaucous)">
+                  {item.label}
+                </figcaption>
+              </figure>
+            ))}
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ── Explore links ── */}
+      <section className="px-6 py-20 md:px-12 md:py-28 lg:px-20">
+        <ScrollReveal className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:gap-10" duration={0.88} start="top 91%" staggerChildren yOffset={18}>
+          <p className="text-[1rem] font-light text-(--brand-dark)/60">
+            Learn more about the people and ideas behind Aqua Pharma
+          </p>
+          <div className="flex flex-wrap shrink-0 gap-4">
+            <Link
+              href="/about/team"
+              className="border border-(--brand-blue)/20 px-7 py-3.5 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-(--brand-blue) transition-colors hover:bg-(--brand-blue) hover:text-white"
+            >
+              Meet the Team
+            </Link>
+            <Link
+              href="/about/pioneering"
+              className="border border-(--brand-blue)/20 px-7 py-3.5 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-(--brand-blue) transition-colors hover:bg-(--brand-blue) hover:text-white"
+            >
+              Innovation Story
+            </Link>
+          </div>
+        </ScrollReveal>
       </section>
 
       <ContactSection />

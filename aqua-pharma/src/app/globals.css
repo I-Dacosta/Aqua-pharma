@@ -17,6 +17,9 @@
   --brand-border: rgba(21, 31, 109, 0.12);
   --brand-shadow: 0 24px 80px rgba(21, 31, 109, 0.12);
   --brand-red: #c71e37;
+  --brand-paper-warm: #f7f3ea;
+  --brand-paper-mist: #eef1f6;
+  --brand-ink-muted: rgba(25, 33, 52, 0.68);
 }
 
 @theme inline {
@@ -104,4 +107,27 @@ h4,
 h5,
 h6 {
   font-family: var(--font-heading);
+}
+
+.product-paper-surface {
+  background-image:
+    radial-gradient(circle at top left, rgba(78, 96, 173, 0.06) 0%, rgba(78, 96, 173, 0) 28%),
+    linear-gradient(180deg, rgba(247, 243, 234, 0.82) 0%, rgba(255, 255, 255, 1) 38%, rgba(244, 246, 251, 0.84) 100%);
+}
+
+.product-soft-grid {
+  background-image:
+    linear-gradient(rgba(21, 31, 109, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 31, 109, 0.035) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+@keyframes zoomOut {
+  from {
+    transform: scale(1.08);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }

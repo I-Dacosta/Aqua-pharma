@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef, useLayoutEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatedArrowLink } from "../ui/AnimatedArrowCta";
-import { SplitTextAnimate } from "../ui/SplitTextAnimate";
-import { products, type ProductRecord } from "@/data/products";
+import { ScrollReveal } from "../ui/ScrollReveal";
+import { products, type ProductRecord, type ProductSlug } from "@/data/products";
 import { useProductTransition } from "../core/ProductTransitionProvider";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,63 +16,63 @@ function formatSectionIndex(index: number) {
   return String(index + 1).padStart(3, "0");
 }
 
+const storyMeta: Record<ProductSlug, { context: string; statement: string }> = {
+  "bath-treatments": {
+    context: "Salmon farms / Bath treatments",
+    statement: "Treatment systems built for fish welfare in the exact moment parasite pressure rises.",
+  },
+  "water-conditioning-oxygenation": {
+    context: "Shrimp ponds / Water conditioning",
+    statement: "Protocols, pond preparation, and oxygen support shaped around fragile aquatic ecosystems.",
+  },
+  "dosing-units-services": {
+    context: "Live operations / Dosing systems",
+    statement: "Engineering that turns a prescribed treatment into something safer, calmer, and repeatable in the field.",
+  },
+};
 
-
-/** A single product card styled exactly like lovart.ai posters */
-/** Card representing a site section (Bath, Conditioning, Dosing) */
-function SectionCard({
+function MobileStoryCard({
   section,
   index,
-  cardRef,
-  imgFrameRef,
-  imgRef,
-  imgWrapperRef,
   onNavigate,
 }: {
   section: ProductRecord;
   index: number;
-  cardRef: React.RefCallback<HTMLDivElement>;
-  imgFrameRef: React.RefCallback<HTMLDivElement>;
-  imgRef: React.RefCallback<HTMLImageElement>;
-  imgWrapperRef: React.RefCallback<HTMLDivElement>;
   onNavigate: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 }) {
   return (
-    <article ref={cardRef} className="lovart-card group group/sectioncard relative will-change-[transform,filter,opacity] max-w-105 w-full mx-auto">
-      <Link href={section.href} className="group block" onClick={onNavigate}>
-        <div ref={imgFrameRef} className="relative w-full overflow-hidden bg-black/4 h-[28vh] md:h-[36vh] lg:h-[44vh]">
-          {/* SplitMedia-style: oversized inner wrapper so the image can parallax/scale without showing gaps */}
-          <div ref={imgWrapperRef} className="absolute w-full h-[120%] -top-[10%] will-change-transform">
-            <Image
-              ref={imgRef}
-              src={section.image}
-              alt={section.alt}
-              fill
-              sizes="(max-width: 768px) 45vw, 22vw"
-              className="object-cover object-center transition-opacity duration-300 lg:opacity-70 lg:group-hover:opacity-100 will-change-[transform,filter]"
-            />
-          </div>
-        </div>
+    <article className="border-t border-white/12 py-8 first:border-t-0">
+      <div className="overflow-hidden">
+        <Image
+          src={section.image}
+          alt={section.alt}
+          width={1440}
+          height={1100}
+          className="h-[46vh] w-full object-cover"
+        />
+      </div>
 
-        <p className="mt-4 text-[0.9rem] text-[#1a1d1d]/48 md:mt-7">
-          {formatSectionIndex(index)}
+      <div className="mt-6">
+        <p className="text-[0.72rem] font-medium uppercase tracking-[0.22em] text-white/48">
+          {formatSectionIndex(index)} / {storyMeta[section.slug].context}
         </p>
-
-        <h3 className="mt-2 border-b border-black/20 pb-4 text-[clamp(1.8rem,2.8vw,3rem)] font-light leading-[1.06] tracking-[-0.03em] text-[#111111] md:mt-4 md:pb-5">
+        <h3 className="mt-4 font-heading text-[clamp(2rem,7vw,3rem)] font-light leading-[0.98] tracking-[-0.05em] text-white">
           {section.title}
         </h3>
-      </Link>
-
-      <AnimatedArrowLink
-        href={section.href}
-        onClick={onNavigate}
-        className="mt-4 text-[0.95rem] text-(--brand-tangerine) opacity-80 transition-opacity duration-300 hover:opacity-100 group-hover:opacity-100 md:mt-7"
-        motionClassName="group-hover/sectioncard:translate-x-0"
-        aria-label={`${section.cta}: ${section.description}`}
-      >
-        {section.cta}
-      </AnimatedArrowLink>
-
+        <p className="mt-5 text-[1rem] font-light leading-[1.8] text-white/72">
+          {storyMeta[section.slug].statement}
+        </p>
+        <p className="mt-5 max-w-2xl text-[0.95rem] font-light leading-[1.75] text-white/58">
+          {section.overviewBody}
+        </p>
+        <AnimatedArrowLink
+          href={section.href}
+          onClick={onNavigate}
+          className="mt-6 text-[0.8rem] font-medium uppercase tracking-[0.18em] text-(--brand-tangerine)"
+        >
+          Enter Chapter
+        </AnimatedArrowLink>
+      </div>
     </article>
   );
 }
@@ -80,10 +80,8 @@ function SectionCard({
 export function ProductSection() {
   const { startProductTransition } = useProductTransition();
   const sectionRef = useRef<HTMLElement>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const imgFramesRef = useRef<(HTMLDivElement | null)[]>([]);
-  const imgsRef = useRef<(HTMLImageElement | null)[]>([]);
-  const imgWrappersRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleProductNavigation = (
     event: React.MouseEvent<HTMLAnchorElement>,
@@ -128,121 +126,168 @@ export function ProductSection() {
   useLayoutEffect(() => {
     if (!sectionRef.current) return;
 
-    const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
-    const imgs = imgsRef.current.filter(Boolean) as HTMLImageElement[];
-    const imgWrappers = imgWrappersRef.current.filter(Boolean) as HTMLDivElement[];
-    if (cards.length === 0) return;
-
     const ctx = gsap.context(() => {
-      // Set initial states.
-      const animatedCards = cards;
-      const animatedImgs = imgs;
+      const media = gsap.matchMedia();
 
-      // All cards start hidden to animate in after the title
-      animatedCards.forEach((card, i) => {
-        const img = animatedImgs[i];
-        const wrapper = imgWrappers[i];
-        gsap.set(card, { opacity: 0, y: 40, filter: "blur(8px)", scale: 0.98 });
-        if (img) gsap.set(img, { scale: 1.1, filter: "blur(8px)" });
-        if (wrapper) gsap.set(wrapper, { y: "8%" });
-      });
+      media.add("(min-width: 1024px)", () => {
+        let currentIndex = -1;
 
-      // Pin the section to scroll through the reveals
-      const tl = gsap.timeline({
-        scrollTrigger: {
+        const trigger = ScrollTrigger.create({
           trigger: sectionRef.current,
-          start: "top 20%",
-          end: `+=${window.innerHeight * 1.1}`,
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1,
-        },
-      });
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true,
+          onUpdate: (self) => {
+            const nextIndex = Math.min(
+              products.length - 1,
+              Math.floor(self.progress * products.length),
+            );
 
-      const revealDuration = 0.6;
-      const revealStagger = 0.4;
-      const totalDuration = (animatedCards.length - 1) * revealStagger + revealDuration;
-
-      // Parallax: all image wrappers pan from 10% to -10% across the full scrub
-      imgWrappers.forEach((wrapper) => {
-        tl.to(
-          wrapper,
-          { y: "-10%", ease: "none", duration: totalDuration },
-          0
-        );
-      });
-
-      animatedCards.forEach((card, i) => {
-        const img = animatedImgs[i];
-        const startAt = i * revealStagger;
-
-        tl.to(
-          card,
-          {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            scale: 1,
-            ease: "power2.out",
-            duration: revealDuration,
+            if (nextIndex !== currentIndex) {
+              currentIndex = nextIndex;
+              setActiveIndex(nextIndex);
+            }
           },
-          startAt
-        );
+        });
 
-        if (img) {
-          tl.to(
-            img,
-            {
-              scale: 1,
-              filter: "blur(0px)",
-              ease: "power2.out",
-              duration: revealDuration,
-            },
-            startAt
-          );
-        }
+        return () => trigger.kill();
       });
+
+      return () => media.revert();
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="products"
+    <section
+      id="products"
       ref={sectionRef}
-      className="relative flex min-h-screen w-full flex-col overflow-hidden bg-(--brand-paper) px-8 pb-16"
+      className="bg-[linear-gradient(180deg,#101742_0%,#151f6d_55%,#11183c_100%)] text-white"
     >
-      {/* ---------- Title — split-text, fires as section enters viewport ---------- */}
-      <div className="absolute top-0 left-0 w-full flex justify-center">
-        <h2 className="sr-only">Choose your treatment category.</h2>
-        <SplitTextAnimate
-          text="Choose your treatment category."
-          triggerRef={sectionRef}
-          once
-          className="whitespace-nowrap text-center font-heading text-[clamp(2rem,4vw,3.5rem)] leading-[1.1] tracking-[-0.03em] text-(--brand-blue)"
-        />
+      <div className="hidden lg:block h-[310vh]">
+        <div className="sticky top-0 h-screen overflow-hidden">
+          <div className="grid h-full grid-cols-[20rem_minmax(0,1fr)]">
+            <div className="flex h-full flex-col justify-between border-r border-white/10 px-8 py-14 xl:px-10">
+              <ScrollReveal duration={0.78} yOffset={16} start="top 92%">
+                <div>
+                  <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-white/44">
+                    Chapter 03 / Treatment Narratives
+                  </p>
+                  <h2 className="mt-6 max-w-[10ch] font-heading text-[clamp(2.3rem,3.6vw,4.4rem)] font-light leading-[0.94] tracking-[-0.05em] text-white">
+                    Three farm realities. Three treatment stories.
+                  </h2>
+                  <p className="mt-8 max-w-xs text-[0.98rem] font-light leading-[1.8] text-white/68">
+                    Move through the systems as chapters, not cards. Each one begins in a different environment, with different welfare conditions, operational risks, and treatment needs.
+                  </p>
+                </div>
+              </ScrollReveal>
+
+              <div className="space-y-5">
+                {products.map((section, index) => {
+                  const isActive = index === activeIndex;
+
+                  return (
+                    <div
+                      key={section.id}
+                      className={`border-l pl-4 transition-all duration-500 ${isActive ? "border-(--brand-tangerine) opacity-100" : "border-white/12 opacity-45"}`}
+                    >
+                      <p className="text-[0.68rem] font-medium uppercase tracking-[0.2em] text-white/56">
+                        {formatSectionIndex(index)} / {storyMeta[section.slug].context}
+                      </p>
+                      <h3 className="mt-2 font-heading text-[1.35rem] font-light text-white">
+                        {section.title}
+                      </h3>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="relative h-full overflow-hidden">
+              {products.map((section, index) => {
+                const isActive = index === activeIndex;
+
+                return (
+                  <div
+                    key={section.id}
+                    className={`absolute inset-0 transition-all duration-700 ${isActive ? "opacity-100" : "pointer-events-none opacity-0"}`}
+                  >
+                    <div className="grid h-full grid-cols-[1.12fr_0.88fr]">
+                      <div
+                        ref={(element) => {
+                          imgFramesRef.current[index] = element;
+                        }}
+                        className="relative h-full overflow-hidden"
+                      >
+                        <Image
+                          src={section.image}
+                          alt={section.alt}
+                          fill
+                          sizes="(min-width: 1024px) 55vw, 100vw"
+                          className={`object-cover object-center transition-transform duration-1000 ${isActive ? "scale-100" : "scale-[1.06]"}`}
+                        />
+                        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(21,31,109,0.08)_0%,rgba(21,31,109,0.44)_100%)]" />
+                      </div>
+
+                      <div className="flex h-full flex-col justify-end px-12 pb-16 pt-14 xl:px-16 xl:pb-18">
+                        <p className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-white/48">
+                          {storyMeta[section.slug].context}
+                        </p>
+                        <h3 className="mt-6 max-w-[10ch] font-heading text-[clamp(2.6rem,4.2vw,5rem)] font-light leading-[0.92] tracking-[-0.055em] text-white">
+                          {section.title}
+                        </h3>
+                        <p className="mt-8 max-w-xl text-[1.08rem] font-light leading-[1.85] text-white/76">
+                          {storyMeta[section.slug].statement}
+                        </p>
+                        <p className="mt-8 max-w-xl border-t border-white/12 pt-8 text-[0.98rem] font-light leading-[1.78] text-white/62">
+                          {section.overviewBody}
+                        </p>
+                        <AnimatedArrowLink
+                          href={section.href}
+                          onClick={(event) => {
+                            handleProductNavigation(event, section, index);
+                          }}
+                          className="mt-10 text-[0.8rem] font-medium uppercase tracking-[0.18em] text-(--brand-tangerine)"
+                        >
+                          Enter Chapter
+                        </AnimatedArrowLink>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* ---------- Cards grid — independently centred in full height ---------- */}
-      <div className="flex-1 flex items-center w-full">
-        <div className="w-full">
-          <div className="mx-auto grid max-w-315 justify-items-center grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-8 2xl:gap-10">
+      <div className="px-6 py-20 md:px-12 lg:hidden">
+        <div className="mx-auto max-w-5xl">
+          <ScrollReveal duration={0.78} yOffset={16} start="top 92%">
+            <div>
+              <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-white/44">
+                Chapter 03 / Treatment Narratives
+              </p>
+              <h2 className="mt-6 max-w-[12ch] font-heading text-[clamp(2.4rem,8vw,4rem)] font-light leading-[0.96] tracking-[-0.05em] text-white">
+                Three farm realities. Three treatment stories.
+              </h2>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal className="mt-10" duration={0.74} yOffset={14} staggerChildren staggerAmount={0.05} start="top 93%">
+          <div>
             {products.map((section, index) => (
-              <div key={section.id} className="flex w-full justify-center">
-                <SectionCard
-                  section={section}
-                  index={index}
-                  cardRef={(el) => { cardsRef.current[index] = el; }}
-                  imgFrameRef={(el) => { imgFramesRef.current[index] = el; }}
-                  imgRef={(el) => { imgsRef.current[index] = el; }}
-                  imgWrapperRef={(el) => { imgWrappersRef.current[index] = el; }}
-                  onNavigate={(event) => {
-                    handleProductNavigation(event, section, index);
-                  }}
-                />
-              </div>
+              <MobileStoryCard
+                key={section.id}
+                section={section}
+                index={index}
+                onNavigate={(event) => {
+                  handleProductNavigation(event, section, index);
+                }}
+              />
             ))}
           </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

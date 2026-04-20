@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ProductStoryPage } from "@/components/core/ProductStoryPage";
+import { ProductStoryPage } from "@/components/product/ProductStoryPage";
 import { getProductBySlug, products } from "@/data/products";
 
 type ProductPageProps = {

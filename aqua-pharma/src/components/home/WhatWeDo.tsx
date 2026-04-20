@@ -1,110 +1,82 @@
 "use client";
 
 import { useRef } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-    Fish,
-    ShieldCheck,
-    FlaskConical,
-    Waves,
-    Droplets,
-    Wrench,
-} from "lucide-react";
 import { SplitTextAnimate } from "../ui/SplitTextAnimate";
-
-gsap.registerPlugin(ScrollTrigger);
+import { ScrollReveal } from "../ui/ScrollReveal";
 
 export function WhatWeDo() {
     const containerRef = useRef<HTMLElement>(null);
-    const whatWeDoIcons = [
-        { Icon: Fish, label: "Fish & Shrimp Health" },
-        { Icon: ShieldCheck, label: "Biosecurity" },
-        { Icon: FlaskConical, label: "Diagnostics & Lab" },
-        { Icon: Waves, label: "Water Quality" },
-        { Icon: Droplets, label: "Oxygenation" },
-        { Icon: Wrench, label: "Equipment & Service" },
+    const storyPillars = [
+        {
+            number: "01",
+            title: "Prevention before reaction",
+            body: "We work upstream of crisis: treatment planning, product quality, and precise application before stress becomes damage in the cage or pond.",
+        },
+        {
+            number: "02",
+            title: "Precision in the treatment moment",
+            body: "Whether the setting is a well boat, a tarpaulin, or a shrimp pond, our systems are built around exact concentration, safer handling, and better control in the field.",
+        },
+        {
+            number: "03",
+            title: "Presence where farming happens",
+            body: "The company operates through live farm realities across countries and species. That proximity changes the design language of every service, protocol, and dosing system we build.",
+        },
     ];
-
-    useGSAP(() => {
-        const bodyElement = containerRef.current?.querySelector(".whatwedo-body");
-        if (!bodyElement) return;
-
-        ScrollTrigger.create({
-            trigger: containerRef.current,
-            start: "top 80%",
-            animation: gsap.from(
-                bodyElement,
-                {
-                    y: 60,
-                    opacity: 0,
-                    scale: 0.95,
-                    filter: "blur(10px)",
-                    duration: 1.2,
-                    ease: "power3.out",
-                }
-            ),
-            toggleActions: "play reverse play reverse",
-        });
-    }, { scope: containerRef });
 
     return (
         <section
             id="what-we-do"
             ref={containerRef}
-            className="w-full overflow-hidden bg-(--brand-paper) pt-[10vh] pb-20 text-(--brand-dark) md:pb-28 lg:pb-32"
+            className="w-full overflow-hidden bg-(--brand-paper-warm) px-6 py-24 text-(--brand-dark) md:px-12 md:py-32 lg:px-20"
         >
-            <div className="w-[90%] mx-auto flex flex-col min-h-[15vh] md:min-h-[24vh] lg:min-h-[28vh]">
-                <div className="relative right-5 flex-1 flex justify-end items-center">
-                    <div className="w-full lg:w-1/2">
-                        {/* Heading — overflows left of container on lg */}
-                        <div className="px-6 md:px-12 lg:px-2 mb-8">
-                            <h2 className="sr-only">What  We  Do</h2>
-                            <SplitTextAnimate
-                                text="WHAT WE DO"
-                                className="inline-block text-[clamp(3rem,6vw,5.5rem)] leading-[0.9] tracking-[-0.03em] font-heading lg:-translate-x-full lg:pr-4 lg:text-right"
-                                triggerRef={containerRef}
-                            />
+            <div className="mx-auto max-w-7xl">
+                <div className="grid grid-cols-1 gap-10 border-b border-(--brand-blue)/8 pb-14 lg:grid-cols-[14rem_1fr] lg:gap-20 lg:pb-18">
+                    <ScrollReveal duration={0.74} yOffset={14} start="top 92%">
+                        <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
+                            Chapter 02 / At the Farm Edge
+                        </p>
+                    </ScrollReveal>
 
-                            <div className="relative right-60 whatwedo-body mt-6 flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-8">
-                                <div
-                                    className="relative right-40 grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-3 lg:w-max lg:shrink-0"
-                                    aria-label="Treatment category icons"
-                                >
-                                    {whatWeDoIcons.map(({ Icon, label }, index) => (
-                                        <button
-                                            key={index}
-                                            type="button"
-                                            aria-label={label}
-                                            className="relative group flex h-14 w-14 items-center justify-center rounded-full border border-(--brand-border) bg-(--brand-blue-soft)/35"
-                                        >
-                                            <Icon className="h-6 w-6 text-(--brand-blue)" strokeWidth={1.7} />
+                    <div>
+                        <h2 className="sr-only">What We Do</h2>
+                        <SplitTextAnimate
+                            text="We work in the moments where treatment decisions become welfare decisions."
+                            className="max-w-5xl text-[clamp(2.4rem,5vw,5.5rem)] leading-[0.94] tracking-[-0.05em] font-heading text-(--brand-blue)"
+                            triggerRef={containerRef}
+                        />
 
-                                            <span className="pointer-events-none absolute left-1/2 -top-10 z-10 w-max -translate-x-1/2 whitespace-nowrap rounded-md bg-(--brand-blue) px-3 py-1 text-xs text-white opacity-0 shadow-sm transition-opacity duration-150 group-hover:opacity-100 group-focus:opacity-100">
-                                                {label}
-                                            </span>
-                                        </button>
-                                    ))}
-                                </div>
-
-                                <div className="max-w-2xl lg:pt-1">
-                                    <p className="text-base leading-relaxed text-[rgba(51,51,51,0.8)] md:text-lg">
-                                        Aqua Pharma offers products, equipment, and services for shrimp and salmon farming, aimed at preventing and controlling disease and improving the health of fish and shrimp.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        <ScrollReveal duration={0.78} yOffset={16} start="top 92%">
+                            <p className="mt-8 max-w-3xl text-[1.02rem] font-light leading-[1.85] text-(--brand-dark)/70 md:text-[1.1rem]">
+                                Aqua Pharma develops products, equipment, and services for salmon and shrimp farming, but the company is best understood as an operational partner in difficult treatment environments. The work begins in the lived conditions of farms, vessels, and teams who need safer, clearer, more repeatable systems.
+                            </p>
+                        </ScrollReveal>
                     </div>
                 </div>
 
-                {/* Silver line splitter with faded corners */}
-                <div
-                    className="h-px mt-8 md:mt-12"
-                    style={{
-                        background: "linear-gradient(90deg, rgba(21,31,109,0) 0%, rgba(21,31,109,0.24) 10%, rgba(78,96,173,0.24) 90%, rgba(21,31,109,0) 100%)",
-                    }}
-                />
+                <ScrollReveal className="mt-14" duration={0.72} yOffset={14} staggerChildren staggerAmount={0.05} start="top 93%">
+                <div className="grid grid-cols-1 gap-px bg-(--brand-blue)/8 lg:grid-cols-3">
+                    {storyPillars.map((pillar) => (
+                        <article key={pillar.number} className="bg-(--brand-paper) p-8 md:p-10 lg:p-12">
+                            <p className="text-[0.72rem] font-medium uppercase tracking-[0.22em] text-(--brand-glaucous)">
+                                {pillar.number}
+                            </p>
+                            <h3 className="mt-6 max-w-[12ch] font-heading text-[clamp(1.6rem,2.4vw,2.4rem)] font-light leading-[1.04] text-(--brand-blue)">
+                                {pillar.title}
+                            </h3>
+                            <p className="mt-6 text-[0.98rem] font-light leading-[1.8] text-(--brand-dark)/68">
+                                {pillar.body}
+                            </p>
+                        </article>
+                    ))}
+                </div>
+                </ScrollReveal>
+
+                <ScrollReveal className="mt-12 border-t border-(--brand-blue)/8 pt-8" duration={0.76} yOffset={14} start="top 93%">
+                    <p className="max-w-4xl font-heading text-[clamp(1.45rem,2.3vw,2.3rem)] font-light leading-[1.22] text-(--brand-blue)/82">
+                        The company story is not organized around features. It is organized around water conditions, fish welfare, application accuracy, and the people standing inside those treatment moments.
+                    </p>
+                </ScrollReveal>
             </div>
         </section>
     );

@@ -1,11 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { AnimatedArrowLink } from "../ui/AnimatedArrowCta";
-import { SectionDivider } from "../ui/SectionDivider";
+import { ScrollReveal } from "../ui/ScrollReveal";
 
 const featuredNews = {
     category: "PARTNERSHIP & INNOVATION",
@@ -40,120 +37,87 @@ const newsItems = [
 ];
 
 export function News() {
-    const sectionRef = useRef<HTMLDivElement>(null);
-    const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-    useEffect(() => {
-        gsap.registerPlugin(ScrollTrigger);
-
-        const ctx = gsap.context(() => {
-            // Filter out nulls from refs (just in case)
-            const validCards = cardsRef.current.filter(Boolean);
-
-            // Staggered fade up for all article items
-            gsap.fromTo(
-                validCards,
-                {
-                    y: 80,
-                    opacity: 0,
-                },
-                {
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top 75%",
-                    },
-                    y: 0,
-                    opacity: 1,
-                    duration: 1,
-                    ease: "power3.out",
-                    stagger: 0.15,
-                }
-            );
-        }, sectionRef);
-
-        return () => ctx.revert();
-    }, []);
-
     return (
         <div className="relative z-10 w-full">
-            <section ref={sectionRef} className="bg-(--brand-paper) py-32 px-8">
-            <div className="max-w-350 mx-auto">
-                <div className="flex justify-between items-end mb-16">
-                    <h2 className="text-sm font-semibold uppercase tracking-widest text-(--brand-glaucous)">
-                        News
-                    </h2>
-                    <AnimatedArrowLink href="#" className="text-sm font-medium text-(--brand-tangerine) transition-opacity hover:opacity-80">
-                        All news
-                    </AnimatedArrowLink>
-                </div>
-
-                {/* Featured Article — Video */}
-                <div
-                    ref={(el) => { cardsRef.current[0] = el; }}
-                    className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mb-24 items-center group"
-                >
-                    <div className="lg:col-span-7 relative h-[60vh] w-full overflow-hidden bg-black/10">
-                        <video
-                            src={featuredNews.videoUrl}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div className="lg:col-span-5 flex flex-col justify-center">
-                        <span className="mb-6 text-xs font-semibold uppercase tracking-widest text-(--brand-glaucous)">
-                            {featuredNews.category}
-                        </span>
-                        <h3 className="mb-6 text-3xl font-light leading-tight text-(--brand-blue) md:text-4xl">
-                            {featuredNews.title}
-                        </h3>
-                        <SectionDivider className="mb-6 max-w-36" />
-                        <p className="mb-10 text-base font-light leading-relaxed text-[rgba(51,51,51,0.76)] md:text-lg">
-                            {featuredNews.description}
-                        </p>
-                        <AnimatedArrowLink href={featuredNews.link} className="mt-1 text-sm text-(--brand-tangerine) transition-opacity hover:opacity-80">
-                            Read more
+            <section className="bg-(--brand-paper) py-32 px-6 md:px-12">
+            <div className="max-w-7xl mx-auto">
+                <ScrollReveal className="mb-16 md:mb-24" duration={0.76} yOffset={14} start="top 92%">
+                    <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+                        <h2 className="font-heading text-[clamp(2.5rem,4vw,3.5rem)] font-light uppercase tracking-wide text-(--brand-blue)">
+                            LATEST NEWS
+                        </h2>
+                        <AnimatedArrowLink href="#" className="text-[0.8rem] font-medium tracking-[0.15em] uppercase text-(--brand-blue)/80 transition-colors hover:text-(--brand-blue)">
+                            VIEW ALL NEWS
                         </AnimatedArrowLink>
                     </div>
-                </div>
+                </ScrollReveal>
+
+                {/* Featured Article — Video */}
+                <ScrollReveal className="mb-24" duration={0.8} yOffset={16} start="top 92%">
+                    <div className="group flex cursor-pointer flex-col items-center gap-12 lg:flex-row lg:gap-20">
+                        <div className="relative h-[50vh] w-full overflow-hidden bg-black/5 lg:w-[60%] md:h-[65vh]">
+                            <video
+                                src={featuredNews.videoUrl}
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                className="h-full w-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+                            />
+                        </div>
+                        <div className="flex flex-col justify-center py-4 lg:w-[40%]">
+                            <span className="mb-6 text-[0.75rem] font-medium uppercase tracking-[0.2em] text-(--brand-blue)/50">
+                                {featuredNews.category}
+                            </span>
+                            <h3 className="mb-8 text-[clamp(1.8rem,2.5vw,2.8rem)] font-light leading-[1.15] tracking-wide text-(--brand-blue) transition-colors duration-500">
+                                {featuredNews.title}
+                            </h3>
+                            <div className="mb-8 h-px w-12 bg-(--brand-blue)/20" />
+                            <p className="mb-10 text-[1.05rem] font-light leading-[1.8] text-(--brand-dark)/70 md:text-[1.15rem]">
+                                {featuredNews.description}
+                            </p>
+                            <AnimatedArrowLink href={featuredNews.link} className="mt-2 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-(--brand-tangerine)">
+                                Read Full Story
+                            </AnimatedArrowLink>
+                        </div>
+                    </div>
+                </ScrollReveal>
 
                 {/* Grid Articles */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <ScrollReveal duration={0.72} yOffset={14} staggerChildren staggerAmount={0.05} start="top 93%">
+                <div className="grid grid-cols-1 gap-x-12 gap-y-16 md:grid-cols-3">
                     {newsItems.map((item, index) => (
                         <div
                             key={index}
-                            ref={(el) => {
-                                cardsRef.current[index + 1] = el; // Offset by 1 for featured card
-                            }}
-                            className="group cursor-pointer flex flex-col gap-6"
+                            className="group flex cursor-pointer flex-col gap-6"
                         >
-                            <div className="w-full h-[40vh] relative overflow-hidden">
+                            <div className="w-full aspect-[4/3] relative overflow-hidden bg-black/5">
                                 <Image
                                     src={item.image}
                                     alt={item.title}
                                     fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                    sizes="(max-width: 768px) 100vw, 33vw"
+                                    className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                                 />
                             </div>
-                            <div className="flex flex-col gap-3">
-                                <span className="text-xs font-semibold uppercase tracking-widest text-(--brand-glaucous)">
+                            <div className="flex flex-col gap-4">
+                                <span className="text-[0.7rem] font-medium uppercase tracking-[0.2em] text-(--brand-blue)/50">
                                     {item.category}
                                 </span>
-                                <h3 className="text-xl font-light leading-tight text-(--brand-blue) transition-colors group-hover:text-(--brand-tangerine)">
+                                <h3 className="text-[1.3rem] md:text-[1.4rem] font-light leading-[1.25] tracking-wide text-(--brand-blue)">
                                     {item.title}
                                 </h3>
-                                <p className="mt-2 line-clamp-4 text-sm font-light leading-relaxed text-[rgba(51,51,51,0.7)]">
+                                <p className="mt-2 line-clamp-3 text-[0.95rem] font-light leading-[1.7] text-(--brand-dark)/60">
                                     {item.description}
                                 </p>
-                                <AnimatedArrowLink href={item.link} className="mt-2 text-sm text-(--brand-tangerine) transition-opacity hover:opacity-80">
-                                    Read more
+                                <AnimatedArrowLink href={item.link} className="mt-4 text-[0.75rem] font-medium uppercase tracking-[0.15em] text-(--brand-tangerine)">
+                                    Read Article
                                 </AnimatedArrowLink>
                             </div>
                         </div>
                     ))}
                 </div>
+                </ScrollReveal>
             </div>
             </section>
         </div>

@@ -9,6 +9,16 @@ export type ProductRecord = {
   title: string;
   href: `/products/${ProductSlug}`;
   image: string;
+  detailImage?: string;
+  downloads?: Array<{
+    eyebrow: string;
+    title: string;
+    description: string;
+    href: string;
+    asset: string;
+    download?: boolean;
+    external?: boolean;
+  }>;
   alt: string;
   description: string;
   cta: string;
@@ -38,8 +48,9 @@ export const products: ProductRecord[] = [
     slug: "bath-treatments",
     title: "Bath Treatments",
     href: "/products/bath-treatments",
-    image: "/bath.jpg",
-    alt: "Bath Treatments",
+    image: "/images/wp/products/bath-hero.jpg",
+    detailImage: "/images/wp/products/bath-detail.jpg",
+    alt: "Tarpaulin bath treatment setup at a salmon farm",
     description:
       "Low-impact therapeutic bath treatments based on hydrogen peroxide to control sea lice and other diseases while ensuring fish welfare.",
     cta: "Treatments",
@@ -88,14 +99,57 @@ export const products: ProductRecord[] = [
       { value: "0.001%", label: "approx. post-treatment dilution" },
       { value: "9", label: "countries of operation" },
     ],
+    downloads: [
+      {
+        eyebrow: "Norway Brochure",
+        title: "Bath Treatments in Partnership with AQS",
+        description: "Product brochure for the Norway bath treatment offer and operating concept.",
+        href: "/downloads/wp/bath/norway-bath-treatments-brochure.pdf",
+        asset: "/images/wp/collateral/bath-norway.jpg",
+        download: true,
+      },
+      {
+        eyebrow: "Chile Brochure",
+        title: "Chile Bath Treatments Brochure",
+        description: "Regional bath treatment product information for the Chilean aquaculture market.",
+        href: "/downloads/wp/bath/chile-bath-treatments-brochure.pdf",
+        asset: "/images/wp/collateral/bath-chile.jpg",
+        download: true,
+      },
+      {
+        eyebrow: "Salmon Flyer",
+        title: "Aqua Pharma Salmon Flyer",
+        description: "A compact overview of the salmon treatment concept and support offer.",
+        href: "/downloads/wp/bath/salmon-flyer.pdf",
+        asset: "/images/wp/collateral/bath-flyer.jpg",
+        download: true,
+      },
+      {
+        eyebrow: "Field Resource",
+        title: "Manual de Buenas Prácticas",
+        description: "Best-practice field manual packaged from the original Aqua Pharma collateral library.",
+        href: "/downloads/wp/bath/manual-de-buenas-practicas.pdf",
+        asset: "/images/wp/collateral/bath-video-poster.jpg",
+        download: true,
+      },
+      {
+        eyebrow: "QR Resource",
+        title: "Bath Treatments QR Sheet",
+        description: "Quick-access QR graphic from the original technical information set.",
+        href: "/images/wp/collateral/bath-qr.png",
+        asset: "/images/wp/collateral/bath-qr.png",
+        download: true,
+      },
+    ],
   },
   {
     id: "s-conditioning",
     slug: "water-conditioning-oxygenation",
     title: "Water Conditioning & Oxygenation",
     href: "/products/water-conditioning-oxygenation",
-    image: "/shrimp.jpg",
-    alt: "Water Conditioning & Oxygenation",
+    image: "/images/wp/products/water-hero.jpg",
+    detailImage: "/images/wp/products/water-detail.jpg",
+    alt: "Shrimp pond water conditioning operations",
     description:
       "Eco-friendly water conditioning and oxygenation solutions designed to maintain optimal water quality and healthy shrimp.",
     cta: "Technology",
@@ -150,8 +204,9 @@ export const products: ProductRecord[] = [
     slug: "dosing-units-services",
     title: "Dosing Units & Services",
     href: "/products/dosing-units-services",
-    image: "/dosing.jpg",
-    alt: "Dosing units and services",
+    image: "/images/wp/products/dosing-hero.jpg",
+    detailImage: "/images/wp/products/dosing-detail.jpg",
+    alt: "Aqua Pharma dosing equipment in operation",
     description:
       "Precision dosing equipment and services that ensure safe, effective application of treatments across farms and vessels.",
     cta: "Services",
@@ -199,6 +254,24 @@ export const products: ProductRecord[] = [
       { value: "30+", label: "systems installed globally" },
       { value: "In-house", label: "technical design process" },
       { value: "Bespoke", label: "engineering support available" },
+    ],
+    downloads: [
+      {
+        eyebrow: "Technical Flyer",
+        title: "Dosing Units & Services Flyer",
+        description: "Downloadable brochure for Aqua Pharma dosing equipment and service support.",
+        href: "/downloads/wp/dosing/dosing-flyer.pdf",
+        asset: "/images/wp/collateral/dosing-flyer.jpg",
+        download: true,
+      },
+      {
+        eyebrow: "Animated Video",
+        title: "Tarpaulin Dosing Concept Film",
+        description: "Watch the original animated explanation of the dosing concept used in salmon farms.",
+        href: "https://www.youtube.com/watch?v=6ElJ6rTlLrs&ab_channel=Aquatiq",
+        asset: "/images/wp/collateral/dosing-video-poster.jpg",
+        external: true,
+      },
     ],
   },
 ];

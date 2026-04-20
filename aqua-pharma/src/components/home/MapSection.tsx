@@ -8,6 +8,7 @@ import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import maplibregl from 'maplibre-gl';
 import { AnimatedArrowButton, AnimatedArrowLink } from '../ui/AnimatedArrowCta';
+import { ScrollReveal } from '../ui/ScrollReveal';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -867,7 +868,8 @@ export function MapSection() {
         <section ref={sectionRef} id="map-section" className="overflow-hidden bg-(--brand-paper) px-8 py-32">
             <div className="mx-auto grid w-full max-w-350 gap-10 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-center xl:grid-cols-[24rem_minmax(0,1fr)] xl:gap-14">
                 <aside className="pointer-events-auto flex max-w-80 flex-col-reverse justify-end md:flex-col">
-                    <div className="mt-12 md:mt-0">
+                    <ScrollReveal className="mt-12 md:mt-0" duration={0.86} yOffset={20} start="top 90%">
+                    <div>
                         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                             <div>
                                 <p className="mb-2 text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-(--brand-glaucous)">
@@ -918,8 +920,10 @@ export function MapSection() {
                             })}
                         </div>
                     </div>
+                    </ScrollReveal>
 
-                    <div className="md:mt-12">
+                    <ScrollReveal className="md:mt-12" duration={0.88} yOffset={18} start="top 90%">
+                    <div>
                         <p className="mb-2.5 text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-(--brand-glaucous)">
                             Global operating footprint
                         </p>
@@ -977,6 +981,7 @@ export function MapSection() {
                             </div>
                         ) : null}
                     </div>
+                    </ScrollReveal>
                 </aside>
                     <div className="map-section relative overflow-hidden lg:min-h-187.5 xl:min-h-212.5">
                         <div className="pointer-events-none absolute left-1/2 top-1/2 z-1 h-160 w-2xl -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle,rgba(78,96,173,0.16)_0%,rgba(246,175,110,0.12)_36%,rgba(255,255,255,0)_74%)] blur-3xl md:h-200 md:w-225 xl:h-250 xl:w-275" />
@@ -987,8 +992,8 @@ export function MapSection() {
                         <div className="relative h-80 overflow-hidden sm:h-96 md:h-112 lg:h-187.5 xl:h-212.5">
                             <div className={`absolute inset-0 transition-opacity duration-500 ${isMapReady ? 'opacity-0' : 'opacity-100'}`}>
                                 <Image
-                                    src="/map-fallback.svg"
-                                    alt="Global market coverage map"
+                                    src="/images/wp/home/world-presence.jpg"
+                                    alt="Aqua Pharma world presence"
                                     fill
                                     className="object-cover object-center opacity-75"
                                     sizes="(min-width: 1280px) 90vw, 100vw"

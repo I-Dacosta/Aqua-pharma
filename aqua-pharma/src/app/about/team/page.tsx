@@ -1,6 +1,8 @@
+import Image from "next/image";
 import { Navbar } from "@/components/core/Navbar";
 import { Footer } from "@/components/core/Footer";
 import { ContactSection } from "@/components/core/ContactSection";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 export const metadata = {
   title: "Our Team | Aqua Pharma",
@@ -10,155 +12,258 @@ export const metadata = {
 interface TeamMember {
   name: string;
   role: string;
-  region?: string;
+  phone?: string;
+  email?: string;
   image?: string;
 }
 
 interface TeamSection {
   title: string;
+  fallbackLabel: string;
+  fallbackSurfaceClassName: string;
+  fallbackAccentClassName: string;
   members: TeamMember[];
+}
+
+function getInitials(name: string) {
+  const parts = name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part.charAt(0).toUpperCase());
+
+  return parts.join("");
 }
 
 const teamSections: TeamSection[] = [
   {
     title: "Management",
+    fallbackLabel: "Mgmt",
+    fallbackSurfaceClassName: "bg-(--brand-paper-warm)",
+    fallbackAccentClassName: "bg-(--brand-tangerine)/60",
     members: [
-      { name: "Elvin Bugge", role: "CEO & Founder" },
-      { name: "Hanne Mertens", role: "Chief Operating Officer" },
-      { name: "Dr. Per Johnsen", role: "Chief Science Officer" },
-      { name: "Marina Silva", role: "Director of Global Operations" },
-    ]
+      { name: "Elvin Bugge",    role: "CEO",                   phone: "+47 911 01 112",   email: "elvin.bugge@aqua-pharma.com", image: "/images/wp/team/elvin-bugge.png" },
+      { name: "Hanne Mertens",  role: "COO",                   phone: "+32 486 03 9069",  email: "hanne.mertens@aqua-pharma.com", image: "/images/wp/team/hanne-mertens.png" },
+      { name: "Synnøve Venås", role: "HR Business Partner",   phone: "+47 950 46 704",   email: "synnove.venas@aquatiq.com", image: "/images/wp/team/synnove-venas.png" },
+    ],
   },
   {
-    title: "South America",
+    title: "Business Unit — South America",
+    fallbackLabel: "SA",
+    fallbackSurfaceClassName: "bg-(--brand-tangerine-soft)",
+    fallbackAccentClassName: "bg-(--brand-tangerine)/70",
     members: [
-      { name: "Carlos Rodriguez", role: "Regional Director" },
-      { name: "Ana Santos", role: "Sales Manager" },
-      { name: "Felipe Oliveira", role: "Technical Specialist" },
-      { name: "Lucia Mendoza", role: "Customer Support" },
-    ]
+      { name: "Cesar Corona",                   role: "General Manager, South America",             phone: "+56 982 986 118",  email: "cesar.corona@aqua-pharma.com", image: "/images/wp/team/cesar-corona.png" },
+      { name: "Luis Robles",                    role: "General Manager, Ecuador",                                              email: "luis.robles@aqua-pharma.com", image: "/images/wp/team/luis-robles.png" },
+      { name: "María de los Angeles Brahm",     role: "Manager Técnico Veterinario",                phone: "+56 938 622 802",  email: "angeles.brahm@aqua-pharma.com", image: "/images/wp/team/maria-brahm.png" },
+      { name: "Ivan Contreras",                 role: "Treatment Expert",                           phone: "+56 982 792 889",  email: "ivan.contreras@aqua-pharma.com", image: "/images/wp/team/ivan-contreras.png" },
+      { name: "Rodrigo Seitz",                  role: "Logistics Manager",                          phone: "+56 934 681 931",  email: "rodrigo.seitz@aqua-pharma.com", image: "/images/wp/team/rodrigo-seitz.png" },
+      { name: "Bruno Paredes",                  role: "Service Technician",                         phone: "+56 9 3197 9117",  email: "bruno.paredes@aqua-pharma.com", image: "/images/wp/team/bruno-paredes.png" },
+      { name: "Guido Véliz",                   role: "Manager Técnico Veterinario & Project Manager", phone: "+56 9 3243 8371", email: "guido.veliz@aqua-pharma.com" },
+      { name: "Juan Carlos Silva Hinojosa",     role: "Safety Coordination", image: "/images/wp/team/juan-carlos-silva.png" },
+    ],
   },
   {
-    title: "North Atlantic",
+    title: "Business Unit — North Atlantic",
+    fallbackLabel: "NA",
+    fallbackSurfaceClassName: "bg-(--brand-blue-soft)",
+    fallbackAccentClassName: "bg-(--brand-glaucous)/70",
     members: [
-      { name: "John Campbell", role: "Regional Director" },
-      { name: "Sophie Larsson", role: "Product Specialist" },
-      { name: "Michael O'Brien", role: "Sales Manager" },
-      { name: "Emma Petersen", role: "Quality Assurance" },
-    ]
+      { name: "Hanne Mertens",      role: "COO",                                               phone: "+32 486 03 9069",  email: "hanne.mertens@aqua-pharma.com", image: "/images/wp/team/hanne-mertens.png" },
+      { name: "Rachel Brown",       role: "Business Development Manager",                      phone: "+44 7961 030 229", email: "rachel.brown@aqua-pharma.com", image: "/images/wp/team/rachel-brown.png" },
+      { name: "Julie Bugge",        role: "Marine Biology Project Manager & Quality Coordinator", phone: "+47 951 62 390", email: "julie.bugge@aqua-pharma.com", image: "/images/wp/team/julie-bugge.png" },
+      { name: "Carole Hedges",      role: "Business Coordination, Quality & Logistics Manager", phone: "+44 784 381 7253", email: "carole.hedges@aqua-pharma.com", image: "/images/wp/team/carole-hedges.png" },
+      { name: "Álvaro Véjar Zúñiga", role: "Business Coordination, Logistics & Customer Service Manager", phone: "+44 746 857 7063", email: "alvaro.vejar@aquatiq.com", image: "/images/wp/team/alvaro-vejar-zuniga.png" },
+      { name: "Peter Coull",        role: "Treatment Supervisor",                               phone: "+44 7286 555447",  email: "peter.coull@aqua-pharma.com" },
+    ],
   },
   {
-    title: "South-East Asia",
+    title: "Business Unit — South-East Asia",
+    fallbackLabel: "SEA",
+    fallbackSurfaceClassName: "bg-(--brand-paper-warm)",
+    fallbackAccentClassName: "bg-(--brand-green)/70",
     members: [
-      { name: "Dr. Sitthichai Phornsuwanruang", role: "Regional Director" },
-      { name: "Lim Wei Chen", role: "Technical Lead" },
-      { name: "Ananya Sharma", role: "Sales Manager" },
-      { name: "Priya Nair", role: "Field Specialist" },
-    ]
+      { name: "Markus Wu",             role: "General Manager, South-East Asia",  phone: "+62 817 819 567",      email: "markus.wu@aqua-pharma.com", image: "/images/wp/team/markus-wu.png" },
+      { name: "Atletico Nathanael",    role: "Field Support & Logistics Coordinator", phone: "+62 8787 6811 555", email: "atletico.nathanael@aqua-pharma.com", image: "/images/wp/team/atletico-nathanael.png" },
+      { name: "Margareth Famunghui",   role: "Microbiology Lead Researcher",      phone: "+62 81289260861",      email: "margareth.famunghui@aqua-pharma.com", image: "/images/wp/team/margareth-famunghui.png" },
+      { name: "Chesa Febrizky",        role: "Microbiology Tech Farm Support",    phone: "+62 81223789878",      email: "chesa.febrizky@aqua-pharma.com" },
+      { name: "Hemi Tri Fani",         role: "Aquaculture Laboratory Analyst",   phone: "+62 85712824024",      email: "hemi.trifani@aqua-pharma.com" },
+      { name: "Spiridion Adventino",   role: "Technical Coordinator",             phone: "+62 812 3165 8506",    email: "spiridion.adventino@aqua-pharma.com", image: "/images/wp/team/spiridion-adventino.png" },
+    ],
   },
   {
-    title: "Group Support Services",
+    title: "Technical & HSE",
+    fallbackLabel: "HSE",
+    fallbackSurfaceClassName: "bg-(--brand-blue-soft)",
+    fallbackAccentClassName: "bg-(--brand-green)/70",
     members: [
-      { name: "Kristen Johansson", role: "HR Director" },
-      { name: "Thomas Berg", role: "Finance Manager" },
-      { name: "Sarah Mitchell", role: "Compliance Officer" },
-      { name: "David Nguyen", role: "IT Systems Manager" },
-    ]
+      { name: "Fernando Suardi", role: "Global Technical & HSE Manager", phone: "+55 41 999348329", email: "fernando.suardi@aqua-pharma.com", image: "/images/wp/team/fernando-suardi.png" },
+    ],
   },
   {
     title: "Research & Development",
+    fallbackLabel: "R&D",
+    fallbackSurfaceClassName: "bg-(--brand-paper-warm)",
+    fallbackAccentClassName: "bg-(--brand-tangerine)/60",
     members: [
-      { name: "Dr. Isabella Romano", role: "Lead Researcher" },
-      { name: "Dr. Hans Mueller", role: "Senior Scientist" },
-      { name: "Yuki Tanaka", role: "Product Developer" },
-      { name: "Dr. James Wilson", role: "Clinical Trials Manager" },
-    ]
-  }
+      { name: "Roy Strøm",      role: "Concept Expert & Internal Training",  phone: "+47 948 70 381",  email: "roy.strom@aqua-pharma.com", image: "/images/wp/team/roy-strom.png" },
+      { name: "Tom Candy",      role: "Product & Regulatory Expert",         phone: "+44 738 424 2850", email: "tom.candy@aqua-pharma.com", image: "/images/wp/team/tom-candy.png" },
+      { name: "Mike Friedman",  role: "Principal Data Scientist & Project Coordinator", phone: "+32 472 07 41 73", email: "mike.friedman@aqua-pharma.com" },
+    ],
+  },
+  {
+    title: "Business Services",
+    fallbackLabel: "Ops",
+    fallbackSurfaceClassName: "bg-(--brand-blue-soft)",
+    fallbackAccentClassName: "bg-(--brand-glaucous)/60",
+    members: [
+      { name: "Julio Doval Garcia", role: "Controller South America",                    phone: "+47 481 29 777",  email: "julio.doval@aquatiq.com", image: "/images/wp/team/julio-doval-garcia.png" },
+      { name: "Audrey Campbell",    role: "Spare Parts and Administrative Coordinator",  phone: "+44 7586 289639", email: "audrey.campbell@aqua-pharma.com", image: "/images/wp/team/audrey-campbell.png" },
+    ],
+  },
 ];
 
 export default function TeamPage() {
   return (
     <div className="min-h-screen bg-(--brand-paper)">
       <Navbar />
-      
-      {/* Hero Section */}
-      <section className="relative flex h-[500px] w-full items-end justify-center bg-(--brand-blue) md:h-[600px]" style={{ backgroundImage: "linear-gradient(135deg, rgba(21,31,109,1) 0%, rgba(78,96,173,0.9) 58%, rgba(85,109,90,0.42) 100%)" }}>
-        <div className="absolute inset-0 opacity-20" style={{
-          backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%)',
-        }}></div>
-        
-        <div className="relative z-10 text-center pb-16 px-4 max-w-4xl mx-auto">
-          <p className="mb-4 text-sm font-semibold tracking-wider text-[var(--brand-tangerine)] md:text-base">OUR TEAM</p>
-          <h1 className="font-heading text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Meet Our Experts
-          </h1>
-          <p className="mx-auto max-w-3xl text-lg text-white/78 md:text-xl">
-            A global team of veterinary professionals, scientists, and specialists dedicated to advancing aquaculture
-          </p>
+
+      {/* ── Hero ── */}
+      <section className="relative flex min-h-[62vh] w-full flex-col justify-end overflow-hidden bg-(--brand-blue)">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/wp/team/team-hero.jpg"
+            alt="Aqua Pharma team operations in the field"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-38 motion-safe:animate-[zoomOut_12s_ease-out_forwards]"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(21,31,109,0.95)_0%,rgba(21,31,109,0.55)_55%,rgba(21,31,109,0.3)_100%)]" />
+          {/* Abstract grid texture */}
+          <div
+            className="absolute inset-0 opacity-[0.04]"
+            style={{ backgroundImage: "repeating-linear-gradient(90deg,#fff 0,#fff 1px,transparent 0,transparent 50%),repeating-linear-gradient(180deg,#fff 0,#fff 1px,transparent 0,transparent 50%)", backgroundSize: "80px 80px" }}
+          />
         </div>
+        <ScrollReveal className="relative z-10 px-6 pb-20 pt-40 md:px-12 lg:px-20 lg:pb-28" duration={1.1} yOffset={34}>
+          <p className="mb-6 text-[0.72rem] font-medium uppercase tracking-[0.28em] text-white/60">
+            Our Team
+          </p>
+          <h1 className="font-heading text-[clamp(2.6rem,5.5vw,5rem)] font-light leading-[1.05] tracking-wide text-white">
+            A Global Team<br />of Experts
+          </h1>
+          <p className="mt-8 max-w-xl text-[1.05rem] font-light leading-[1.8] text-white/70">
+            Veterinary professionals, scientists, and specialists dedicated to advancing aquaculture health worldwide.
+          </p>
+        </ScrollReveal>
       </section>
 
-      {/* Team Content */}
-      <section className="w-full bg-(--brand-paper) px-4 py-16 md:py-24">
-        <div className="max-w-5xl mx-auto">
-          {/* Intro */}
-          <div className="mb-16 md:mb-24">
-            <p className="max-w-3xl text-lg text-[rgba(51,51,51,0.72)]">
-              Our team brings together decades of combined expertise in aquaculture healthcare, research, operations, and customer support. We're committed to delivering exceptional service and innovation to farmers across the globe.
-            </p>
-          </div>
+      {/* ── Team Departments ── */}
+      <section className="px-6 py-24 md:px-12 md:py-32 lg:px-20">
+        <div className="mx-auto max-w-7xl">
 
-          {/* Team Sections */}
-          <div className="space-y-16 md:space-y-24">
+          {/* Intro row */}
+          <ScrollReveal className="mb-20 grid grid-cols-1 gap-10 border-b border-(--brand-blue)/8 pb-16 lg:grid-cols-[1fr_1.4fr] lg:gap-24" duration={0.9} start="top 90%" yOffset={24}>
+            <div>
+              <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
+                About the Team
+              </p>
+              <h2 className="mt-6 font-heading text-[clamp(1.8rem,3vw,2.8rem)] font-light leading-[1.12] tracking-wide text-(--brand-blue)">
+                Expertise on every shore.
+              </h2>
+            </div>
+            <p className="flex items-center text-[1.05rem] font-light leading-[1.85] text-(--brand-dark)/70">
+              Our team brings together decades of combined expertise in aquaculture healthcare, research, operations, and customer support — committed to delivering exceptional service and innovation to farmers across the globe.
+            </p>
+          </ScrollReveal>
+
+          {/* Departments */}
+          <div className="space-y-0 divide-y divide-(--brand-blue)/8">
             {teamSections.map((section, idx) => (
-              <div key={idx}>
-                <h2 className="mb-8 border-b-2 border-(--brand-glaucous) pb-4 font-heading text-2xl font-bold text-(--brand-blue) md:text-3xl">
-                  {section.title}
-                </h2>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+              <ScrollReveal key={section.title} className="py-16 md:py-20" delay={Math.min(idx * 0.02, 0.1)} duration={0.78} start="top 91%" yOffset={18}>
+                <div className="mb-10 flex items-baseline gap-4">
+                  <span className="font-heading text-[0.82rem] font-light tabular-nums text-(--brand-blue)/30">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  <h2 className="font-heading text-[1.3rem] font-light uppercase tracking-[0.12em] text-(--brand-blue)">
+                    {section.title}
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 gap-px bg-(--brand-blue)/8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {section.members.map((member, memberIdx) => (
-                    <div key={memberIdx} className="rounded-lg border border-(--brand-border) bg-white p-6 transition-shadow hover:shadow-[0_18px_40px_rgba(21,31,109,0.12)]">
-                      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-(--brand-blue-soft) to-(--brand-glaucous)">
-                        <span className="text-white font-bold text-xl">
-                          {member.name.charAt(0)}
-                        </span>
+                    <div
+                      key={memberIdx}
+                      className="flex flex-col gap-3 bg-(--brand-paper) p-7 transition-colors hover:bg-(--brand-blue-soft)/40"
+                    >
+                      <div className="relative h-16 w-16 overflow-hidden bg-(--brand-blue)/8">
+                        {member.image ? (
+                          <Image
+                            src={member.image}
+                            alt={member.name}
+                            fill
+                            sizes="64px"
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className={`relative h-full w-full overflow-hidden ${section.fallbackSurfaceClassName}`}>
+                            <div className={`absolute inset-y-0 left-0 w-1.5 ${section.fallbackAccentClassName}`} />
+                            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(21,31,109,0)_0%,rgba(21,31,109,0.04)_55%,rgba(21,31,109,0.14)_100%)]" />
+                            <span className="absolute right-2 top-2 text-[0.48rem] font-medium uppercase tracking-[0.18em] text-(--brand-blue)/36">
+                              {section.fallbackLabel}
+                            </span>
+                            <span className="absolute bottom-1.5 right-2 font-heading text-[1.25rem] font-light leading-none text-(--brand-blue)">
+                              {getInitials(member.name)}
+                            </span>
+                          </div>
+                        )}
                       </div>
-                      <h3 className="mb-1 font-heading text-lg font-bold text-(--brand-blue)">
-                        {member.name}
-                      </h3>
-                      <p className="mb-2 text-sm font-semibold text-(--brand-tangerine)">
-                        {member.role}
-                      </p>
-                      {member.region && (
-                        <p className="text-sm text-[rgba(51,51,51,0.6)]">
-                          {member.region}
+                      <div>
+                        <p className="font-heading text-[0.98rem] font-light leading-tight text-(--brand-blue)">
+                          {member.name}
                         </p>
-                      )}
+                        <p className="mt-1 text-[0.72rem] font-medium uppercase tracking-[0.16em] text-(--brand-glaucous)">
+                          {member.role}
+                        </p>
+                        {member.phone && (
+                          <a href={`tel:${member.phone}`} className="mt-2 block text-[0.78rem] font-light text-(--brand-dark)/50 transition-colors hover:text-(--brand-blue)">
+                            {member.phone}
+                          </a>
+                        )}
+                        {member.email && (
+                          <a href={`mailto:${member.email}`} className="block text-[0.78rem] font-light text-(--brand-dark)/50 transition-colors hover:text-(--brand-blue)">
+                            {member.email}
+                          </a>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
-
-                {idx < teamSections.length - 1 && (
-                  <div className="my-16 h-px bg-linear-to-r from-transparent via-(--brand-glaucous)/30 to-transparent"></div>
-                )}
-              </div>
+              </ScrollReveal>
             ))}
           </div>
-
-          {/* Contact CTA */}
-          <div className="mt-20 rounded-xl bg-linear-to-r from-(--brand-glaucous) to-(--brand-green) p-8 text-center md:mt-28 md:p-12">
-            <h2 className="font-heading text-2xl md:text-3xl font-bold text-white mb-4">
-              Connect With Us
-            </h2>
-            <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-              Have questions about our products or services? Our team is here to help you succeed.
-            </p>
-            <a href="/contact" className="inline-block rounded-lg bg-(--brand-tangerine) px-8 py-3 font-semibold text-(--brand-dark) transition-colors hover:bg-[#ef9a4e]">
-              Get In Touch
-            </a>
-          </div>
         </div>
+      </section>
+
+      {/* ── CTA strip ── */}
+      <section className="border-t border-(--brand-blue)/8 bg-(--brand-blue) px-6 py-16 md:px-12 md:py-20 lg:px-20">
+        <ScrollReveal className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between" duration={0.88} start="top 91%" staggerChildren yOffset={18}>
+          <div>
+            <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-white/50">
+              Connect
+            </p>
+            <h2 className="mt-3 font-heading text-[clamp(1.4rem,2.5vw,2.4rem)] font-light text-white">
+              Have a question? We&apos;re here.
+            </h2>
+          </div>
+          <a
+            href="#contact"
+            className="shrink-0 border border-white/20 px-8 py-3.5 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-white transition-colors hover:bg-white hover:text-(--brand-blue)"
+          >
+            Get In Touch
+          </a>
+        </ScrollReveal>
       </section>
 
       <ContactSection />
