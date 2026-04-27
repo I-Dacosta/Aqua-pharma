@@ -112,13 +112,16 @@ export function ProductIntroSection({ product }: ProductIntroSectionProps) {
           </ScrollReveal>
 
           <ScrollReveal duration={0.7} yOffset={14} staggerChildren staggerAmount={0.05} start="top 94%">
-            <div className="grid grid-cols-1 gap-px bg-(--brand-blue)/8 md:grid-cols-3">
+            <div className="divide-y divide-(--brand-blue)/10 border-y border-(--brand-blue)/10">
               {product.stats.map((stat) => (
-                <div key={stat.label} className="bg-(--brand-paper) px-6 py-7 md:px-7">
-                  <p className="font-heading text-[2rem] font-light leading-none text-(--brand-blue)">
+                <div
+                  key={stat.label}
+                  className="grid grid-cols-[7.5rem_minmax(0,1fr)] items-center gap-6 bg-white/48 py-5 md:grid-cols-[8.5rem_minmax(0,1fr)] md:py-6"
+                >
+                  <p className="font-heading text-[clamp(2rem,2.4vw,2.8rem)] font-light leading-none text-(--brand-blue)">
                     {stat.value}
                   </p>
-                  <p className="mt-3 text-[0.7rem] font-medium uppercase tracking-[0.18em] text-(--brand-glaucous)">
+                  <p className="max-w-[16rem] text-[0.82rem] font-medium uppercase leading-[1.55] tracking-[0.16em] text-(--brand-glaucous)">
                     {stat.label}
                   </p>
                 </div>

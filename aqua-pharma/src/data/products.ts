@@ -28,6 +28,8 @@ export type ProductRecord = {
   overviewBody: string;
   processTitle: string;
   processBody: string;
+  careTitle: string;
+  careSubtitle: string;
   chapters: Array<{
     id: string;
     eyebrow: string;
@@ -36,6 +38,10 @@ export type ProductRecord = {
     kicker: string;
   }>;
   principles: string[];
+  principleImages: Array<{
+    src: string;
+    alt: string;
+  }>;
   stats: Array<{
     value: string;
     label: string;
@@ -63,6 +69,9 @@ export const products: ProductRecord[] = [
     processTitle: "Veterinary medicine, designed for responsible fish farming.",
     processBody:
       "Compared to other uses, the concentrations of H₂O₂ applied in aquaculture are very low. Dental applications can use up to 6%, wound disinfection 3%, while salmon treatment starts at 0.08% or 0.02% depending on the type of parasite and is further diluted post-treatment to approximately 0.001%.",
+    careTitle: "Low-impact bath care",
+    careSubtitle:
+      "Therapeutic bath treatments designed for responsible parasite control, fish welfare, and documented field use.",
     chapters: [
       {
         id: "bath-01",
@@ -93,6 +102,20 @@ export const products: ProductRecord[] = [
       "Suitable for both in-pen tarpaulin treatments and well boats",
       "Registered as a veterinary medicine with full recording and monitoring",
       "Recognized by ASC support and the Solar Impulse Efficient Solutions Label",
+    ],
+    principleImages: [
+      {
+        src: "/images/generated/product-care/bath-care-01.png",
+        alt: "Tarpaulin bath treatment setup with a service vessel beside a salmon pen",
+      },
+      {
+        src: "/images/generated/product-care/bath-care-02.png",
+        alt: "Field monitoring setup with water sample, tablet, and treatment records",
+      },
+      {
+        src: "/images/generated/product-care/bath-care-03.png",
+        alt: "Clean salmon sea pen in a fjord environment representing responsible treatment",
+      },
     ],
     stats: [
       { value: "0.08%", label: "starting treatment concentration" },
@@ -162,6 +185,9 @@ export const products: ProductRecord[] = [
     processTitle: "Prevent and control disease through pond and water preparation.",
     processBody:
       "For shrimp, Aqua Pharma utilises H₂O₂ produced to Food Grade standards, ensuring quality and safety. Because it breaks down into water and oxygen, it contributes to eco-friendly water treatment. Precise and timely application is key to maintaining water quality and sustaining shrimp health, and our protocols are based on research from shrimp farms in Ecuador, Indonesia and Australia.",
+    careTitle: "Water quality care",
+    careSubtitle:
+      "Conditioning and oxygenation systems designed to maintain stable pond conditions and healthier shrimp.",
     chapters: [
       {
         id: "conditioning-01",
@@ -193,6 +219,20 @@ export const products: ProductRecord[] = [
       "Research-backed protocols from Ecuador, Indonesia, and Australia",
       "Preventative oxygenation systems under active development",
     ],
+    principleImages: [
+      {
+        src: "/images/generated/product-care/water-care-01.png",
+        alt: "Shrimp pond water conditioning equipment being adjusted beside clean pond water",
+      },
+      {
+        src: "/images/generated/product-care/water-care-02.png",
+        alt: "Research samples and protocol materials beside shrimp ponds",
+      },
+      {
+        src: "/images/generated/product-care/water-care-03.png",
+        alt: "Prototype oxygenation system creating controlled ripples in a shrimp pond",
+      },
+    ],
     stats: [
       { value: "5", label: "days for outbreaks to spread rapidly" },
       { value: "Food", label: "grade H₂O₂ standard" },
@@ -219,6 +259,9 @@ export const products: ProductRecord[] = [
     processTitle: "Design and servicing built in-house and delivered for live operations.",
     processBody:
       "The design process is managed in-house by Aqua Pharma Technical. Final designs are manufactured by Aquatiq Hygiene Systems in Lillehammer, Norway and in Oban, Scotland. We also provide regular inspections, treatment-related technical services and bespoke engineering for maritime installations.",
+    careTitle: "Precision dosing care",
+    careSubtitle:
+      "Equipment, inspections, and engineering support for safer treatment delivery across farms and vessels.",
     chapters: [
       {
         id: "dosing-01",
@@ -249,6 +292,20 @@ export const products: ProductRecord[] = [
       "In-house design managed by Aqua Pharma Technical",
       "Manufactured by Aquatiq Hygiene Systems in Norway and Scotland",
       "Regular inspections and bespoke engineering for maritime installations",
+    ],
+    principleImages: [
+      {
+        src: "/images/generated/product-care/dosing-care-01.png",
+        alt: "Engineering workspace with dosing unit prototype and technical design tools",
+      },
+      {
+        src: "/images/generated/product-care/dosing-care-02.png",
+        alt: "Technician assembling stainless dosing equipment in a clean manufacturing space",
+      },
+      {
+        src: "/images/generated/product-care/dosing-care-03.png",
+        alt: "Technician inspecting a dosing system on an aquaculture service vessel",
+      },
     ],
     stats: [
       { value: "30+", label: "systems installed globally" },

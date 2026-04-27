@@ -68,10 +68,13 @@ export function ProductCareSection({ product, relatedProducts }: ProductCareSect
               <p className="whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.28em] text-white/44">
                 03 / Care
               </p>
-              <h2 className="mt-6 max-w-[11ch] text-[clamp(2.3rem,4.2vw,5rem)] font-heading leading-[0.92] tracking-[-0.06em] text-white">
-                {product.description}
+              <h2 className="mt-6 max-w-[9ch] text-[clamp(3rem,4.4vw,5.8rem)] font-heading leading-[0.9] tracking-[-0.055em] text-white">
+                {product.careTitle}
               </h2>
-              <p className="mt-8 max-w-lg text-base leading-[1.8] text-white/70 md:text-[1.05rem]">
+              <p className="mt-7 max-w-md text-[1.02rem] font-light leading-[1.65] text-white/78 md:text-[1.18rem]">
+                {product.careSubtitle}
+              </p>
+              <p className="mt-7 max-w-lg text-[0.94rem] leading-[1.85] text-white/58 md:text-[1.02rem]">
                 {product.heroSummary}
               </p>
 
@@ -88,14 +91,27 @@ export function ProductCareSection({ product, relatedProducts }: ProductCareSect
             {product.principles.map((principle, index) => (
               <article
                 key={principle}
-                className="border border-white/9 bg-[linear-gradient(180deg,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0.05)_100%)] p-7 backdrop-blur-sm md:min-h-[18rem]"
+                className="group overflow-hidden border border-white/9 bg-[linear-gradient(180deg,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0.05)_100%)] backdrop-blur-sm"
               >
-                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/36">
-                  Care {String(index + 1).padStart(2, "0")}
-                </p>
-                <p className="mt-10 text-[1.04rem] leading-[1.72] text-white/86">
-                  {principle}
-                </p>
+                <div className="relative aspect-[1.16/1] overflow-hidden bg-white/8">
+                  <Image
+                    src={product.principleImages[index]?.src ?? product.detailImage ?? product.image}
+                    alt={product.principleImages[index]?.alt ?? principle}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 28vw"
+                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+                  />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,22,64,0.02)_0%,rgba(10,22,64,0.48)_100%)]" />
+                  <p className="absolute left-5 top-5 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/64">
+                    Care {String(index + 1).padStart(2, "0")}
+                  </p>
+                </div>
+
+                <div className="p-6 md:min-h-[11rem] lg:p-7">
+                  <p className="text-[1.02rem] leading-[1.72] text-white/86">
+                    {principle}
+                  </p>
+                </div>
               </article>
             ))}
           </ScrollReveal>

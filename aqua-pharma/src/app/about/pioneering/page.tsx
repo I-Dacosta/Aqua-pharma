@@ -64,11 +64,11 @@ const chapters: Chapter[] = [
 
 export default function PioneeringPage() {
   return (
-    <div className="min-h-screen bg-(--brand-paper) text-(--brand-dark)">
+    <div className="min-h-[90vh] bg-(--brand-paper) text-(--brand-dark)">
       <Navbar />
 
       {/* ── Hero ── */}
-      <section className="relative flex min-h-[78vh] w-full flex-col justify-end overflow-hidden bg-(--brand-blue)">
+      <section className="relative flex min-h-[90vh] w-full flex-col justify-end overflow-hidden bg-(--brand-blue)">
         <div className="absolute inset-0">
           <Image
             src="/images/wp/pioneering/hero.jpg"
@@ -78,16 +78,16 @@ export default function PioneeringPage() {
             sizes="100vw"
             className="object-cover opacity-40 motion-safe:animate-[zoomOut_12s_ease-out_forwards]"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(21,31,109,0.96)_0%,rgba(21,31,109,0.42)_55%,rgba(21,31,109,0.18)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(38,45,98,0.96)_0%,rgba(38,45,98,0.42)_55%,rgba(38,45,98,0.18)_100%)]" />
         </div>
         <ScrollReveal className="relative z-10 px-6 pb-20 pt-40 md:px-12 lg:px-20 lg:pb-28" duration={1.12} yOffset={34}>
-          <p className="mb-6 text-[0.72rem] font-medium uppercase tracking-[0.28em] text-white/60">
+          <p className="mb-6 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white/60">
             Innovation History
           </p>
-          <h1 className="font-heading text-[clamp(2.8rem,6vw,6rem)] font-light leading-[1.0] tracking-wide text-white">
+          <h1 className="font-heading text-[clamp(3.5rem,8vw,8rem)] font-light leading-[0.9] tracking-tight text-white mb-6">
             A History<br />of Pioneering
           </h1>
-          <p className="mt-8 max-w-xl text-[1.05rem] font-light leading-[1.8] text-white/70">
+          <p className="mt-8 max-w-xl text-[1.15rem] font-light leading-[1.8] text-white/70">
             Precision treatment and fish welfare — how it all started.
           </p>
         </ScrollReveal>
@@ -97,14 +97,14 @@ export default function PioneeringPage() {
       <section className="border-b border-(--brand-blue)/8 px-6 py-24 md:px-12 md:py-32 lg:px-20">
         <ScrollReveal className="mx-auto grid max-w-7xl grid-cols-1 gap-16 lg:grid-cols-[1fr_1.2fr] lg:gap-32" duration={0.92} start="top 90%" yOffset={26}>
           <div>
-            <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
+            <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous)">
               Our Approach
             </p>
             <h2 className="mt-6 font-heading text-[clamp(2rem,3.8vw,3.6rem)] font-light leading-[1.1] tracking-wide text-(--brand-blue)">
               We innovate around real farm conditions, not lab abstractions.
             </h2>
           </div>
-          <p className="flex items-center text-[1.1rem] font-light leading-[1.85] text-(--brand-dark)/70">
+          <p className="flex items-center text-[1.15rem] font-light leading-[1.85] text-(--brand-dark)/70">
             Since our founding, Aqua Pharma has been at the forefront of aquaculture innovation. Each milestone represents a practical breakthrough — shaped by the realities of farm operations and driven by our commitment to fish welfare and environmental responsibility.
           </p>
         </ScrollReveal>
@@ -114,16 +114,16 @@ export default function PioneeringPage() {
       <section className="px-6 py-16 md:px-12 md:py-24 lg:px-20">
         <div className="mx-auto max-w-7xl">
           <ScrollReveal className="mb-14" duration={0.82} start="top 91%" yOffset={18}>
-            <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
+            <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous)">
               Innovation Timeline
             </p>
           </ScrollReveal>
 
-          <div className="space-y-0 divide-y divide-(--brand-blue)/8">
+          <div className="space-y-0 border-t border-(--brand-blue)/10">
             {chapters.map((ch, idx) => (
               <ScrollReveal
                 key={`${ch.year}-${ch.label}`}
-                className="grid grid-cols-1 gap-8 py-12 md:grid-cols-[10rem_1fr] md:gap-16 md:py-14 lg:grid-cols-[16rem_1fr]"
+                className="grid grid-cols-1 gap-8 py-12 md:grid-cols-[10rem_1fr] md:gap-16 md:py-14 lg:grid-cols-[16rem_1fr] group hover:bg-(--brand-blue)/[0.02] transition-colors duration-500 border-b border-(--brand-blue)/10 group hover:bg-(--brand-blue)/[0.02] transition-colors duration-500 border-b border-(--brand-blue)/10"
                 delay={Math.min(idx * 0.025, 0.1)}
                 duration={0.8}
                 start="top 91%"
@@ -143,7 +143,7 @@ export default function PioneeringPage() {
                 </div>
                 {/* Body */}
                 <div className={`grid gap-8 ${ch.image ? "xl:grid-cols-[minmax(0,1fr)_20rem] xl:items-start" : "grid-cols-1"}`}>
-                  <p className="text-[1.05rem] font-light leading-[1.85] text-(--brand-dark)/70">
+                  <p className="text-[1.15rem] font-light leading-[1.85] text-(--brand-dark)/70">
                     {ch.body}
                   </p>
                   {ch.image ? (
@@ -180,7 +180,7 @@ export default function PioneeringPage() {
       <section className="border-b border-(--brand-blue)/8 px-6 py-24 md:px-12 md:py-32 lg:px-20">
         <div className="mx-auto max-w-7xl">
           <ScrollReveal className="max-w-2xl" duration={0.9} start="top 90%" yOffset={24}>
-            <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
+            <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous)">
               What It Changed
             </p>
             <h2 className="mt-6 font-heading text-[clamp(2rem,3.6vw,3.4rem)] font-light leading-[1.1] tracking-wide text-(--brand-blue)">
@@ -210,7 +210,7 @@ export default function PioneeringPage() {
               <div key={title} className="bg-(--brand-paper) p-10 md:p-14">
                 <p className="font-heading text-[1.15rem] font-light text-(--brand-blue)">{title}</p>
                 <div className="my-5 h-px w-10 bg-(--brand-tangerine)/60" />
-                <p className="text-[1.05rem] font-light leading-[1.85] text-(--brand-dark)/70">{body}</p>
+                <p className="text-[1.15rem] font-light leading-[1.85] text-(--brand-dark)/70">{body}</p>
               </div>
             ))}
           </ScrollReveal>
@@ -221,15 +221,15 @@ export default function PioneeringPage() {
       <section className="bg-(--brand-blue) px-6 py-24 md:px-12 md:py-32 lg:px-20">
         <ScrollReveal className="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-[1fr_1fr] lg:gap-24" duration={0.92} start="top 90%" yOffset={24}>
           <div>
-            <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-white/50">
+            <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white/50">
               Looking Forward
             </p>
-            <h2 className="mt-6 font-heading text-[clamp(2rem,4vw,4rem)] font-light leading-[1.05] text-white">
+            <h2 className="mt-6 font-heading text-[clamp(3.5rem,8vw,8rem)] font-light leading-[1.05] text-white">
               The next chapter is already in the water.
             </h2>
           </div>
           <div className="flex flex-col justify-center gap-6">
-            <p className="text-[1.05rem] font-light leading-[1.85] text-white/72">
+            <p className="text-[1.15rem] font-light leading-[1.85] text-white/72">
               Aqua Pharma continues to explore biotechnology, automation, and sustainable farming practices. Our commitment to innovation doesn&apos;t stop — driven by science, shaped by operations, and guided by the health of life below water.
             </p>
             <div className="flex flex-wrap gap-4">

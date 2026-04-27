@@ -71,7 +71,7 @@ const pressReleases: PressRelease[] = [
 
 export default function MediaPage() {
   return (
-    <div className="min-h-screen bg-(--brand-paper)">
+    <div className="min-h-[90vh] bg-(--brand-paper)">
       <Navbar />
 
       {/* ── Hero ── */}
@@ -85,20 +85,20 @@ export default function MediaPage() {
             sizes="100vw"
             className="object-cover opacity-32 motion-safe:animate-[zoomOut_12s_ease-out_forwards]"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(21,31,109,0.96)_0%,rgba(21,31,109,0.55)_55%,rgba(21,31,109,0.25)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(38,45,98,0.96)_0%,rgba(38,45,98,0.55)_55%,rgba(38,45,98,0.25)_100%)]" />
           <div
             className="absolute inset-0 opacity-[0.04]"
             style={{ backgroundImage: "repeating-linear-gradient(90deg,#fff 0,#fff 1px,transparent 0,transparent 50%),repeating-linear-gradient(180deg,#fff 0,#fff 1px,transparent 0,transparent 50%)", backgroundSize: "80px 80px" }}
           />
         </div>
         <ScrollReveal className="relative z-10 px-6 pb-20 pt-40 md:px-12 lg:px-20 lg:pb-28" duration={1.1} yOffset={34}>
-          <p className="mb-6 text-[0.72rem] font-medium uppercase tracking-[0.28em] text-white/60">
+          <p className="mb-6 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white/60">
             In the Press
           </p>
-          <h1 className="font-heading text-[clamp(2.6rem,5.5vw,5rem)] font-light leading-[1.05] tracking-wide text-white">
+          <h1 className="font-heading text-[clamp(3.5rem,8vw,8rem)] font-light leading-[0.9] tracking-tight text-white mb-6">
             News &amp; Stories
           </h1>
-          <p className="mt-8 max-w-xl text-[1.05rem] font-light leading-[1.8] text-white/70">
+          <p className="mt-8 max-w-xl text-[1.15rem] font-light leading-[1.8] text-white/70">
             Updates from Aqua Pharma on innovations, partnerships, and our impact on global aquaculture.
           </p>
         </ScrollReveal>
@@ -108,12 +108,12 @@ export default function MediaPage() {
       <section className="px-6 py-24 md:px-12 md:py-32 lg:px-20">
         <div className="mx-auto max-w-7xl">
           <ScrollReveal className="mb-16" duration={0.82} start="top 91%" yOffset={18}>
-            <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
+            <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous)">
               Press Releases
             </p>
           </ScrollReveal>
 
-          <div className="space-y-0 divide-y divide-(--brand-blue)/8">
+          <div className="space-y-0 border-t border-(--brand-blue)/10">
             {pressReleases.map((release, idx) => (
               <ScrollReveal key={release.title} className="py-10 lg:py-12" delay={Math.min(idx * 0.02, 0.1)} duration={0.8} start="top 91%" yOffset={20}>
                 <article className="group grid grid-cols-1 gap-6 transition-colors hover:bg-(--brand-blue-soft)/25 lg:grid-cols-[6rem_11rem_15rem_1fr_auto] lg:gap-8 lg:px-2">
@@ -173,14 +173,14 @@ export default function MediaPage() {
         <div className="mx-auto max-w-7xl">
           <ScrollReveal className="mb-14 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-24" duration={0.9} start="top 90%" yOffset={24}>
             <div>
-              <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
+              <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous)">
                 Media Kit
               </p>
-              <h2 className="mt-6 font-heading text-[clamp(1.8rem,3vw,2.8rem)] font-light leading-[1.12] tracking-wide text-(--brand-blue)">
+              <h2 className="mt-6 font-heading text-[clamp(2.5rem,4.5vw,4.5rem)] font-light leading-[1.05] tracking-tight text-(--brand-blue)">
                 Resources for journalists &amp; media.
               </h2>
             </div>
-            <p className="flex items-center text-[1.05rem] font-light leading-[1.85] text-(--brand-dark)/70">
+            <p className="flex items-center text-[1.15rem] font-light leading-[1.85] text-(--brand-dark)/70">
               For journalists, bloggers, and outlets covering aquaculture innovation — company backgrounders, executive bios, product images, and historical information available on request.
             </p>
           </ScrollReveal>
@@ -209,7 +209,7 @@ export default function MediaPage() {
                 download={href.endsWith(".pdf") ? "" : undefined}
                 className="flex flex-col justify-between bg-(--brand-paper) p-8 transition-colors hover:bg-(--brand-blue-soft)/40 md:p-10"
               >
-                <p className="font-heading text-[1.05rem] font-light text-(--brand-blue)">
+                <p className="font-heading text-[1.15rem] font-light text-(--brand-blue)">
                   {label}
                 </p>
                 <p className="mt-6 text-[0.72rem] font-medium uppercase tracking-[0.2em] text-(--brand-glaucous)">
@@ -222,16 +222,16 @@ export default function MediaPage() {
       </section>
 
       {/* ── Press Contact ── */}
-      <section className="border-t border-(--brand-blue)/8 px-6 py-20 md:px-12 md:py-24 lg:px-20">
+      <section className="border-t border-(--brand-blue)/8 px-6 py-32 md:py-32 lg:py-48 md:py-24 lg:px-20">
         <ScrollReveal className="mx-auto grid max-w-7xl grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr] lg:gap-24" duration={0.88} start="top 90%" yOffset={22}>
           <div>
-            <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
+            <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous)">
               Press Inquiries
             </p>
             <h2 className="mt-6 font-heading text-[clamp(1.6rem,2.8vw,2.4rem)] font-light leading-[1.12] text-(--brand-blue)">
               Let&apos;s tell the story together.
             </h2>
-            <p className="mt-6 text-[1.05rem] font-light leading-[1.85] text-(--brand-dark)/70">
+            <p className="mt-6 text-[1.15rem] font-light leading-[1.85] text-(--brand-dark)/70">
               For interview requests, press release distribution, or media partnerships, reach out to our communications team directly.
             </p>
           </div>

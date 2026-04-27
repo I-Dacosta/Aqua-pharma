@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import Image from "next/image";
+import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Image from "next/image";
 import { AnimatedArrowLink } from "../ui/AnimatedArrowCta";
-import { SectionDivider } from "../ui/SectionDivider";
+import { ScrollReveal } from "../ui/ScrollReveal";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const featuredNews = {
     category: "PARTNERSHIP & INNOVATION",
@@ -40,120 +42,177 @@ const newsItems = [
 ];
 
 export function News() {
-    const sectionRef = useRef<HTMLDivElement>(null);
-    const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+    const sectionRef = useRef<HTMLElement>(null);
+    const featuredMediaRef = useRef<HTMLDivElement>(null);
+    const cardMediaRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const [activeNewsIndex, setActiveNewsIndex] = useState<number | null>(null);
 
-    useEffect(() => {
-        gsap.registerPlugin(ScrollTrigger);
+    useLayoutEffect(() => {
+        if (!sectionRef.current) {
+            return;
+        }
 
-        const ctx = gsap.context(() => {
-            // Filter out nulls from refs (just in case)
-            const validCards = cardsRef.current.filter(Boolean);
-
-            // Staggered fade up for all article items
-            gsap.fromTo(
-                validCards,
-                {
-                    y: 80,
-                    opacity: 0,
-                },
-                {
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top 75%",
-                    },
-                    y: 0,
-                    opacity: 1,
-                    duration: 1,
-                    ease: "power3.out",
-                    stagger: 0.15,
+        const media = gsap.matchMedia();
+        const context = gsap.context(() => {
+            media.add("(prefers-reduced-motion: reduce)", () => {
+                if (featuredMediaRef.current) {
+                    gsap.set(featuredMediaRef.current, { clearProps: "all" });
                 }
-            );
+
+                cardMediaRefs.current.filter(Boolean).forEach((mediaElement) => {
+                    if (mediaElement) {
+                        gsap.set(mediaElement, { clearProps: "transform" });
+                    }
+                });
+            });
+
+            media.add("(prefers-reduced-motion: no-preference)", () => {
+                if (featuredMediaRef.current) {
+                    gsap.fromTo(
+                        featuredMediaRef.current,
+                        { clipPath: "inset(10% 0% 10% 0%)", yPercent: -8, scale: 1.08 },
+                        {
+                            clipPath: "inset(0% 0% 0% 0%)",
+                            yPercent: 0,
+                            scale: 1,
+                            duration: 1.1,
+                            ease: "power3.out",
+                            scrollTrigger: {
+                                trigger: featuredMediaRef.current,
+                                start: "top 86%",
+                            },
+                        }
+                    );
+                }
+
+                cardMediaRefs.current.filter(Boolean).forEach((mediaElement) => {
+                    if (!mediaElement) {
+                        return;
+                    }
+
+                    gsap.fromTo(
+                        mediaElement,
+                        { yPercent: -6, scale: 1.06 },
+                        {
+                            yPercent: 6,
+                            scale: 1,
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: mediaElement,
+                                start: "top bottom",
+                                end: "bottom top",
+                                scrub: true,
+                            },
+                        }
+                    );
+                });
+            });
         }, sectionRef);
 
-        return () => ctx.revert();
+        return () => {
+            media.revert();
+            context.revert();
+        };
     }, []);
 
     return (
         <div className="relative z-10 w-full">
-            <section ref={sectionRef} className="bg-(--brand-paper) py-32 px-8">
-            <div className="max-w-350 mx-auto">
-                <div className="flex justify-between items-end mb-16">
-                    <h2 className="text-sm font-semibold uppercase tracking-widest text-(--brand-glaucous)">
-                        News
-                    </h2>
-                    <AnimatedArrowLink href="#" className="text-sm font-medium text-(--brand-tangerine) transition-opacity hover:opacity-80">
-                        All news
-                    </AnimatedArrowLink>
-                </div>
-
-                {/* Featured Article — Video */}
-                <div
-                    ref={(el) => { cardsRef.current[0] = el; }}
-                    className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mb-24 items-center group"
-                >
-                    <div className="lg:col-span-7 relative h-[60vh] w-full overflow-hidden bg-black/10">
-                        <video
-                            src={featuredNews.videoUrl}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div className="lg:col-span-5 flex flex-col justify-center">
-                        <span className="mb-6 text-xs font-semibold uppercase tracking-widest text-(--brand-glaucous)">
-                            {featuredNews.category}
-                        </span>
-                        <h3 className="mb-6 text-3xl font-light leading-tight text-(--brand-blue) md:text-4xl">
-                            {featuredNews.title}
-                        </h3>
-                        <SectionDivider className="mb-6 max-w-36" />
-                        <p className="mb-10 text-base font-light leading-relaxed text-[rgba(51,51,51,0.76)] md:text-lg">
-                            {featuredNews.description}
-                        </p>
-                        <AnimatedArrowLink href={featuredNews.link} className="mt-1 text-sm text-(--brand-tangerine) transition-opacity hover:opacity-80">
-                            Read more
+            <section ref={sectionRef} className="bg-(--brand-paper) px-6 py-32 md:px-12 lg:px-20">
+            <div className="mx-auto max-w-[100rem]">
+                <ScrollReveal className="mb-16 md:mb-24" duration={0.76} yOffset={14} start="top 92%">
+                    <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+                        <h2 className="font-heading text-[clamp(2.5rem,4vw,3.5rem)] font-light uppercase tracking-wide text-(--brand-blue)">
+                            LATEST NEWS
+                        </h2>
+                        <AnimatedArrowLink href="#" className="text-[0.8rem] font-medium tracking-[0.15em] uppercase text-(--brand-blue)/80 transition-colors hover:text-(--brand-blue)">
+                            VIEW ALL NEWS
                         </AnimatedArrowLink>
                     </div>
-                </div>
+                </ScrollReveal>
 
-                {/* Grid Articles */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <ScrollReveal className="mb-24" duration={0.8} yOffset={16} start="top 92%">
+                    <div className="group/news-card flex cursor-pointer flex-col items-center gap-12 overflow-hidden bg-white/70 p-5 backdrop-blur-sm transition-transform duration-500 hover:-translate-y-1 hover:scale-[1.015] focus-within:scale-[1.015] md:p-7 lg:flex-row lg:gap-20">
+                        <div ref={featuredMediaRef} className="news-featured-media relative h-[50vh] w-full overflow-hidden bg-black/5 md:h-[65vh] lg:w-[60%]">
+                            <video
+                                src={featuredNews.videoUrl}
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                className="h-full w-full object-cover transition-transform duration-[1.5s] ease-out group-hover/news-card:scale-105"
+                            />
+                        </div>
+                        <div className="flex flex-col justify-center py-4 lg:w-[40%]">
+                            <span className="mb-6 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-blue)/50">
+                                {featuredNews.category}
+                            </span>
+                            <h3 className="mb-8 text-[clamp(1.8rem,2.5vw,2.8rem)] font-light leading-[1.15] tracking-wide text-(--brand-blue) transition-colors duration-500">
+                                {featuredNews.title}
+                            </h3>
+                            <div className="mb-8 h-px w-12 bg-(--brand-blue)/20" />
+                            <p className="mb-10 text-[1.15rem] font-light leading-[1.8] text-(--brand-dark)/70 md:text-[1.15rem]">
+                                {featuredNews.description}
+                            </p>
+                            <AnimatedArrowLink
+                                href={featuredNews.link}
+                                className="mt-2 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-(--brand-tangerine)"
+                                motionClassName="group-hover/news-card:translate-x-0 group-focus-within/news-card:translate-x-0"
+                            >
+                                Read Full Story
+                            </AnimatedArrowLink>
+                        </div>
+                    </div>
+                </ScrollReveal>
+
+                <ScrollReveal duration={0.72} yOffset={14} staggerChildren staggerAmount={0.05} start="top 93%">
+                <div className="grid grid-cols-1 gap-x-12 gap-y-16 md:grid-cols-3">
                     {newsItems.map((item, index) => (
-                        <div
+                        <article
                             key={index}
-                            ref={(el) => {
-                                cardsRef.current[index + 1] = el; // Offset by 1 for featured card
-                            }}
-                            className="group cursor-pointer flex flex-col gap-6"
+                            onMouseEnter={() => setActiveNewsIndex(index)}
+                            onMouseLeave={() => setActiveNewsIndex(null)}
+                            onFocus={() => setActiveNewsIndex(index)}
+                            onBlur={() => setActiveNewsIndex(null)}
+                            className={`group/news-card flex cursor-pointer flex-col gap-6 overflow-hidden bg-white/70 p-5 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:scale-[1.015] focus-within:scale-[1.015] md:p-6 ${activeNewsIndex !== null && activeNewsIndex !== index ? "scale-[0.985] opacity-55" : "opacity-100"}`}
                         >
-                            <div className="w-full h-[40vh] relative overflow-hidden">
+                            <div
+                                ref={(element) => {
+                                    cardMediaRefs.current[index] = element;
+                                }}
+                                className="relative aspect-[4/3] w-full overflow-hidden bg-black/5"
+                            >
                                 <Image
                                     src={item.image}
                                     alt={item.title}
                                     fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                    sizes="(max-width: 768px) 100vw, 33vw"
+                                    className="object-cover transition-transform duration-[1.5s] ease-out group-hover/news-card:scale-105"
                                 />
+                                <div className="absolute inset-x-0 top-0 h-px bg-white/40" />
                             </div>
-                            <div className="flex flex-col gap-3">
-                                <span className="text-xs font-semibold uppercase tracking-widest text-(--brand-glaucous)">
+                            <div className="flex flex-col gap-4">
+                                <span className="text-[0.7rem] font-medium uppercase tracking-[0.2em] text-(--brand-blue)/50">
                                     {item.category}
                                 </span>
-                                <h3 className="text-xl font-light leading-tight text-(--brand-blue) transition-colors group-hover:text-(--brand-tangerine)">
+                                <h3 className="text-[1.3rem] md:text-[1.4rem] font-light leading-[1.25] tracking-wide text-(--brand-blue)">
                                     {item.title}
                                 </h3>
-                                <p className="mt-2 line-clamp-4 text-sm font-light leading-relaxed text-[rgba(51,51,51,0.7)]">
+                                <div className={`h-px bg-(--brand-blue)/18 transition-all duration-300 ${activeNewsIndex === index ? "w-18" : "w-10"}`} />
+                                <p className="mt-2 line-clamp-3 text-[0.95rem] font-light leading-[1.7] text-(--brand-dark)/60">
                                     {item.description}
                                 </p>
-                                <AnimatedArrowLink href={item.link} className="mt-2 text-sm text-(--brand-tangerine) transition-opacity hover:opacity-80">
-                                    Read more
+                                <AnimatedArrowLink
+                                    href={item.link}
+                                    className="mt-4 text-[0.75rem] font-medium uppercase tracking-[0.15em] text-(--brand-tangerine)"
+                                    motionClassName="group-hover/news-card:translate-x-0 group-focus-within/news-card:translate-x-0"
+                                >
+                                    Read Article
                                 </AnimatedArrowLink>
                             </div>
-                        </div>
+                        </article>
                     ))}
                 </div>
+                </ScrollReveal>
             </div>
             </section>
         </div>
