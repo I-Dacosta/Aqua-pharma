@@ -59,7 +59,9 @@ function SectionCard({
         </p>
 
         <h3 className="mt-2 border-b border-black/20 pb-4 text-[clamp(1.8rem,2.8vw,3rem)] font-light leading-[1.06] tracking-[-0.03em] text-[#111111] md:mt-4 md:pb-5">
-          {section.title}
+          {section.title.includes('&') ? (
+            <>{section.title.split('&')[0].trim()} &<br />{section.title.split('&')[1].trim()}</>
+          ) : section.title}
         </h3>
       </Link>
 
