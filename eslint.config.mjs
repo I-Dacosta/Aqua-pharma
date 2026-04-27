@@ -12,6 +12,15 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Ignore other projects in this monorepo directory
+    "aqua-pharma/**",
+    "aquatiq/**",
+    "codrops-depth-gallery/**",
+    "hima/**",
+    "intranet/**",
+    "lightship/**",
+    "stingrey/**",
+    "trio/**",
   ]),
 ]);
 
