@@ -29,8 +29,10 @@ export function SplitTextAnimate({
   };
 
   const words = splitText(text);
-  let charIndex = 0;
   const totalChars = text.replace(/\s/g, "").length;
+  const wordOffsets = words.map((_, i) =>
+    words.slice(0, i).reduce((sum, w) => sum + w.chars.length, 0)
+  );
 
   useGSAP(
     () => {
@@ -76,18 +78,15 @@ export function SplitTextAnimate({
             style={{ whiteSpace: "nowrap" }}
             data-word=""
           >
-            {wordData.chars.map((char, charIdx) => {
-              const currentCharIndex = charIndex++;
-              return (
-                <span
-                  key={`${wordData.wordIdx}-${charIdx}`}
-                  style={{ "--char-index": currentCharIndex } as React.CSSProperties}
-                  data-char=""
-                >
-                  {char}
-                </span>
-              );
-            })}
+            {wordData.chars.map((char, charIdx) => (
+              <span
+                key={`${wordData.wordIdx}-${charIdx}`}
+                style={{ "--char-index": wordOffsets[wordData.wordIdx] + charIdx } as React.CSSProperties}
+                data-char=""
+              >
+                {char}
+              </span>
+            ))}
           </span>
           {wordRenderIdx < words.length - 1 ? " " : null}
         </span>

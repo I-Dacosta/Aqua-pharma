@@ -1,13 +1,16 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import { Navbar } from "@/components/core/Navbar";
 import { Footer } from "@/components/core/Footer";
 import { ContactSection } from "@/components/core/ContactSection";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { getEditorialPagesContent } from "@/i18n/editorial-pages";
+import { getRequestLocale } from "@/i18n/request";
 
-export const metadata = {
-  title: "Our Team | Aqua Pharma",
-  description: "Meet the global team of experts dedicated to aquaculture innovation",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  return getEditorialPagesContent(locale).team.metadata;
+}
 
 interface TeamMember {
   name: string;
@@ -39,8 +42,8 @@ const teamSections: TeamSection[] = [
   {
     title: "Management",
     fallbackLabel: "Mgmt",
-    fallbackSurfaceClassName: "bg-(--brand-paper-warm)",
-    fallbackAccentClassName: "bg-(--brand-tangerine)/60",
+    fallbackSurfaceClassName: "bg-(--brand-blue-soft)",
+    fallbackAccentClassName: "bg-(--brand-green)/60",
     members: [
       { name: "Elvin Bugge",    role: "CEO",                   phone: "+47 911 01 112",   email: "elvin.bugge@aqua-pharma.com", image: "/images/wp/team/elvin-bugge.png" },
       { name: "Hanne Mertens",  role: "COO",                   phone: "+32 486 03 9069",  email: "hanne.mertens@aqua-pharma.com", image: "/images/wp/team/hanne-mertens.png" },
@@ -50,8 +53,8 @@ const teamSections: TeamSection[] = [
   {
     title: "Business Unit — South America",
     fallbackLabel: "SA",
-    fallbackSurfaceClassName: "bg-(--brand-tangerine-soft)",
-    fallbackAccentClassName: "bg-(--brand-tangerine)/70",
+    fallbackSurfaceClassName: "bg-(--brand-blue-soft)",
+    fallbackAccentClassName: "bg-(--brand-green)/70",
     members: [
       { name: "Cesar Corona",                   role: "General Manager, South America",             phone: "+56 982 986 118",  email: "cesar.corona@aqua-pharma.com", image: "/images/wp/team/cesar-corona.png" },
       { name: "Luis Robles",                    role: "General Manager, Ecuador",                                              email: "luis.robles@aqua-pharma.com", image: "/images/wp/team/luis-robles.png" },
@@ -80,7 +83,7 @@ const teamSections: TeamSection[] = [
   {
     title: "Business Unit — South-East Asia",
     fallbackLabel: "SEA",
-    fallbackSurfaceClassName: "bg-(--brand-paper-warm)",
+    fallbackSurfaceClassName: "bg-(--brand-blue-soft)",
     fallbackAccentClassName: "bg-(--brand-green)/70",
     members: [
       { name: "Markus Wu",             role: "General Manager, South-East Asia",  phone: "+62 817 819 567",      email: "markus.wu@aqua-pharma.com", image: "/images/wp/team/markus-wu.png" },
@@ -103,8 +106,8 @@ const teamSections: TeamSection[] = [
   {
     title: "Research & Development",
     fallbackLabel: "R&D",
-    fallbackSurfaceClassName: "bg-(--brand-paper-warm)",
-    fallbackAccentClassName: "bg-(--brand-tangerine)/60",
+    fallbackSurfaceClassName: "bg-(--brand-blue-soft)",
+    fallbackAccentClassName: "bg-(--brand-green)/60",
     members: [
       { name: "Roy Strøm",      role: "Concept Expert & Internal Training",  phone: "+47 948 70 381",  email: "roy.strom@aqua-pharma.com", image: "/images/wp/team/roy-strom.png" },
       { name: "Tom Candy",      role: "Product & Regulatory Expert",         phone: "+44 738 424 2850", email: "tom.candy@aqua-pharma.com", image: "/images/wp/team/tom-candy.png" },
@@ -123,7 +126,10 @@ const teamSections: TeamSection[] = [
   },
 ];
 
-export default function TeamPage() {
+export default async function TeamPage() {
+  const locale = await getRequestLocale();
+  const page = getEditorialPagesContent(locale).team;
+
   return (
     <div className="min-h-screen bg-(--brand-paper)">
       <Navbar />
@@ -133,13 +139,13 @@ export default function TeamPage() {
         <div className="absolute inset-0">
           <Image
             src="/images/wp/team/team-hero.jpg"
-            alt="Aqua Pharma team operations in the field"
+            alt={page.hero.imageAlt}
             fill
             priority
             sizes="100vw"
             className="object-cover opacity-38 motion-safe:animate-[zoomOut_12s_ease-out_forwards]"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(21,31,109,0.95)_0%,rgba(21,31,109,0.55)_55%,rgba(21,31,109,0.3)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(38,45,98,0.95)_0%,rgba(38,45,98,0.55)_55%,rgba(38,45,98,0.3)_100%)]" />
           {/* Abstract grid texture */}
           <div
             className="absolute inset-0 opacity-[0.04]"
@@ -148,13 +154,13 @@ export default function TeamPage() {
         </div>
         <ScrollReveal className="relative z-10 px-6 pb-20 pt-40 md:px-12 lg:px-20 lg:pb-28" duration={1.1} yOffset={34}>
           <p className="mb-6 text-[0.72rem] font-medium uppercase tracking-[0.28em] text-white/60">
-            Our Team
+            {page.hero.kicker}
           </p>
           <h1 className="font-heading text-[clamp(2.6rem,5.5vw,5rem)] font-light leading-[1.05] tracking-wide text-white">
-            A Global Team<br />of Experts
+            {page.hero.title.split("\n")[0]}<br />{page.hero.title.split("\n")[1]}
           </h1>
           <p className="mt-8 max-w-xl text-[1.05rem] font-light leading-[1.8] text-white/70">
-            Veterinary professionals, scientists, and specialists dedicated to advancing aquaculture health worldwide.
+            {page.hero.description}
           </p>
         </ScrollReveal>
       </section>
@@ -167,14 +173,14 @@ export default function TeamPage() {
           <ScrollReveal className="mb-20 grid grid-cols-1 gap-10 border-b border-(--brand-blue)/8 pb-16 lg:grid-cols-[1fr_1.4fr] lg:gap-24" duration={0.9} start="top 90%" yOffset={24}>
             <div>
               <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
-                About the Team
+                {page.intro.kicker}
               </p>
               <h2 className="mt-6 font-heading text-[clamp(1.8rem,3vw,2.8rem)] font-light leading-[1.12] tracking-wide text-(--brand-blue)">
-                Expertise on every shore.
+                {page.intro.title}
               </h2>
             </div>
             <p className="flex items-center text-[1.05rem] font-light leading-[1.85] text-(--brand-dark)/70">
-              Our team brings together decades of combined expertise in aquaculture healthcare, research, operations, and customer support — committed to delivering exceptional service and innovation to farmers across the globe.
+              {page.intro.body}
             </p>
           </ScrollReveal>
 
@@ -187,7 +193,7 @@ export default function TeamPage() {
                     {String(idx + 1).padStart(2, "0")}
                   </span>
                   <h2 className="font-heading text-[1.3rem] font-light uppercase tracking-[0.12em] text-(--brand-blue)">
-                    {section.title}
+                    {page.sectionTitles[section.title] ?? section.title}
                   </h2>
                 </div>
 
@@ -209,7 +215,7 @@ export default function TeamPage() {
                         ) : (
                           <div className={`relative h-full w-full overflow-hidden ${section.fallbackSurfaceClassName}`}>
                             <div className={`absolute inset-y-0 left-0 w-1.5 ${section.fallbackAccentClassName}`} />
-                            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(21,31,109,0)_0%,rgba(21,31,109,0.04)_55%,rgba(21,31,109,0.14)_100%)]" />
+                            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(38,45,98,0)_0%,rgba(38,45,98,0.04)_55%,rgba(38,45,98,0.14)_100%)]" />
                             <span className="absolute right-2 top-2 text-[0.48rem] font-medium uppercase tracking-[0.18em] text-(--brand-blue)/36">
                               {section.fallbackLabel}
                             </span>
@@ -251,17 +257,17 @@ export default function TeamPage() {
         <ScrollReveal className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between" duration={0.88} start="top 91%" staggerChildren yOffset={18}>
           <div>
             <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-white/50">
-              Connect
+              {page.cta.kicker}
             </p>
             <h2 className="mt-3 font-heading text-[clamp(1.4rem,2.5vw,2.4rem)] font-light text-white">
-              Have a question? We&apos;re here.
+              {page.cta.title}
             </h2>
           </div>
           <a
             href="#contact"
             className="shrink-0 border border-white/20 px-8 py-3.5 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-white transition-colors hover:bg-white hover:text-(--brand-blue)"
           >
-            Get In Touch
+            {page.cta.button}
           </a>
         </ScrollReveal>
       </section>

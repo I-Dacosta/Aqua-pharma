@@ -12,7 +12,7 @@ export function SectionDivider({ className }: SectionDividerProps) {
             aria-hidden="true"
             className={joinClasses('h-px w-full', className)}
             style={{
-                background: 'linear-gradient(90deg, rgba(192,192,192,0) 0%, rgba(192,192,192,0.42) 10%, rgba(192,192,192,0.42) 90%, rgba(192,192,192,0) 100%)'
+                background: 'linear-gradient(90deg, rgba(38,45,98,0) 0%, rgba(38,45,98,0.14) 10%, rgba(38,45,98,0.14) 90%, rgba(38,45,98,0) 100%)'
             }}
         />
     );

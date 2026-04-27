@@ -6,10 +6,12 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatedArrowLink } from "../ui/AnimatedArrowCta";
+import { useSiteLocale } from "@/components/core/SiteLocaleProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function Hero() {
+    const { content } = useSiteLocale();
     const containerRef = useRef<HTMLElement>(null);
 
     // Video modal removed: always show poster image for hero media.
@@ -161,8 +163,8 @@ export function Hero() {
                         sizes="100vw"
                         className="hero-backdrop object-cover opacity-[0.72]"
                     />
-                    <div className="hero-atmosphere absolute inset-0 z-[1] bg-[radial-gradient(circle_at_78%_18%,rgba(164,205,224,0.16)_0%,rgba(164,205,224,0)_24%),radial-gradient(circle_at_22%_82%,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0)_22%)]" />
-                    <div className="absolute inset-0 z-[2] bg-[linear-gradient(96deg,rgba(7,16,44,0.9)_0%,rgba(10,22,64,0.68)_34%,rgba(10,22,64,0.28)_64%,rgba(10,22,64,0.78)_100%)]" />
+                    <div className="hero-atmosphere absolute inset-0 z-[1] bg-[radial-gradient(circle_at_78%_18%,rgba(109,198,224,0.16)_0%,rgba(109,198,224,0)_24%),radial-gradient(circle_at_22%_82%,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0)_22%)]" />
+                    <div className="absolute inset-0 z-[2] bg-[linear-gradient(96deg,rgba(38,45,98,0.9)_0%,rgba(38,45,98,0.68)_34%,rgba(38,45,98,0.28)_64%,rgba(38,45,98,0.78)_100%)]" />
                     <div className="premium-ink-grid absolute inset-0 z-[3] opacity-[0.18]" />
                 </div>
 
@@ -170,12 +172,12 @@ export function Hero() {
                     <div className="mx-auto grid w-full max-w-[96rem] grid-cols-1 gap-12 lg:grid-cols-1 lg:items-center lg:gap-14 xl:gap-[4.5rem]">
                         <div className="max-w-4xl">
                             <p className="hero-kicker mb-5 text-[0.68rem] font-medium uppercase tracking-[0.34em] text-white/62 md:mb-7">
-                                Chapter 01 / Welfare systems at sea
+                                {content.home.hero.kicker}
                             </p>
 
                             <h1 className="font-heading text-[clamp(3rem,5.5vw,6.4rem)] font-light leading-[0.95] tracking-[-0.05em] text-white">
-                                <div className="overflow-hidden"><div className="hero-line">Welfare</div></div>
-                                <div className="overflow-hidden"><div className="hero-line">below water.</div></div>
+                                <div className="overflow-hidden"><div className="hero-line">{content.home.hero.titleLines[0]}</div></div>
+                                <div className="overflow-hidden"><div className="hero-line">{content.home.hero.titleLines[1]}</div></div>
                             </h1>
 
                             <div className="hero-copy mt-8 grid max-w-2xl gap-6 md:mt-10 md:grid-cols-[4.5rem_minmax(0,1fr)] md:items-start md:gap-7">
@@ -183,9 +185,7 @@ export function Hero() {
 
                                 <div className="space-y-8">
                                     <p className="text-[1rem] font-light leading-[1.8] text-white/84 md:text-[1.06rem] lg:text-[1.1rem]">
-                                        Aqua Pharma combines field treatment systems, scientific precision,
-                                        and welfare-first execution to help aquaculture teams operate with
-                                        more control and less stress on stock.
+                                        {content.home.hero.description}
                                     </p>
 
                                     <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
@@ -194,7 +194,7 @@ export function Hero() {
                                             onClick={handleExploreClick}
                                             className="min-h-14 border border-white/14 bg-white/96 px-7 py-3 text-[0.78rem] font-medium uppercase tracking-[0.2em] text-(--brand-blue) transition-colors hover:bg-white"
                                         >
-                                            Explore Solutions
+                                            {content.home.hero.explore}
                                         </AnimatedArrowLink>
 
                                         <AnimatedArrowLink
@@ -202,7 +202,7 @@ export function Hero() {
                                             className="text-[0.82rem] font-light uppercase tracking-[0.18em] text-white/90 transition-colors hover:text-white"
                                             iconClassName="h-2.5 w-5"
                                         >
-                                            Contact Us
+                                            {content.home.hero.contact}
                                         </AnimatedArrowLink>
                                     </div>
                                 </div>
@@ -217,7 +217,7 @@ export function Hero() {
                 <div className="hero-brand pointer-events-none absolute bottom-10 right-6 opacity-0 md:bottom-12 md:right-12 lg:bottom-16 lg:right-20">
                     <Image
                         src="/Aqua-Pharma-white.svg"
-                        alt="Aqua Pharma"
+                        alt={content.home.hero.brandAlt}
                         width={243}
                         height={76}
                         priority

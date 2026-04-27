@@ -1,68 +1,23 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
 
 import { ContactSection } from "@/components/core/ContactSection";
 import { Footer } from "@/components/core/Footer";
 import { Navbar } from "@/components/core/Navbar";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { getEditorialPagesContent } from "@/i18n/editorial-pages";
+import { getRequestLocale } from "@/i18n/request";
 
-export const metadata = {
-  title: "A History of Pioneering | Aqua Pharma",
-  description: "Our journey of pioneering innovation in aquaculture — from the first well boat treatments in 2009 to next-generation sustainable solutions.",
-};
-
-interface Chapter {
-  year: string;
-  label: string;
-  body: string;
-  image?: string;
-  alt?: string;
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  return getEditorialPagesContent(locale).pioneering.metadata;
 }
 
-const chapters: Chapter[] = [
-  {
-    year: "2009",
-    label: "Well Boats",
-    image: "/images/wp/pioneering/well-boats.jpg",
-    alt: "Well boat treatment system",
-    body: "This is where it all started. Each well boat became equipped with one or two ISOs and a closed dosing system to ensure the highest safety standards. The well boat dosing unit determines the exact treatment volume required, bringing pharmaceutical precision directly to the farm site.",
-  },
-  {
-    year: "2009 –",
-    label: "Titrations & Calibrations",
-    image: "/images/wp/pioneering/titrations.jpg",
-    alt: "Titration and calibration process",
-    body: "Aqua Pharma's concept has the great advantage that the required concentration of product used can be easily examined by a quick titration. This method also allows the customer to assess and adjust the dosing mixture. The system takes multiple samples from the well to estimate flow and distribution, determining the right treatment volume needed. Auto-titration systems are available to further simplify the process.",
-  },
-  {
-    year: "2013",
-    label: "Tarpaulin Treatments",
-    image: "/images/wp/pioneering/tarpaulins.png",
-    alt: "Tarpaulin treatment concept",
-    body: "In 2013, the tarpaulin treatment concept was introduced. These bath treatments require less handling of the fish, are faster, and are regarded as among the gentlest treatments available with respect to fish welfare. Fish remain in their natural environment, reducing stress and supporting better welfare, while the tarpaulin limits exposure to the surrounding environment.",
-  },
-  {
-    year: "2013 –",
-    label: "Dosing Innovation",
-    image: "/images/wp/pioneering/dosing-innovation.png",
-    alt: "Pioneering dosing unit design",
-    body: "The high safety results developed for the well boat treatments were duplicated and adapted for tarpaulin treatments. Different designs were developed depending on the size of the treatment vessels. Common to all systems is that dosing occurs in a closed system until the treatment substance reaches the cage.",
-  },
-  {
-    year: "2014 –",
-    label: "Pre-Dose Concept",
-    image: "/images/wp/pioneering/pre-dose.jpg",
-    alt: "Pre-dose concept for tarpaulin treatments",
-    body: "The calibration systems from the well boat experience were brought over to tarpaulin treatments. The calibration system for tarpaulin allows the user to start with just a small dose, collect samples and calculate the filling volume in the tarp prior to the main dose. By doing so, margins and fish welfare are maximised.",
-  },
-  {
-    year: "2019 –",
-    label: "Aqua Pharma Group",
-    body: "In September 2019, a joint venture between Aquatiq and Solvay creates Aqua Pharma Group, accelerating research initiatives and supporting further growth in new markets. The BREEZE initiative — combining hydrogen peroxide treatment with acoustic technology — wins the European Sustainable Aquaculture Competition in 2021. SEATRU™ launches in 2022 to bring the same precision to shrimp farming.",
-  },
-];
+export default async function PioneeringPage() {
+  const locale = await getRequestLocale();
+  const page = getEditorialPagesContent(locale).pioneering;
 
-export default function PioneeringPage() {
   return (
     <div className="min-h-[90vh] bg-(--brand-paper) text-(--brand-dark)">
       <Navbar />
@@ -72,7 +27,7 @@ export default function PioneeringPage() {
         <div className="absolute inset-0">
           <Image
             src="/images/wp/pioneering/hero.jpg"
-            alt="Aqua Pharma pioneering well boat operations"
+            alt={page.hero.imageAlt}
             fill
             priority
             sizes="100vw"
@@ -82,13 +37,13 @@ export default function PioneeringPage() {
         </div>
         <ScrollReveal className="relative z-10 px-6 pb-20 pt-40 md:px-12 lg:px-20 lg:pb-28" duration={1.12} yOffset={34}>
           <p className="mb-6 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white/60">
-            Innovation History
+            {page.hero.kicker}
           </p>
-          <h1 className="font-heading text-[clamp(3.5rem,8vw,8rem)] font-light leading-[0.9] tracking-tight text-white mb-6">
-            A History<br />of Pioneering
+          <h1 className="font-heading text-[clamp(3.5rem,8vw,8rem)] font-light leading-[0.9] tracking-tight text-white mb-6 whitespace-pre-line">
+            {page.hero.title}
           </h1>
           <p className="mt-8 max-w-xl text-[1.15rem] font-light leading-[1.8] text-white/70">
-            Precision treatment and fish welfare — how it all started.
+            {page.hero.description}
           </p>
         </ScrollReveal>
       </section>
@@ -98,14 +53,14 @@ export default function PioneeringPage() {
         <ScrollReveal className="mx-auto grid max-w-7xl grid-cols-1 gap-16 lg:grid-cols-[1fr_1.2fr] lg:gap-32" duration={0.92} start="top 90%" yOffset={26}>
           <div>
             <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous)">
-              Our Approach
+              {page.intro.kicker}
             </p>
             <h2 className="mt-6 font-heading text-[clamp(2rem,3.8vw,3.6rem)] font-light leading-[1.1] tracking-wide text-(--brand-blue)">
-              We innovate around real farm conditions, not lab abstractions.
+              {page.intro.title}
             </h2>
           </div>
           <p className="flex items-center text-[1.15rem] font-light leading-[1.85] text-(--brand-dark)/70">
-            Since our founding, Aqua Pharma has been at the forefront of aquaculture innovation. Each milestone represents a practical breakthrough — shaped by the realities of farm operations and driven by our commitment to fish welfare and environmental responsibility.
+            {page.intro.body}
           </p>
         </ScrollReveal>
       </section>
@@ -115,15 +70,15 @@ export default function PioneeringPage() {
         <div className="mx-auto max-w-7xl">
           <ScrollReveal className="mb-14" duration={0.82} start="top 91%" yOffset={18}>
             <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous)">
-              Innovation Timeline
+              {page.timeline.kicker}
             </p>
           </ScrollReveal>
 
           <div className="space-y-0 border-t border-(--brand-blue)/10">
-            {chapters.map((ch, idx) => (
+            {page.timeline.entries.map((ch, idx) => (
               <ScrollReveal
                 key={`${ch.year}-${ch.label}`}
-                className="grid grid-cols-1 gap-8 py-12 md:grid-cols-[10rem_1fr] md:gap-16 md:py-14 lg:grid-cols-[16rem_1fr] group hover:bg-(--brand-blue)/[0.02] transition-colors duration-500 border-b border-(--brand-blue)/10 group hover:bg-(--brand-blue)/[0.02] transition-colors duration-500 border-b border-(--brand-blue)/10"
+                className="grid grid-cols-1 gap-8 py-12 md:grid-cols-[10rem_1fr] md:gap-16 md:py-14 lg:grid-cols-[16rem_1fr] border-b border-(--brand-blue)/10 transition-colors duration-500 group hover:bg-(--brand-blue)/[0.02]"
                 delay={Math.min(idx * 0.025, 0.1)}
                 duration={0.8}
                 start="top 91%"
@@ -147,7 +102,7 @@ export default function PioneeringPage() {
                     {ch.body}
                   </p>
                   {ch.image ? (
-                    <div className="overflow-hidden border border-(--brand-blue)/10 bg-(--brand-paper-warm)">
+                    <div className="overflow-hidden border border-(--brand-blue)/10 bg-(--brand-paper-mist)">
                       <Image
                         src={ch.image}
                         alt={ch.alt ?? ch.label}
@@ -168,7 +123,7 @@ export default function PioneeringPage() {
       <section className="h-[45vh] overflow-hidden md:h-[55vh]">
         <Image
           src="/hero.jpg"
-          alt="Aquaculture fish farm operations at sea"
+          alt={page.imageBreakAlt}
           width={1920}
           height={960}
           className="h-full w-full object-cover object-center"
@@ -181,32 +136,15 @@ export default function PioneeringPage() {
         <div className="mx-auto max-w-7xl">
           <ScrollReveal className="max-w-2xl" duration={0.9} start="top 90%" yOffset={24}>
             <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous)">
-              What It Changed
+              {page.outcomes.kicker}
             </p>
             <h2 className="mt-6 font-heading text-[clamp(2rem,3.6vw,3.4rem)] font-light leading-[1.1] tracking-wide text-(--brand-blue)">
-              The outcomes behind the milestones.
+              {page.outcomes.title}
             </h2>
           </ScrollReveal>
 
           <ScrollReveal className="mt-16 grid grid-cols-1 gap-px bg-(--brand-blue)/8 md:grid-cols-2" duration={0.84} start="top 90%" yOffset={20} staggerChildren staggerAmount={0.08}>
-            {[
-              {
-                title: "Industry Leadership",
-                body: "Aqua Pharma technologies and operational methods are used across aquaculture markets worldwide, shaping how modern treatment programs are delivered.",
-              },
-              {
-                title: "Research & Development",
-                body: "Dedicated R&D investment keeps our work grounded in science while pushing practical treatment systems forward — from BREEZE to SEATRU™.",
-              },
-              {
-                title: "Environmental Commitment",
-                body: "Our transition toward lower-impact and non-antimicrobial approaches reflects a deliberate commitment to sustainable aquaculture. H₂O₂ breaks down into water and oxygen — no residue left behind.",
-              },
-              {
-                title: "Global Operational Impact",
-                body: "Over 30 dosing systems installed across 9 countries. Thousands of farm operations benefit from systems designed to improve fish welfare, productivity, and consistency at scale.",
-              },
-            ].map(({ title, body }) => (
+            {page.outcomes.items.map(({ title, body }) => (
               <div key={title} className="bg-(--brand-paper) p-10 md:p-14">
                 <p className="font-heading text-[1.15rem] font-light text-(--brand-blue)">{title}</p>
                 <div className="my-5 h-px w-10 bg-(--brand-tangerine)/60" />
@@ -222,28 +160,28 @@ export default function PioneeringPage() {
         <ScrollReveal className="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-[1fr_1fr] lg:gap-24" duration={0.92} start="top 90%" yOffset={24}>
           <div>
             <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white/50">
-              Looking Forward
+              {page.forward.kicker}
             </p>
             <h2 className="mt-6 font-heading text-[clamp(3.5rem,8vw,8rem)] font-light leading-[1.05] text-white">
-              The next chapter is already in the water.
+              {page.forward.title}
             </h2>
           </div>
           <div className="flex flex-col justify-center gap-6">
             <p className="text-[1.15rem] font-light leading-[1.85] text-white/72">
-              Aqua Pharma continues to explore biotechnology, automation, and sustainable farming practices. Our commitment to innovation doesn&apos;t stop — driven by science, shaped by operations, and guided by the health of life below water.
+              {page.forward.body}
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/about"
                 className="border border-white/20 px-7 py-3.5 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-white transition-colors hover:bg-white hover:text-(--brand-blue)"
               >
-                About Aqua Pharma
+                {page.forward.aboutCta}
               </Link>
               <Link
                 href="/about/team"
                 className="text-[0.8rem] font-medium uppercase tracking-[0.15em] text-white/55 transition-colors hover:text-white"
               >
-                Meet the Team →
+                {page.forward.teamCta}
               </Link>
             </div>
           </div>

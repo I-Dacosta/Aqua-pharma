@@ -7,34 +7,19 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatedArrowLink } from "../ui/AnimatedArrowCta";
 import { ScrollReveal } from "../ui/ScrollReveal";
+import { useSiteLocale } from "@/components/core/SiteLocaleProvider";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const serviceSignals = [
-    {
-        title: "Prevention first",
-        body: "Protocols and readiness before treatment pressure rises.",
-        details: "Establish treatment readiness protocols that maintain fish welfare while preparing for any scenario.",
-    },
-    {
-        title: "Precise execution",
-        body: "Calibrated delivery built for live farm conditions.",
-        details: "Every dose is calibrated for the exact conditions at your site—no guesswork, just precision.",
-    },
-    {
-        title: "Support on site",
-        body: "Operational help close to the treatment moment.",
-        details: "Our team stays close to your operations, ready to provide real-time guidance when needed.",
-    },
-];
 
 const operatingTerrains: string[] = [];
 
 export function WhatWeDo() {
+    const { content } = useSiteLocale();
     const containerRef = useRef<HTMLElement>(null);
     const imageRef = useRef<HTMLDivElement>(null);
     const [expandedCard, setExpandedCard] = useState<string | null>(null);
-    const [activeSignal, setActiveSignal] = useState(serviceSignals[0].title);
+    const serviceSignals = content.home.whatWeDo.signals;
+    const [activeSignal, setActiveSignal] = useState(serviceSignals[0]?.title ?? null);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
     const handleMouseMove = (e: ReactMouseEvent<HTMLDivElement>) => {
@@ -102,15 +87,15 @@ export function WhatWeDo() {
                 <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-12">
                     <div className="relative z-10 max-w-xl">
                         <p className="mb-5 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous)">
-                            Chapter 02 / What We Do
+                            {content.home.whatWeDo.kicker}
                         </p>
 
                         <h2 className="font-heading text-[clamp(2.4rem,5vw,4.8rem)] font-light leading-[0.96] tracking-[-0.05em] text-(--brand-blue)">
-                            Treatment systems built for the field.
+                            {content.home.whatWeDo.title}
                         </h2>
 
                         <p className="mt-6 text-[1rem] font-light leading-[1.8] text-(--brand-dark)/72 md:text-[1.06rem]">
-                            Aqua Pharma combines planning, calibrated dosing, and on-site support for aquaculture teams who need accurate treatment execution with less stress on fish and operators.
+                            {content.home.whatWeDo.description}
                         </p>
 
                         <div className="mt-6 flex flex-wrap gap-3">
@@ -128,7 +113,7 @@ export function WhatWeDo() {
                             href="#products"
                             className="mt-7 text-[0.7rem] font-medium uppercase tracking-[0.32em] text-(--brand-blue)"
                         >
-                            View treatment chapters
+                            {content.home.whatWeDo.cta}
                         </AnimatedArrowLink>
                     </div>
 
@@ -143,12 +128,12 @@ export function WhatWeDo() {
                                 <div className="whatwedo-image relative aspect-[4/5] overflow-hidden md:aspect-[1.34/1]">
                                     <Image
                                         src="/images/generated/what-we-do-editorial.png"
-                                        alt="A service vessel alongside a circular salmon pen in calm blue water"
+                                        alt={content.home.whatWeDo.imageAlt}
                                         fill
                                         sizes="(max-width: 1280px) 100vw, 44vw"
                                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                                     />
-                                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,21,58,0.03)_0%,rgba(8,21,58,0.2)_100%)]" />
+                                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,45,98,0.03)_0%,rgba(38,45,98,0.2)_100%)]" />
                                     {mousePos.x > 0 && (
                                         <div
                                             className="pointer-events-none absolute h-64 w-64 rounded-full bg-white/7 blur-3xl transition-opacity duration-200"
@@ -161,10 +146,10 @@ export function WhatWeDo() {
                                 </div>
                                 <figcaption className="mt-3 flex flex-col gap-2 pt-3 md:flex-row md:items-start md:justify-between">
                                     <span className="text-[0.66rem] font-medium uppercase tracking-[0.24em] text-(--brand-glaucous)">
-                                        Aquaculture treatment operations
+                                        {content.home.whatWeDo.imageCaption}
                                     </span>
                                     <span className="max-w-xs text-[0.66rem] font-medium uppercase tracking-[0.24em] text-(--brand-glaucous)">
-                                        Precision, planning, and field support in one live operating frame
+                                        {content.home.whatWeDo.imageNote}
                                     </span>
                                 </figcaption>
                             </figure>
@@ -185,11 +170,11 @@ export function WhatWeDo() {
                             key={signal.title}
                             onMouseEnter={() => setActiveSignal(signal.title)}
                             onFocus={() => setActiveSignal(signal.title)}
-                            onBlur={() => setActiveSignal(serviceSignals[0].title)}
+                            onBlur={() => setActiveSignal(serviceSignals[0]?.title ?? null)}
                             onClick={() => setExpandedCard(expandedCard === signal.title ? null : signal.title)}
-                            className={`group relative cursor-pointer overflow-hidden border p-5 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${activeSignal === signal.title ? "border-(--brand-blue)/24 bg-blue-50/46 shadow-[0_18px_45px_rgba(38,45,98,0.08)]" : "border-(--brand-blue)/8 hover:border-(--brand-blue)/24 hover:bg-blue-50/40"}`}
+                            className={`group relative cursor-pointer overflow-hidden border p-5 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${activeSignal === signal.title ? "border-(--brand-blue)/24 bg-(--brand-blue-soft)/46 shadow-[0_18px_45px_rgba(38,45,98,0.08)]" : "border-(--brand-blue)/8 hover:border-(--brand-blue)/24 hover:bg-(--brand-blue-soft)/40"}`}
                         >
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-blue-50/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-(--brand-blue-soft)/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                             <div className="relative z-10">
                                 <h3 className="font-heading text-[1.25rem] font-light leading-[1.1] tracking-[-0.03em] text-(--brand-blue) transition-colors duration-300">
                                     {signal.title}

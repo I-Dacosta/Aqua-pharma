@@ -58,6 +58,7 @@ export function ProductTransitionProvider({
   const frameRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const isTransitioningRef = useRef(false);
+  const navigateRef = useRef<(() => void) | null>(null);
   const [transition, setTransition] = useState<ProductTransitionPayload | null>(null);
 
   const startProductTransition = useCallback((payload: ProductTransitionPayload) => {
@@ -66,8 +67,9 @@ export function ProductTransitionProvider({
     }
 
     isTransitioningRef.current = true;
+    navigateRef.current = () => router.push(payload.href);
     setTransition(payload);
-  }, []);
+  }, [router]);
 
   useLayoutEffect(() => {
     if (!transition || !overlayRef.current || !maskRef.current || !frameRef.current || !innerRef.current) {
@@ -78,7 +80,7 @@ export function ProductTransitionProvider({
     const mask = maskRef.current;
     const frame = frameRef.current;
     const inner = innerRef.current;
-    const { sourceRect, href } = transition;
+    const { sourceRect } = transition;
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const clipTop = Math.max(sourceRect.top, 0);
@@ -134,13 +136,14 @@ export function ProductTransitionProvider({
         0,
       )
       .add(() => {
-        router.push(href);
+        const navigate = navigateRef.current;
+        if (navigate) navigate();
       }, 0.42);
 
     return () => {
       animation.kill();
     };
-  }, [router, transition]);
+  }, [transition]);
 
   useEffect(() => {
     if (!transition || pathname !== transition.href || !overlayRef.current) {

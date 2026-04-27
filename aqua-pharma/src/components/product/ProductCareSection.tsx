@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatedArrowLink } from "@/components/ui/AnimatedArrowCta";
+import { useSiteLocale } from "@/components/core/SiteLocaleProvider";
 import { useProductTransition } from "@/components/core/ProductTransitionProvider";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import type { ProductRecord } from "@/data/products";
@@ -14,6 +15,7 @@ type ProductCareSectionProps = {
 };
 
 export function ProductCareSection({ product, relatedProducts }: ProductCareSectionProps) {
+  const { content } = useSiteLocale();
   const { startProductTransition } = useProductTransition();
   const relatedImageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -59,14 +61,14 @@ export function ProductCareSection({ product, relatedProducts }: ProductCareSect
   return (
     <section
       id="product-care"
-      className="overflow-hidden bg-[linear-gradient(180deg,#101742_0%,#151f6d_48%,#1d2358_100%)] px-8 py-24 text-white md:px-12 lg:px-16 lg:py-32"
+      className="overflow-hidden bg-[linear-gradient(180deg,#09153a_0%,#262d62_48%,#172256_100%)] px-8 py-24 text-white md:px-12 lg:px-16 lg:py-32"
     >
       <div className="mx-auto w-full max-w-400">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-[0.74fr_1.26fr] lg:gap-20">
           <ScrollReveal duration={0.78} yOffset={16} start="top 92%">
             <div>
               <p className="whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.28em] text-white/44">
-                03 / Care
+                {content.productsUi.careLabel}
               </p>
               <h2 className="mt-6 max-w-[9ch] text-[clamp(3rem,4.4vw,5.8rem)] font-heading leading-[0.9] tracking-[-0.055em] text-white">
                 {product.careTitle}
@@ -82,7 +84,7 @@ export function ProductCareSection({ product, relatedProducts }: ProductCareSect
                 href="/"
                 className="mt-10 text-sm font-medium uppercase tracking-[0.18em] text-(--brand-tangerine)"
               >
-                Back to home
+                {content.productsUi.backToHome}
               </AnimatedArrowLink>
             </div>
           </ScrollReveal>
@@ -101,7 +103,7 @@ export function ProductCareSection({ product, relatedProducts }: ProductCareSect
                     sizes="(max-width: 768px) 100vw, 28vw"
                     className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.035]"
                   />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,22,64,0.02)_0%,rgba(10,22,64,0.48)_100%)]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,45,98,0.02)_0%,rgba(38,45,98,0.48)_100%)]" />
                   <p className="absolute left-5 top-5 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/64">
                     Care {String(index + 1).padStart(2, "0")}
                   </p>
@@ -124,10 +126,10 @@ export function ProductCareSection({ product, relatedProducts }: ProductCareSect
                 <div className="flex items-end justify-between gap-8">
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/44">
-                      Download Library
+                      {content.productsUi.downloadLibraryLabel}
                     </p>
                     <h3 className="mt-4 text-[clamp(1.9rem,3vw,3.3rem)] font-heading leading-[0.95] tracking-[-0.05em] text-white">
-                      Product collateral from the original site.
+                      {content.productsUi.downloadLibraryTitle}
                     </h3>
                   </div>
                 </div>
@@ -151,7 +153,7 @@ export function ProductCareSection({ product, relatedProducts }: ProductCareSect
                         sizes="(max-width: 1280px) 100vw, 30vw"
                         className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
                       />
-                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(21,31,109,0.06)_0%,rgba(21,31,109,0.52)_100%)]" />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,45,98,0.06)_0%,rgba(38,45,98,0.52)_100%)]" />
                     </div>
 
                     <div className="p-6">
@@ -165,7 +167,7 @@ export function ProductCareSection({ product, relatedProducts }: ProductCareSect
                         {asset.description}
                       </p>
                       <p className="mt-6 text-[0.72rem] font-medium uppercase tracking-[0.18em] text-(--brand-tangerine)">
-                        {asset.external ? "Open resource" : asset.download ? "Download asset" : "View asset"} →
+                        {asset.external ? content.productsUi.openResource : asset.download ? content.productsUi.downloadAsset : content.productsUi.viewAsset} →
                       </p>
                     </div>
                   </a>
@@ -178,10 +180,10 @@ export function ProductCareSection({ product, relatedProducts }: ProductCareSect
             <div className="flex items-end justify-between gap-8">
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/44">
-                  Continue through the system
+                  {content.productsUi.continueSystem}
                 </p>
                 <h3 className="mt-4 text-[clamp(1.9rem,3vw,3.3rem)] font-heading leading-[0.95] tracking-[-0.05em] text-white">
-                  Related product paths.
+                  {content.productsUi.relatedPaths}
                 </h3>
               </div>
             </div>
@@ -211,7 +213,7 @@ export function ProductCareSection({ product, relatedProducts }: ProductCareSect
                       sizes="(max-width: 1024px) 100vw, 42vw"
                       className="object-cover object-center"
                     />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(21,31,109,0.06)_0%,rgba(21,31,109,0.52)_100%)]" />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,45,98,0.06)_0%,rgba(38,45,98,0.52)_100%)]" />
                   </div>
                 </div>
 

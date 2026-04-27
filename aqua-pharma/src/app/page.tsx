@@ -7,6 +7,11 @@ import { MapSection } from "@/components/home/MapSection";
 import { ContactSection } from "@/components/core/ContactSection";
 import { Footer } from "@/components/core/Footer";
 
+export const metadata = {
+  title: "Aqua Pharma | Aquaculture Treatment Systems",
+  description: "Prevention and control of disease in aquaculture. Innovative bath treatments, water conditioning, and dosing solutions for sustainable fish farming.",
+};
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-(--brand-paper) text-(--brand-dark)">

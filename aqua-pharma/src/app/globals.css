@@ -4,27 +4,27 @@
 
 :root {
   --background: #fff;
-  --foreground: #333333;
+  --foreground: rgb(12, 29, 40);
   /* Primary Colors from Brand Guideline */
-  --brand-blue: #262D62;
-  --brand-blue-dark: #0A1640;
-  --brand-cyan: #009EE0;
-  --brand-cyan-light: #6DC6E0;
-  --brand-cyan-teal: #29D7CC;
+  --brand-blue: rgb(38, 45, 98) /* #262d62 in RGB format for better opacity control */;
+  --brand-blue-dark: rgb(38, 45, 98);
+  --brand-cyan: rgb(38, 45, 98);
+  --brand-cyan-light: rgb(109, 198, 224);
+  --brand-cyan-teal: rgb(64, 196, 255);
   /* Secondary Colors */
-  --brand-green: #7FD356;
-  --brand-glaucous: #A4CDE0;
-  --brand-tangerine: #f6af6e;
-  --brand-dark: #333333;
-  --brand-paper: #ffffff;
-  --brand-blue-soft: #e3ebf2;
-  --brand-tangerine-soft: #fdead8;
-  --brand-green-soft: #e3f2e5;
-  --brand-border: rgba(38, 45, 98, 0.12);
+  --brand-green: rgb(171, 252, 99);
+  --brand-glaucous: rgb(41, 215, 204);
+  --brand-tangerine: rgb(246, 175, 110);
+  --brand-dark: rgb(12, 29, 40);
+  --brand-paper: rgb(255, 255, 255);
+  --brand-blue-soft: rgb(227, 235, 242);
+  --brand-tangerine-soft: rgb(250, 234, 216);
+  --brand-green-soft: rgb(227, 242, 229);
+  --brand-border: rgb(184, 230, 222);
   --brand-shadow: 0 24px 80px rgba(38, 45, 98, 0.12);
-  --brand-red: #c71e37;
-  --brand-paper-warm: #f7f3ea;
-  --brand-paper-mist: #eef1f6;
+  --brand-red: rgb(199, 30, 55);
+  --brand-paper-warm: rgb(247, 243, 234);
+  --brand-paper-mist: rgb(238, 241, 246);
   --brand-ink-muted: rgba(25, 33, 52, 0.68);
 }
 

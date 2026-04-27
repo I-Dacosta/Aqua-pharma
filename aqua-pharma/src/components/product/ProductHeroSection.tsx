@@ -108,10 +108,10 @@ export function ProductHeroSection({ product }: ProductHeroSectionProps) {
 
       <div
         ref={gradientRef}
-        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(21,31,109,0.14)_0%,rgba(21,31,109,0.3)_34%,rgba(13,18,55,0.82)_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,45,98,0.14)_0%,rgba(38,45,98,0.3)_34%,rgba(38,45,98,0.82)_100%)]"
       />
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(246,175,110,0.16)_0%,rgba(246,175,110,0)_24%),linear-gradient(90deg,rgba(245,243,234,0.05)_0%,rgba(245,243,234,0)_30%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(109,198,224,0.16)_0%,rgba(109,198,224,0)_24%),linear-gradient(90deg,rgba(247,243,234,0.05)_0%,rgba(247,243,234,0)_30%)]" />
 
       <div className="relative mx-auto flex min-h-screen w-full max-w-400 items-end px-8 pb-14 pt-32 md:px-12 md:pb-18 lg:px-16 lg:pb-20">
         <div className="max-w-[72rem]">
@@ -128,7 +128,7 @@ export function ProductHeroSection({ product }: ProductHeroSectionProps) {
               className="text-[clamp(3.2rem,7.6vw,7.3rem)] font-heading leading-[0.88] tracking-[-0.06em] text-white"
             >
               {words.map((word, index) => (
-                <span key={`${product.slug}-${word}-${index}`} className="inline-block">
+                <span key={`${product.slug}-${word}`} className="inline-block">
                   {word}
                   {index < words.length - 1 && "\u00A0"}
                 </span>

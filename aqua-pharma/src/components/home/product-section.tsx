@@ -7,8 +7,9 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatedArrowLink } from "../ui/AnimatedArrowCta";
 import { SplitTextAnimate } from "../ui/SplitTextAnimate";
-import { products, type ProductRecord, type ProductSlug } from "@/data/products";
+import { getProducts, type ProductRecord } from "@/data/products";
 import { useProductTransition } from "../core/ProductTransitionProvider";
+import { useSiteLocale } from "@/components/core/SiteLocaleProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,24 +17,10 @@ function formatSectionIndex(index: number) {
     return String(index + 1).padStart(2, "0");
 }
 
-const storyMeta: Record<ProductSlug, { context: string; statement: string }> = {
-    "bath-treatments": {
-        context: "Salmon farms / Bath treatments",
-        statement: "Treatment systems built for fish welfare in the exact moment parasite pressure rises.",
-    },
-    "water-conditioning-oxygenation": {
-        context: "Shrimp ponds / Water conditioning",
-        statement: "Protocols, pond preparation, and oxygen support shaped around fragile aquatic ecosystems.",
-    },
-    "dosing-units-services": {
-        context: "Live operations / Dosing systems",
-        statement: "Engineering that turns a prescribed treatment into something safer, calmer, and repeatable in the field.",
-    },
-};
-
 function SectionCard({
     section,
     index,
+    enterChapterLabel,
     cardRef,
     imageFrameRef,
     activeCardIndex,
@@ -43,6 +30,7 @@ function SectionCard({
 }: {
     section: ProductRecord;
     index: number;
+    enterChapterLabel: string;
     cardRef: React.RefCallback<HTMLDivElement>;
     imageFrameRef: React.RefCallback<HTMLDivElement>;
     activeCardIndex: number | null;
@@ -58,7 +46,7 @@ function SectionCard({
             ref={cardRef}
             onMouseEnter={onPointerEnter}
             onMouseLeave={onPointerLeave}
-            className={`group/product-card premium-dark-card-surface relative cursor-pointer overflow-hidden border p-4 transition-all duration-500 hover:-translate-y-1 hover:scale-[1.015] focus-visible:scale-[1.015] focus-visible:outline-none md:p-5 ${isActive ? "border-white/18 shadow-[0_34px_90px_rgba(3,9,27,0.42)]" : "border-white/8"} ${isDimmed ? "scale-[0.985] opacity-58" : "opacity-100"} ${index === 1 ? "lg:translate-y-20" : ""} ${index === 2 ? "lg:translate-y-8" : ""}`}
+            className={`group/product-card premium-dark-card-surface relative cursor-pointer overflow-hidden border p-4 transition-all duration-500 hover:-translate-y-1 hover:scale-[1.015] focus-visible:scale-[1.015] focus-visible:outline-none md:p-5 ${isActive ? "border-white/18 shadow-[0_34px_90px_rgba(38,45,98,0.42)]" : "border-white/8"} ${isDimmed ? "scale-[0.985] opacity-58" : "opacity-100"} ${index === 1 ? "lg:translate-y-20" : ""} ${index === 2 ? "lg:translate-y-8" : ""}`}
         >
             <Link href={section.href} onClick={onNavigate} onFocus={onPointerEnter} onBlur={onPointerLeave} className="block">
                 <div ref={imageFrameRef} className="relative h-[20rem] overflow-hidden border border-white/8 bg-white/5 md:h-[24rem] lg:h-[27rem]">
@@ -71,11 +59,11 @@ function SectionCard({
                             className="object-cover transition-transform duration-[1400ms] ease-out group-hover/product-card:scale-[1.05]"
                         />
                     </div>
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,11,31,0)_25%,rgba(4,11,31,0.72)_100%)]" />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,45,98,0)_25%,rgba(38,45,98,0.72)_100%)]" />
 
                     <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
                         <p className="text-[0.62rem] font-medium uppercase tracking-[0.32em] text-white/55">
-                            {formatSectionIndex(index)} / {storyMeta[section.slug].context}
+                            {formatSectionIndex(index)} / {section.homeContext}
                         </p>
                         <h3 className="mt-4 font-heading text-[clamp(1.6rem,2.6vw,2.6rem)] font-light leading-[1.02] tracking-[-0.03em] text-white break-words">
                             {section.title.includes('&') ? (
@@ -88,7 +76,7 @@ function SectionCard({
 
             <div className="mt-5 border-t border-white/10 pt-5 md:mt-6">
                 <p className="max-w-md text-[0.98rem] font-light leading-[1.8] text-white/70">
-                    {storyMeta[section.slug].statement}
+                    {section.homeStatement}
                 </p>
 
                 <AnimatedArrowLink
@@ -100,7 +88,7 @@ function SectionCard({
                     motionClassName="group-hover/product-card:translate-x-0 group-focus-visible/product-card:translate-x-0"
                     aria-label={`${section.cta}: ${section.description}`}
                 >
-                    Enter chapter
+                    {enterChapterLabel}
                 </AnimatedArrowLink>
             </div>
         </article>
@@ -108,6 +96,8 @@ function SectionCard({
 }
 
 export function ProductSection() {
+    const { locale, content } = useSiteLocale();
+    const products = getProducts(locale);
     const { startProductTransition } = useProductTransition();
     const sectionRef = useRef<HTMLElement>(null);
     const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -237,22 +227,22 @@ export function ProductSection() {
                 <div className="grid grid-cols-1 gap-14 lg:grid-cols-[0.78fr_1.22fr] lg:gap-20">
                     <div className="lg:sticky lg:top-28 lg:self-start">
                         <p className="mb-8 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white/45">
-                            Chapter 03 / Treatment chapters
+                            {content.home.productSection.kicker}
                         </p>
                         <h2 className="sr-only">Choose your treatment category.</h2>
                         <SplitTextAnimate
-                            text="Three treatment chapters"
+                            text={content.home.productSection.title}
                             triggerRef={sectionRef}
                             once
                             className="font-heading text-[clamp(2rem,4.2vw,4.8rem)] font-light leading-[0.9] tracking-[-0.05em] text-white"
                         />
 
                         <p className="mt-4 text-[1.05rem] font-light leading-[1.3] text-white/86">
-                            One welfare operating model.
+                            {content.home.productSection.subtitle}
                         </p>
 
                         <p className="mt-6 max-w-xl text-[1.0rem] font-light leading-[1.9] text-white/68 md:text-[1.06rem]">
-                            Each chapter is shaped around a different operational reality: low-impact therapeutics, water conditioning, and engineered dosing support designed for calmer execution in the field.
+                            {content.home.productSection.description}
                         </p>
 
                         {/* feature badges intentionally removed per request */}
@@ -286,6 +276,7 @@ export function ProductSection() {
                                 key={section.id}
                                 section={section}
                                 index={index}
+                                enterChapterLabel={content.home.productSection.enterChapter}
                                 cardRef={(element) => {
                                     cardsRef.current[index] = element;
                                 }}
