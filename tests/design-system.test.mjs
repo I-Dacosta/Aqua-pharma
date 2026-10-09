@@ -215,22 +215,28 @@ test("market labels and What We Do controls use the updated shared treatment", a
             const contentCenter = (valueRect.left + labelRect.right) / 2;
             const containerCenter = (containerRect.left + containerRect.right) / 2;
 
-            return Math.abs(contentCenter - containerCenter);
+            return {
+                centerOffset: Math.abs(contentCenter - containerCenter),
+                labelWithinValue: labelRect.top >= valueRect.top && labelRect.bottom <= valueRect.bottom,
+            };
         });
-        assert.ok(jointVentureAlignment <= 2, "joint-venture statistic should be centered in its desktop column");
+        assert.ok(jointVentureAlignment.centerOffset <= 2, "joint-venture statistic should be centered in its desktop column");
+        assert.ok(jointVentureAlignment.labelWithinValue, "joint-venture copy should stay beside the 50/50 figure");
 
         const tabs = page.locator("#what-we-do [role=tab]");
         assert.equal(await tabs.count(), 2);
-        assert.equal(await page.locator("#what-we-do [role=tablist]").evaluate((element) => getComputedStyle(element).borderTopStyle), "solid");
-        assert.equal(await tabs.first().evaluate((element) => getComputedStyle(element).backgroundColor), "rgb(109, 198, 224)");
+        assert.equal(await page.locator("#what-we-do [role=tablist]").evaluate((element) => getComputedStyle(element).borderTopWidth), "0px");
+        assert.equal(await tabs.first().evaluate((element) => getComputedStyle(element).backgroundColor), "rgba(0, 0, 0, 0)");
+        assert.equal(await tabs.first().evaluate((element) => getComputedStyle(element).borderBottomColor), "rgb(38, 45, 98)");
 
         await tabs.nth(1).click();
         assert.equal(await tabs.nth(1).getAttribute("aria-selected"), "true");
         await page.waitForFunction(() => {
             const tab = document.querySelectorAll("#what-we-do [role=tab]")[1];
-            return tab && getComputedStyle(tab).backgroundColor === "rgb(109, 198, 224)";
+            return tab && getComputedStyle(tab).borderBottomColor === "rgb(38, 45, 98)";
         });
-        assert.equal(await tabs.nth(1).evaluate((element) => getComputedStyle(element).backgroundColor), "rgb(109, 198, 224)");
+        assert.equal(await tabs.nth(1).evaluate((element) => getComputedStyle(element).backgroundColor), "rgba(0, 0, 0, 0)");
+        assert.equal(await tabs.nth(1).evaluate((element) => getComputedStyle(element).borderBottomColor), "rgb(38, 45, 98)");
     } finally {
         await browser.close();
     }

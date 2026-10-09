@@ -109,7 +109,7 @@ export function WhatWeDo() {
 						<div
 							role="tablist"
 							aria-label={content.home.whatWeDo.title}
-							className="inline-flex max-w-full flex-wrap overflow-hidden rounded-[4px] border border-(--brand-blue)/35 bg-white"
+							className="flex max-w-full flex-wrap items-end gap-8"
 						>
 							{tabs.map((tab) => {
 								const isActive = tab.id === activeTabId;
@@ -123,10 +123,10 @@ export function WhatWeDo() {
 										aria-controls="what-we-do-panel"
 										aria-selected={isActive}
 										onClick={() => setActiveTabId(tab.id)}
-										className={`whatwedo-label min-h-11 border-r border-(--brand-blue)/25 px-4 text-[0.78rem] font-semibold uppercase tracking-[0.06em] transition-colors duration-200 last:border-r-0 focus-visible:relative focus-visible:z-10 focus-visible:outline-3 focus-visible:outline-offset-[-3px] focus-visible:outline-(--brand-blue) ${
+										className={`whatwedo-label min-h-11 border-b-2 px-1 pb-2 text-[0.8rem] font-medium uppercase tracking-[0.07em] transition-colors duration-200 focus-visible:relative focus-visible:z-10 focus-visible:outline-3 focus-visible:outline-offset-[-3px] focus-visible:outline-(--brand-blue) ${
 											isActive
-												? "bg-(--brand-cyan-light) text-(--brand-blue-dark)"
-												: "bg-white text-(--brand-blue) hover:bg-(--brand-blue-soft)"
+												? "border-(--brand-blue) text-(--brand-blue)"
+												: "border-transparent text-(--brand-ink-muted) hover:border-(--brand-blue)/45 hover:text-(--brand-blue)"
 										}`}
 									>
 										{tab.label}

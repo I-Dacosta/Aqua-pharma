@@ -129,9 +129,9 @@ export function MapSection() {
                             <strong className="font-heading text-[clamp(2.8rem,5vw,5rem)] font-light leading-none text-(--brand-blue)">{COUNTRIES.length}</strong>
                             <span className="map-snapshot-label text-[1.02rem] font-medium uppercase tracking-[0.08em] text-(--brand-ink-muted)">{snapshot.countries}</span>
                         </div>
-                        <div className="map-joint-venture-stat flex items-baseline gap-3 border-t border-(--brand-blue)/15 py-6 sm:justify-center sm:border-t-0">
-                            <strong className="font-heading text-[clamp(2.8rem,5vw,5rem)] font-light leading-none text-(--brand-blue)">50/50</strong>
-                            <span className="text-[1.02rem] font-medium leading-snug text-(--brand-ink-muted)"><span className="map-snapshot-label uppercase tracking-[0.08em]">{snapshot.jointVenture}</span><br /><span>{snapshot.partners}</span></span>
+                        <div className="map-joint-venture-stat flex items-center gap-3 border-t border-(--brand-blue)/15 py-6 sm:justify-center sm:border-t-0">
+                            <strong className="shrink-0 font-heading text-[clamp(2.8rem,5vw,5rem)] font-light leading-none text-(--brand-blue)">50/50</strong>
+                            <span className="shrink-0 whitespace-nowrap text-[1.02rem] font-medium leading-snug text-(--brand-ink-muted)"><span className="map-snapshot-label uppercase tracking-[0.08em]">{snapshot.jointVenture}</span><br /><span>{snapshot.partners}</span></span>
                         </div>
                     </div>
                     <div className="map-species-legend mt-5 flex gap-5 text-[0.82rem] font-medium uppercase text-(--brand-blue)/70 [&_.map-species-icon]:h-[1.32rem] [&_.map-species-icon]:w-[1.47rem]"><span className="inline-flex items-center gap-2"><span aria-hidden="true" className="map-species-icon map-species-icon--fish" />{snapshot.fish}</span><span className="inline-flex items-center gap-2"><span aria-hidden="true" className="map-species-icon map-species-icon--shrimp" />{snapshot.shrimp}</span></div>
