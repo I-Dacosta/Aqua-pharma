@@ -109,7 +109,7 @@ export function WhatWeDo() {
 						<div
 							role="tablist"
 							aria-label={content.home.whatWeDo.title}
-							className="flex flex-wrap gap-x-10 gap-y-3"
+							className="inline-flex max-w-full flex-wrap overflow-hidden rounded-[4px] border border-(--brand-blue)/35 bg-white"
 						>
 							{tabs.map((tab) => {
 								const isActive = tab.id === activeTabId;
@@ -117,14 +117,16 @@ export function WhatWeDo() {
 								return (
 									<button
 										key={tab.id}
+										id={`what-we-do-tab-${tab.id}`}
 										type="button"
 										role="tab"
+										aria-controls="what-we-do-panel"
 										aria-selected={isActive}
 										onClick={() => setActiveTabId(tab.id)}
-										className={`whatwedo-label text-[0.875rem] font-normal uppercase transition-colors duration-300 ${
+										className={`whatwedo-label min-h-11 border-r border-(--brand-blue)/25 px-4 text-[0.78rem] font-semibold uppercase tracking-[0.06em] transition-colors duration-200 last:border-r-0 focus-visible:relative focus-visible:z-10 focus-visible:outline-3 focus-visible:outline-offset-[-3px] focus-visible:outline-(--brand-blue) ${
 											isActive
-												? "text-(--brand-glaucous)"
-												: "text-[rgb(30,34,38)]/70 hover:text-(--brand-glaucous)"
+												? "bg-(--brand-cyan-light) text-(--brand-blue-dark)"
+												: "bg-white text-(--brand-blue) hover:bg-(--brand-blue-soft)"
 										}`}
 									>
 										{tab.label}
@@ -133,29 +135,35 @@ export function WhatWeDo() {
 							})}
 						</div>
 
-						<WordReveal
-							as="h2"
-							text={content.home.whatWeDo.title}
-							className="mt-7 text-[clamp(2.2rem,3.8vw,3.4rem)] font-normal leading-[1.05] tracking-[-0.02em] text-(--brand-blue)"
-						/>
-
-						<WordReveal
-							key={activeTab?.id}
-							text={activeTab?.body ?? ""}
-							start="top 95%"
-							stagger={0.012}
-							className="type-body mt-8 font-light text-[rgb(30,34,38)]/80"
-						/>
-
-						<AnimatedArrowLink
-							href="#products"
-							className="brand-button mt-9"
-							motionClassName="!translate-x-0"
+						<div
+							id="what-we-do-panel"
+							role="tabpanel"
+							aria-labelledby={activeTab ? `what-we-do-tab-${activeTab.id}` : undefined}
 						>
-							<span>
-								{content.home.whatWeDo.cta}
-							</span>
-						</AnimatedArrowLink>
+							<WordReveal
+								as="h2"
+								text={content.home.whatWeDo.title}
+								className="mt-7 text-[clamp(2.2rem,3.8vw,3.4rem)] font-normal leading-[1.05] tracking-[-0.02em] text-(--brand-blue)"
+							/>
+
+							<WordReveal
+								key={activeTab?.id}
+								text={activeTab?.body ?? ""}
+								start="top 95%"
+								stagger={0.012}
+								className="type-body mt-8 font-light text-[rgb(30,34,38)]/80"
+							/>
+
+							<AnimatedArrowLink
+								href="#products"
+								className="brand-button mt-9"
+								motionClassName="!translate-x-0"
+							>
+								<span>
+									{content.home.whatWeDo.cta}
+								</span>
+							</AnimatedArrowLink>
+						</div>
 					</div>
 
 					<div className="flex w-full justify-end">

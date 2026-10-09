@@ -115,7 +115,7 @@ for (const [width, gutter] of [[390, 24], [1440, 80]]) {
     });
 }
 
-test("primary calls to action use the softer brand accent and remain easy to target", async () => {
+test("primary calls to action use the Aqua cyan accent and remain easy to target", async () => {
     const browser = await chromium.launch();
     try {
         const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
@@ -141,7 +141,7 @@ test("primary calls to action use the softer brand accent and remain easy to tar
         });
         assert.equal(result.deepBlue, "#1d224a");
         for (const action of result.actions) {
-            assert.equal(action.background, "rgb(212, 247, 245)", `${action.selector} should use the softer turquoise accent`);
+            assert.equal(action.background, "rgb(109, 198, 224)", `${action.selector} should use the Aqua cyan accent`);
             assert.equal(action.color, "rgb(29, 34, 74)", `${action.selector} needs dark brand text`);
             assert.ok(action.height >= 44, `${action.selector} is too small to target`);
             if (action.selector !== "#hero .hero-pill-solid") {
@@ -159,14 +159,14 @@ test("primary calls to action use the softer brand accent and remain easy to tar
             await page.locator(selector).first().hover();
             await page.waitForFunction((target) => {
                 const style = getComputedStyle(document.querySelector(target));
-                return style.backgroundColor === "rgb(29, 34, 74)" && style.color === "rgb(255, 255, 255)";
+                return style.backgroundColor === "rgb(0, 158, 224)" && style.color === "rgb(29, 34, 74)";
             }, selector);
             const hovered = await page.locator(selector).first().evaluate((element) => {
                 const style = getComputedStyle(element);
                 return { background: style.backgroundColor, color: style.color };
             });
-            assert.equal(hovered.background, "rgb(29, 34, 74)", `${selector} hover background`);
-            assert.equal(hovered.color, "rgb(255, 255, 255)", `${selector} hover text`);
+            assert.equal(hovered.background, "rgb(0, 158, 224)", `${selector} hover background`);
+            assert.equal(hovered.color, "rgb(29, 34, 74)", `${selector} hover text`);
             assert.equal(await page.locator(selector).first().evaluate((element) => getComputedStyle(element).borderTopStyle), "none");
         }
         await page.locator("#contact button[type=submit]").focus();
@@ -181,7 +181,50 @@ test("primary calls to action use the softer brand accent and remain easy to tar
     }
 });
 
-test("filled actions across inner pages share the softer brand treatment", async () => {
+test("market labels and What We Do controls use the updated shared treatment", async () => {
+    const browser = await chromium.launch();
+    try {
+        const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+        await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+
+        const marketUi = await page.locator("#map-section").evaluate((section) => {
+            const labels = [...section.querySelectorAll(".map-snapshot-label")];
+            const legend = section.querySelector(".map-species-legend");
+            return {
+                labels: labels.map((label) => ({
+                    text: label.textContent?.trim() ?? "",
+                    size: parseFloat(getComputedStyle(label).fontSize),
+                    transform: getComputedStyle(label).textTransform,
+                })),
+                legendSize: legend ? parseFloat(getComputedStyle(legend).fontSize) : 0,
+            };
+        });
+        assert.equal(marketUi.labels.length, 3);
+        for (const label of marketUi.labels) {
+            assert.equal(label.text, label.text.toUpperCase());
+            assert.equal(label.transform, "uppercase");
+            assert.ok(label.size >= 16, "market labels should be enlarged");
+        }
+        assert.ok(marketUi.legendSize >= 13.1, "market legend should be enlarged by approximately 5%");
+
+        const tabs = page.locator("#what-we-do [role=tab]");
+        assert.equal(await tabs.count(), 2);
+        assert.equal(await page.locator("#what-we-do [role=tablist]").evaluate((element) => getComputedStyle(element).borderTopStyle), "solid");
+        assert.equal(await tabs.first().evaluate((element) => getComputedStyle(element).backgroundColor), "rgb(109, 198, 224)");
+
+        await tabs.nth(1).click();
+        assert.equal(await tabs.nth(1).getAttribute("aria-selected"), "true");
+        await page.waitForFunction(() => {
+            const tab = document.querySelectorAll("#what-we-do [role=tab]")[1];
+            return tab && getComputedStyle(tab).backgroundColor === "rgb(109, 198, 224)";
+        });
+        assert.equal(await tabs.nth(1).evaluate((element) => getComputedStyle(element).backgroundColor), "rgb(109, 198, 224)");
+    } finally {
+        await browser.close();
+    }
+});
+
+test("filled actions across inner pages share the Aqua cyan treatment", async () => {
     const browser = await chromium.launch();
     try {
         const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
@@ -195,7 +238,7 @@ test("filled actions across inner pages share the softer brand treatment", async
             );
             assert.ok(actions.length > 0, `${path} has no filled CTA to check`);
             for (const action of actions) {
-                assert.equal(action.background, "rgb(212, 247, 245)", `${path} has a filled CTA with a different color`);
+                assert.equal(action.background, "rgb(109, 198, 224)", `${path} has a filled CTA with a different color`);
                 assert.equal(action.border, "none", `${path} has a bordered CTA`);
             }
         }

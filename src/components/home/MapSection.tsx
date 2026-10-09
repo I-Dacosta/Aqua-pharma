@@ -20,9 +20,9 @@ import { useMapInitialization } from './map/useMapInitialization';
 import { useMapScrollAnimations } from './map/useMapScrollAnimations';
 
 const snapshotCopy: Record<Locale, { title: string; employees: string; countries: string; jointVenture: string; partners: string; fish: string; shrimp: string }> = {
-    en: { title: 'Markets Snapshot', employees: 'employees', countries: 'countries', jointVenture: 'joint venture', partners: 'Solvay & Aquatiq', fish: 'Fish', shrimp: 'Shrimp' },
-    es: { title: 'Presencia global', employees: 'empleados', countries: 'países', jointVenture: 'empresa conjunta', partners: 'Solvay y Aquatiq', fish: 'Peces', shrimp: 'Camarón' },
-    no: { title: 'Markeder i korte trekk', employees: 'ansatte', countries: 'land', jointVenture: 'fellesforetak', partners: 'Solvay og Aquatiq', fish: 'Fisk', shrimp: 'Reker' },
+    en: { title: 'Markets Snapshot', employees: 'EMPLOYEES', countries: 'COUNTRIES', jointVenture: 'JOINT VENTURE', partners: 'Solvay & Aquatiq', fish: 'Fish', shrimp: 'Shrimp' },
+    es: { title: 'Presencia global', employees: 'EMPLEADOS', countries: 'PAÍSES', jointVenture: 'EMPRESA CONJUNTA', partners: 'Solvay y Aquatiq', fish: 'Peces', shrimp: 'Camarón' },
+    no: { title: 'Markeder i korte trekk', employees: 'ANSATTE', countries: 'LAND', jointVenture: 'FELLESFORETAK', partners: 'Solvay og Aquatiq', fish: 'Fisk', shrimp: 'Reker' },
 };
 
 export function MapSection() {
@@ -123,18 +123,18 @@ export function MapSection() {
                     <div className="mt-10 grid grid-cols-1 border-y border-(--brand-blue)/15 sm:grid-cols-3">
                         <div className="flex items-baseline gap-3 py-6 sm:border-r sm:border-(--brand-blue)/15 sm:pr-8">
                             <strong className="font-heading text-[clamp(2.8rem,5vw,5rem)] font-light leading-none text-(--brand-blue)">40</strong>
-                            <span className="text-[0.92rem] text-(--brand-ink-muted)">{snapshot.employees}</span>
+                            <span className="map-snapshot-label text-[1.02rem] font-medium uppercase tracking-[0.08em] text-(--brand-ink-muted)">{snapshot.employees}</span>
                         </div>
                         <div className="flex items-baseline gap-3 border-t border-(--brand-blue)/15 py-6 sm:border-r sm:border-t-0 sm:px-8 sm:border-(--brand-blue)/15">
                             <strong className="font-heading text-[clamp(2.8rem,5vw,5rem)] font-light leading-none text-(--brand-blue)">{COUNTRIES.length}</strong>
-                            <span className="text-[0.92rem] text-(--brand-ink-muted)">{snapshot.countries}</span>
+                            <span className="map-snapshot-label text-[1.02rem] font-medium uppercase tracking-[0.08em] text-(--brand-ink-muted)">{snapshot.countries}</span>
                         </div>
                         <div className="flex items-baseline gap-3 border-t border-(--brand-blue)/15 py-6 sm:border-t-0 sm:pl-8">
                             <strong className="font-heading text-[clamp(2.8rem,5vw,5rem)] font-light leading-none text-(--brand-blue)">50/50</strong>
-                            <span className="text-[0.92rem] leading-snug text-(--brand-ink-muted)">{snapshot.jointVenture}<br />{snapshot.partners}</span>
+                            <span className="text-[1.02rem] font-medium leading-snug text-(--brand-ink-muted)"><span className="map-snapshot-label uppercase tracking-[0.08em]">{snapshot.jointVenture}</span><br /><span>{snapshot.partners}</span></span>
                         </div>
                     </div>
-                    <div className="mt-5 flex gap-5 text-[0.78rem] uppercase text-(--brand-blue)/70"><span className="inline-flex items-center gap-2"><span aria-hidden="true" className="map-species-icon map-species-icon--fish" />{snapshot.fish}</span><span className="inline-flex items-center gap-2"><span aria-hidden="true" className="map-species-icon map-species-icon--shrimp" />{snapshot.shrimp}</span></div>
+                    <div className="map-species-legend mt-5 flex gap-5 text-[0.82rem] font-medium uppercase text-(--brand-blue)/70 [&_.map-species-icon]:h-[1.32rem] [&_.map-species-icon]:w-[1.47rem]"><span className="inline-flex items-center gap-2"><span aria-hidden="true" className="map-species-icon map-species-icon--fish" />{snapshot.fish}</span><span className="inline-flex items-center gap-2"><span aria-hidden="true" className="map-species-icon map-species-icon--shrimp" />{snapshot.shrimp}</span></div>
                 </div>
 
                 <div className="map-section map-section__map-shell relative -mx-6 overflow-hidden bg-white sm:mx-0">
