@@ -129,7 +129,7 @@ export function MapSection() {
                             <strong className="font-heading text-[clamp(2.8rem,5vw,5rem)] font-light leading-none text-(--brand-blue)">{COUNTRIES.length}</strong>
                             <span className="map-snapshot-label text-[1.02rem] font-medium uppercase tracking-[0.08em] text-(--brand-ink-muted)">{snapshot.countries}</span>
                         </div>
-                        <div className="flex items-baseline gap-3 border-t border-(--brand-blue)/15 py-6 sm:border-t-0 sm:pl-8">
+                        <div className="map-joint-venture-stat flex items-baseline gap-3 border-t border-(--brand-blue)/15 py-6 sm:justify-center sm:border-t-0">
                             <strong className="font-heading text-[clamp(2.8rem,5vw,5rem)] font-light leading-none text-(--brand-blue)">50/50</strong>
                             <span className="text-[1.02rem] font-medium leading-snug text-(--brand-ink-muted)"><span className="map-snapshot-label uppercase tracking-[0.08em]">{snapshot.jointVenture}</span><br /><span>{snapshot.partners}</span></span>
                         </div>

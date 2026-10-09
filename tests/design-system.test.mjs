@@ -207,6 +207,18 @@ test("market labels and What We Do controls use the updated shared treatment", a
         }
         assert.ok(marketUi.legendSize >= 13.1, "market legend should be enlarged by approximately 5%");
 
+        const jointVentureAlignment = await page.locator("#map-section .map-joint-venture-stat").evaluate((container) => {
+            const [value, label] = [...container.children];
+            const containerRect = container.getBoundingClientRect();
+            const valueRect = value.getBoundingClientRect();
+            const labelRect = label.getBoundingClientRect();
+            const contentCenter = (valueRect.left + labelRect.right) / 2;
+            const containerCenter = (containerRect.left + containerRect.right) / 2;
+
+            return Math.abs(contentCenter - containerCenter);
+        });
+        assert.ok(jointVentureAlignment <= 2, "joint-venture statistic should be centered in its desktop column");
+
         const tabs = page.locator("#what-we-do [role=tab]");
         assert.equal(await tabs.count(), 2);
         assert.equal(await page.locator("#what-we-do [role=tablist]").evaluate((element) => getComputedStyle(element).borderTopStyle), "solid");
