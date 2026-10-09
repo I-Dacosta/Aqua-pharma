@@ -189,7 +189,7 @@ export default async function TeamPage() {
             {teamSections.map((section, idx) => (
               <ScrollReveal key={section.title} className="py-16 md:py-20" delay={Math.min(idx * 0.02, 0.1)} duration={0.78} start="top 91%" yOffset={18}>
                 <div className="mb-10 flex items-baseline gap-4">
-                  <span className="font-heading text-[0.82rem] font-light tabular-nums text-(--brand-blue)/30">
+                  <span className="font-heading text-[0.875rem] font-light tabular-nums text-(--brand-blue)/75">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
                   <h2 className="font-heading text-[1.3rem] font-light uppercase tracking-[0.12em] text-(--brand-blue)">
@@ -233,12 +233,12 @@ export default async function TeamPage() {
                           {member.role}
                         </p>
                         {member.phone && (
-                          <a href={`tel:${member.phone}`} className="mt-2 block text-[0.78rem] font-light text-(--brand-dark)/50 transition-colors hover:text-(--brand-blue)">
+                          <a href={`tel:${member.phone}`} className="mt-1 block py-1.5 text-[0.875rem] leading-5 font-light text-(--brand-dark)/80 transition-colors hover:text-(--brand-blue)">
                             {member.phone}
                           </a>
                         )}
                         {member.email && (
-                          <a href={`mailto:${member.email}`} className="block text-[0.78rem] font-light text-(--brand-dark)/50 transition-colors hover:text-(--brand-blue)">
+                          <a href={`mailto:${member.email}`} className="block py-1.5 text-[0.875rem] leading-5 font-light text-(--brand-dark)/80 transition-colors hover:text-(--brand-blue)">
                             {member.email}
                           </a>
                         )}
@@ -256,7 +256,7 @@ export default async function TeamPage() {
       <section className="border-t border-(--brand-blue)/8 bg-(--brand-blue) px-6 py-16 md:px-12 md:py-20 lg:px-20">
         <ScrollReveal className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between" duration={0.88} start="top 91%" staggerChildren yOffset={18}>
           <div>
-            <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-white/50">
+            <p className="text-[0.875rem] font-medium uppercase text-white/75">
               {page.cta.kicker}
             </p>
             <h2 className="mt-3 font-heading text-[clamp(1.4rem,2.5vw,2.4rem)] font-light text-white">
@@ -265,7 +265,7 @@ export default async function TeamPage() {
           </div>
           <a
             href="#contact"
-            className="shrink-0 border border-white/20 px-8 py-3.5 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-white transition-colors hover:bg-white hover:text-(--brand-blue)"
+            className="brand-button brand-button--on-dark shrink-0"
           >
             {page.cta.button}
           </a>

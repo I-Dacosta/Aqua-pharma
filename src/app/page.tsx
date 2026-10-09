@@ -1,42 +1,43 @@
 import { Navbar } from "@/components/core/Navbar";
 import { Hero } from "@/components/home/Hero";
 import { WhatWeDo } from "@/components/home/WhatWeDo";
-import { ProductSection } from "@/components/home/product-section";
+import { ProductSectionV2 } from "@/components/home/ProductSectionV2";
 import { News } from "@/components/home/News";
 import { MapSection } from "@/components/home/MapSection";
 import { ContactSection } from "@/components/core/ContactSection";
 import { Footer } from "@/components/core/Footer";
 
 export const metadata = {
-  title: "Aqua Pharma | Aquaculture Treatment Systems",
-  description: "Prevention and control of disease in aquaculture. Innovative bath treatments, water conditioning, and dosing solutions for sustainable fish farming.",
+	title: "Aqua Pharma | Aquaculture Health Concepts",
+	description:
+		"Aquaculture health concepts for fish parasite control and shrimp pond health, supported by dosing systems, services and applied research.",
 };
 
 export default function Home() {
-  return (
-    <main className="min-h-screen bg-(--brand-paper) text-(--brand-dark)">
-      <Navbar />
+	const today = new Date().toISOString().slice(0, 10);
+	return (
+		<main className="min-h-screen bg-(--brand-paper) text-(--brand-dark)">
+			<Navbar />
 
-      {/* 1. Hero Section */}
-      <Hero />
+			{/* 1. Hero Section */}
+			<Hero />
 
-      {/* 2. WHAT WE DO */}
-      <WhatWeDo />
+			<MapSection />
 
-      {/* 3. Product / Service highlights (Bath, Conditioning, Dosing) */}
-      <ProductSection />
+			{/* 3. WHAT WE DO */}
+			<WhatWeDo />
 
-      {/* 5. News */}
-      <News />
+			{/* 3. Product / Service highlights (Bath, Conditioning, Dosing) */}
+			<ProductSectionV2 />
 
-      {/* 6. Map section (We operate around the world) */}
-      <MapSection />
+			{/* 5. News */}
+			<News today={today} />
 
-      {/* 7. get in touch (Contact us) */}
-      <ContactSection />
+			{/* 7. get in touch (Contact us) */}
+			<ContactSection />
 
-      {/* Footer */}
-      <Footer />
-    </main>
-  );
+			{/* Footer */}
+			<Footer />
+		</main>
+	);
 }

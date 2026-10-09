@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/core/Navbar";
 import { Footer } from "@/components/core/Footer";
 import { ContactSection } from "@/components/core/ContactSection";
+import { News } from "@/components/home/News";
+import { MapSection } from "@/components/home/MapSection";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { getEditorialPagesContent } from "@/i18n/editorial-pages";
 import { getRequestLocale } from "@/i18n/request";
@@ -35,10 +37,10 @@ export default async function AboutPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-(--brand-blue) via-(--brand-blue)/40 to-transparent" />
         </div>
 
-        <ScrollReveal className="relative z-10 px-6 pb-24 pt-40 md:px-12 lg:px-24 lg:pb-32" duration={1.15} yOffset={34}>
+        <ScrollReveal className="relative z-10 px-6 pb-24 pt-40 md:px-12 lg:px-20 lg:pb-32" duration={1.15} yOffset={34}>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-12">
             <div className="max-w-4xl">
-              <p className="mb-8 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white/50">
+              <p className="mb-8 text-[0.875rem] font-medium uppercase text-white/80">
                 {page.hero.kicker}
               </p>
               <h1 className="font-heading text-[clamp(3.5rem,8vw,8rem)] font-light leading-[0.9] tracking-tight text-white mb-6 whitespace-pre-line">
@@ -46,7 +48,7 @@ export default async function AboutPage() {
               </h1>
             </div>
             <div className="max-w-sm pb-4">
-              <p className="text-[1.15rem] font-light leading-[1.8] text-white/80">
+              <p className="type-body font-light text-white/80">
                 {page.hero.description}
               </p>
             </div>
@@ -55,10 +57,10 @@ export default async function AboutPage() {
       </section>
 
       {/* ── Who We Are ── */}
-      <section className="px-6 py-32 md:px-12 md:py-48 lg:px-24 bg-(--brand-paper)">
+      <section id="mission" className="px-6 py-32 md:px-12 md:py-48 lg:px-20 bg-(--brand-paper)">
         <ScrollReveal className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-16 lg:grid-cols-[1fr_1.5fr] lg:gap-32" duration={0.9} start="top 85%" yOffset={26}>
           <div>
-            <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous) mb-8">
+            <p className="mb-8 text-[0.875rem] font-medium uppercase text-(--brand-glaucous)">
               {page.company.kicker}
             </p>
             <h2 className="font-heading text-[clamp(2.5rem,4.5vw,4.5rem)] font-light leading-[1.05] tracking-tight text-(--brand-blue)">
@@ -66,10 +68,10 @@ export default async function AboutPage() {
             </h2>
           </div>
           <div className="flex flex-col justify-center gap-10 lg:pt-16">
-            <p className="text-[1.25rem] font-light leading-[1.8] text-(--brand-dark)/80">
+            <p className="type-body font-light text-(--brand-dark)/80">
               {page.company.bodyPrimary}
             </p>
-            <p className="text-[1.15rem] font-light leading-[1.8] text-(--brand-dark)/60">
+            <p className="type-body font-light text-(--brand-dark)/80">
               {page.company.bodySecondary}
             </p>
           </div>
@@ -77,14 +79,14 @@ export default async function AboutPage() {
       </section>
 
       {/* ── Stats ── */}
-      <section className="px-6 py-24 md:px-12 lg:px-24 bg-(--brand-blue) text-white">
+      <section className="px-6 py-24 md:px-12 lg:px-20 bg-(--brand-blue) text-white">
         <ScrollReveal className="mx-auto grid max-w-screen-2xl grid-cols-2 gap-y-16 divide-x divide-white/10 border-y border-white/10 py-16 md:grid-cols-4" duration={0.78} start="top 85%" yOffset={18} staggerChildren staggerAmount={0.1}>
           {page.stats.map(({ stat, label }) => (
             <div key={label} className="flex flex-col justify-center px-8 md:px-12 text-center">
               <p className="font-heading text-[clamp(4rem,7vw,6.5rem)] font-light leading-none tracking-tight">
                 {stat}
               </p>
-              <p className="mt-6 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white/50">
+              <p className="mt-6 text-[0.875rem] font-medium uppercase text-white/75">
                 {label}
               </p>
             </div>
@@ -93,7 +95,7 @@ export default async function AboutPage() {
       </section>
 
        {/* ── Values ── */}
-      <section className="border-b border-(--brand-blue)/8 px-6 py-24 md:px-12 md:py-32 lg:px-20">
+      <section id="values" className="border-b border-(--brand-blue)/8 px-6 py-24 md:px-12 md:py-32 lg:px-20">
         <div className="mx-auto max-w-7xl">
           <ScrollReveal className="max-w-2xl" duration={0.9} start="top 90%" yOffset={24}>
             <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-(--brand-glaucous)">
@@ -109,7 +111,7 @@ export default async function AboutPage() {
               <p className="font-heading text-[clamp(1.6rem,2.5vw,2.4rem)] font-light tracking-wide text-(--brand-blue)">
                 {page.values.careTitle}
               </p>
-              <div className="my-6 h-px w-12 bg-(--brand-tangerine)/60" />
+              <div className="my-6 h-px w-12 bg-(--brand-cyan)/60" />
               <p className="text-[1.05rem] font-light leading-[1.85] text-(--brand-dark)/70">
               {page.values.careBody}
               </p>
@@ -118,7 +120,7 @@ export default async function AboutPage() {
               <p className="font-heading text-[clamp(1.6rem,2.5vw,2.4rem)] font-light tracking-wide text-(--brand-blue)">
                 {page.values.dareTitle}
               </p>
-              <div className="my-6 h-px w-12 bg-(--brand-tangerine)/60" />
+              <div className="my-6 h-px w-12 bg-(--brand-cyan)/60" />
               <p className="text-[1.05rem] font-light leading-[1.85] text-(--brand-dark)/70">
               {page.values.dareBody}
               </p>
@@ -127,8 +129,10 @@ export default async function AboutPage() {
         </div>
       </section>
 
+      <MapSection />
+
       {/* ── History Timeline ── */}
-      <section className="px-6 py-32 md:px-12 md:py-48 lg:px-24 bg-(--brand-paper)">
+      <section id="history" className="px-6 py-32 md:px-12 md:py-48 lg:px-20 bg-(--brand-paper)">
         <div className="mx-auto max-w-screen-2xl">
           <ScrollReveal className="max-w-3xl mb-24 lg:mb-32" duration={0.9} start="top 85%" yOffset={24}>
             <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous) mb-8">
@@ -204,19 +208,21 @@ export default async function AboutPage() {
           <div className="flex flex-wrap shrink-0 gap-4">
             <Link
               href="/about/team"
-              className="border border-(--brand-blue)/20 px-7 py-3.5 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-(--brand-blue) transition-colors hover:bg-(--brand-blue) hover:text-white"
+              className="brand-button"
             >
               {page.explore.teamCta}
             </Link>
             <Link
               href="/about/pioneering"
-              className="border border-(--brand-blue)/20 px-7 py-3.5 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-(--brand-blue) transition-colors hover:bg-(--brand-blue) hover:text-white"
+              className="brand-button-outline"
             >
               {page.explore.innovationCta}
             </Link>
           </div>
         </ScrollReveal>
       </section>
+
+      <News today={new Date().toISOString().slice(0, 10)} onAbout />
 
       <ContactSection />
       <Footer />

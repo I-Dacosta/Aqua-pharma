@@ -64,12 +64,12 @@ export default async function MediaPage() {
               <ScrollReveal key={release.title} className="py-10 lg:py-12" delay={Math.min(idx * 0.02, 0.1)} duration={0.8} start="top 91%" yOffset={20}>
                 <article className="group grid grid-cols-1 gap-6 transition-colors hover:bg-(--brand-blue-soft)/25 lg:grid-cols-[6rem_11rem_15rem_1fr_auto] lg:gap-8 lg:px-2">
                 {/* Index */}
-                <div className="hidden font-heading text-[0.78rem] font-light tabular-nums text-(--brand-blue)/30 lg:block lg:pt-1">
+                <div className="hidden font-heading text-[0.875rem] font-light tabular-nums text-(--brand-blue)/75 lg:block lg:pt-1">
                   {String(idx + 1).padStart(3, "0")}
                 </div>
                 {/* Date + Category */}
                 <div className="flex flex-row gap-4 lg:flex-col lg:gap-1">
-                  <p className="font-heading text-[0.9rem] font-light text-(--brand-blue)/60">
+                  <p className="font-heading text-[0.9rem] font-light text-(--brand-blue)/80">
                     {release.date}
                   </p>
                   <p className="text-[0.65rem] font-medium uppercase tracking-[0.2em] text-(--brand-glaucous)">
@@ -91,7 +91,7 @@ export default async function MediaPage() {
                   <h3 className="font-heading text-[1.15rem] font-light leading-[1.35] text-(--brand-blue)">
                     {release.title}
                   </h3>
-                  <p className="mt-3 text-[0.95rem] font-light leading-[1.8] text-(--brand-dark)/60">
+                  <p className="type-body mt-3 font-light text-(--brand-dark)/80">
                     {release.description}
                   </p>
                 </div>

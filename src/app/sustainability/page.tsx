@@ -47,7 +47,7 @@ export default async function SustainabilityPage() {
               </h1>
             </div>
             <div className="lg:max-w-md pb-4">
-              <p className="text-[1.15rem] font-light leading-[1.8] text-white/70">
+              <p className="type-body font-light text-white/80">
                 {page.hero.description}
               </p>
             </div>
@@ -66,7 +66,7 @@ export default async function SustainabilityPage() {
               <div className="relative z-20 lg:-mr-24 lg:translate-y-16">
                 <div className="border border-(--brand-blue)/10 bg-(--brand-paper) p-10 md:p-16 lg:p-20 shadow-[20px_20px_0px_rgba(38,45,98,0.03)] lg:pl-0 lg:border-l-0">
                   <div className="mb-12 flex flex-col items-start gap-4">
-                    <span className="font-heading text-[1.4rem] font-light tabular-nums text-(--brand-blue)/30">01</span>
+                    <span className="font-heading text-[1.4rem] font-light tabular-nums text-(--brand-blue)/75">01</span>
                     <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous)">
                       {page.sections.health.kicker}
                     </p>
@@ -74,7 +74,7 @@ export default async function SustainabilityPage() {
                   <h2 className="font-heading text-[clamp(2.5rem,4.5vw,4.5rem)] font-light leading-[1.05] tracking-tight text-(--brand-blue)">
                     {page.sections.health.title}
                   </h2>
-                  <p className="mt-8 text-[1.15rem] font-light leading-[1.85] text-(--brand-dark)/75">
+                  <p className="type-body mt-8 font-light text-(--brand-dark)/80">
                     {page.sections.health.body}
                   </p>
                 </div>
@@ -108,15 +108,15 @@ export default async function SustainabilityPage() {
                 {/* Floating card positioned at bottom right */}
                 <div className="absolute bottom-0 right-0 w-full md:w-3/4 lg:w-1/2 xl:w-[45%] bg-(--brand-blue) p-10 md:p-16 lg:p-24 text-white shadow-[-20px_0_40px_rgba(0,0,0,0.15)]">
                   <div className="mb-12 flex flex-col items-start gap-4">
-                    <span className="font-heading text-[1.4rem] font-light tabular-nums text-white/30">02</span>
-                    <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white/50">
+                    <span className="font-heading text-[1.4rem] font-light tabular-nums text-white/75">02</span>
+                    <p className="text-[0.875rem] font-medium uppercase text-white/75">
                       {page.sections.environment.kicker}
                     </p>
                   </div>
                   <h2 className="font-heading text-[clamp(2.5rem,4.5vw,4.5rem)] font-light leading-[1.05] tracking-tight text-white mb-8">
                     {page.sections.environment.title}
                   </h2>
-                  <p className="text-[1.15rem] font-light leading-[1.85] text-white/80">
+                  <p className="type-body font-light text-white/80">
                     {page.sections.environment.body}
                   </p>
                 </div>
@@ -129,7 +129,7 @@ export default async function SustainabilityPage() {
             <ScrollReveal className="grid grid-cols-1 gap-16 lg:grid-cols-[1.2fr_1fr] lg:gap-24 items-center" duration={0.9} start="top 85%" yOffset={30}>
               <div className="lg:pr-12">
                 <div className="mb-12 flex items-baseline gap-4">
-                  <span className="font-heading text-[1.4rem] font-light tabular-nums text-(--brand-blue)/30">03</span>
+                  <span className="font-heading text-[1.4rem] font-light tabular-nums text-(--brand-blue)/75">03</span>
                   <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous)">
                     {page.sections.commitments.kicker}
                   </p>
@@ -137,7 +137,7 @@ export default async function SustainabilityPage() {
                 <h2 className="font-heading text-[clamp(2.5rem,4.5vw,4.5rem)] font-light leading-[1.05] tracking-tight text-(--brand-blue)">
                   {page.sections.commitments.title}
                 </h2>
-                <p className="mt-10 text-[1.15rem] font-light leading-[1.85] text-(--brand-dark)/70 hover:text-(--brand-dark) transition-colors">
+                <p className="type-body mt-10 font-light text-(--brand-dark)/80">
                   {page.sections.commitments.body}
                 </p>
               </div>
@@ -159,7 +159,7 @@ export default async function SustainabilityPage() {
             <ScrollReveal className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8" duration={0.9} start="top 85%" yOffset={24}>
               <div>
                 <div className="mb-10 flex items-baseline gap-4">
-                  <span className="font-heading text-[1.4rem] font-light tabular-nums text-(--brand-blue)/30">04</span>
+                  <span className="font-heading text-[1.4rem] font-light tabular-nums text-(--brand-blue)/75">04</span>
                   <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-(--brand-glaucous)">
                     {page.sections.recognition.kicker}
                   </p>
@@ -181,7 +181,7 @@ export default async function SustainabilityPage() {
                   <h3 className="mt-6 mb-6 font-heading text-[2rem] lg:text-[2.5rem] font-light leading-[1.1] text-(--brand-blue)">
                     {page.sections.recognition.ascTitle}
                   </h3>
-                  <p className="text-[1.15rem] font-light leading-[1.8] text-(--brand-dark)/70">
+                  <p className="type-body font-light text-(--brand-dark)/80">
                     {page.sections.recognition.ascBody}
                   </p>
                 </ScrollReveal>
@@ -193,7 +193,7 @@ export default async function SustainabilityPage() {
                   <h3 className="mt-6 mb-6 font-heading text-[2rem] lg:text-[2.5rem] font-light leading-[1.1] text-(--brand-blue)">
                     {page.sections.recognition.solarTitle}
                   </h3>
-                  <p className="text-[1.15rem] font-light leading-[1.8] text-(--brand-dark)/70">
+                  <p className="type-body font-light text-(--brand-dark)/80">
                     {page.sections.recognition.solarBody}
                   </p>
                   <a
@@ -240,7 +240,7 @@ export default async function SustainabilityPage() {
       <section className="bg-(--brand-blue) px-6 py-32 md:px-12 lg:px-20 lg:py-48">
         <ScrollReveal className="mx-auto grid max-w-[90rem] grid-cols-1 gap-16 lg:grid-cols-[1fr_1fr] lg:gap-24" duration={0.92} start="top 85%" yOffset={24}>
           <div>
-            <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white/50">
+            <p className="text-[0.875rem] font-medium uppercase text-white/75">
               {page.forward.kicker}
             </p>
             <h2 className="mt-8 font-heading text-[clamp(3.5rem,8vw,8rem)] font-light leading-[0.9] tracking-tight text-white whitespace-pre-line">
@@ -248,19 +248,19 @@ export default async function SustainabilityPage() {
             </h2>
           </div>
           <div className="flex flex-col justify-end gap-12 lg:pb-4">
-            <p className="text-[1.15rem] font-light leading-[1.85] text-white/72 max-w-xl">
+            <p className="type-body max-w-xl font-light text-white/80">
               {page.forward.body}
             </p>
             <div className="flex flex-wrap items-center gap-6">
               <Link
                 href="/about/pioneering"
-                className="bg-white/5 border border-white/20 px-8 py-4 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white transition-all hover:bg-white hover:text-(--brand-blue) shadow-[8px_8px_0px_rgba(255,255,255,0.05)] hover:translate-y-[-2px] hover:shadow-[12px_12px_0px_rgba(255,255,255,0.1)]"
+                className="brand-button brand-button--on-dark"
               >
                 {page.forward.innovationCta}
               </Link>
               <Link
                 href="/about"
-                className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white/55 transition-colors hover:text-white group flex items-center"
+                className="group inline-flex min-h-11 items-center border-b-2 border-(--brand-mint) text-[0.875rem] font-semibold text-white transition-colors hover:text-(--brand-mint)"
               >
                 {page.forward.aboutCta}
                 <span className="ml-3 text-lg leading-none transform transition-transform group-hover:translate-x-2">→</span>

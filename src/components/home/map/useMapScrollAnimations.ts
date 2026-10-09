@@ -37,30 +37,8 @@ export function useMapScrollAnimations({
             }
         });
 
-        gsap.from('.map-section__panel', {
-            y: 28,
-            opacity: 0,
-            duration: 0.95,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: sectionRef.current,
-                start: 'top 82%',
-            }
-        });
-
-        gsap.from('.map-section__hud', {
-            y: -20,
-            opacity: 0,
-            duration: 0.8,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: sectionRef.current,
-                start: 'top 78%',
-            }
-        });
-
         gsap.to('.map-section__map-shell', {
-            yPercent: -3,
+            yPercent: -1.5,
             ease: 'none',
             scrollTrigger: {
                 trigger: sectionRef.current,

@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { Globe } from 'lucide-react';
-import maplibregl from 'maplibre-gl';
+import * as maplibregl from 'maplibre-gl';
 import { useSiteLocale } from '../core/SiteLocaleProvider';
-import { ScrollReveal } from '../ui/ScrollReveal';
+import type { Locale } from '@/i18n/config';
 import {
     COUNTRIES,
     COUNTRY_ACTIVE_FILL_LAYER,
@@ -13,57 +13,43 @@ import {
     type CountryItem
 } from './map/mapConstants';
 import {
-    browserSupportsWebGL,
     buildActiveCountryFilter,
-    getFocusPadding,
-    getCountryFocusZoom,
-    getMarketByIso,
     loadCountriesGeoJson
 } from './map/mapHelpers';
 import { useMapInitialization } from './map/useMapInitialization';
 import { useMapScrollAnimations } from './map/useMapScrollAnimations';
-import { MapHud } from './map/MapHud';
-import { MarketList } from './map/MarketList';
+
+const snapshotCopy: Record<Locale, { title: string; employees: string; countries: string; jointVenture: string; partners: string; fish: string; shrimp: string }> = {
+    en: { title: 'Markets Snapshot', employees: 'employees', countries: 'countries', jointVenture: 'joint venture', partners: 'Solvay & Aquatiq', fish: 'Fish', shrimp: 'Shrimp' },
+    es: { title: 'Presencia global', employees: 'empleados', countries: 'países', jointVenture: 'empresa conjunta', partners: 'Solvay y Aquatiq', fish: 'Peces', shrimp: 'Camarón' },
+    no: { title: 'Markeder i korte trekk', employees: 'ansatte', countries: 'land', jointVenture: 'fellesforetak', partners: 'Solvay og Aquatiq', fish: 'Fisk', shrimp: 'Reker' },
+};
 
 export function MapSection() {
-    const { content } = useSiteLocale();
-    const initialMapError = typeof window !== 'undefined' && !browserSupportsWebGL()
-        ? content.home.map.errors.unsupportedBrowser
-        : null;
+    const router = useRouter();
+    const { content, locale } = useSiteLocale();
+    const snapshot = snapshotCopy[locale];
     const sectionRef = useRef<HTMLElement>(null);
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const mapRef = useRef<maplibregl.Map | null>(null);
     const applyOverviewCameraRef = useRef<((animate: boolean) => void) | null>(null);
     const activeIsoRef = useRef<string | null>(null);
-    const [activeCountryIso, setActiveCountryIso] = useState<string | null>(null);
-    const [selectedMarketIso, setSelectedMarketIso] = useState<string | null>(null);
     const [isMapReady, setIsMapReady] = useState(false);
-    const [mapError, setMapError] = useState<string | null>(initialMapError);
-
-    const selectedMarket = getMarketByIso(selectedMarketIso);
-    const fallbackMarket = COUNTRIES[0];
-    const activeMarket = getMarketByIso(activeCountryIso) ?? selectedMarket ?? fallbackMarket;
-    const localizedMarkets = content.home.map.markets;
-    const getLocalizedMarket = (iso: string | null) => localizedMarkets.find((market) => market.iso === iso) ?? null;
-    const activeMarketCopy = getLocalizedMarket(activeMarket.iso);
-    const pendingFocusRef = useRef<{ country: CountryItem; openModal: boolean } | null>(null);
+    const [mapError, setMapError] = useState<string | null>(null);
     const focusMarketRef = useRef<((country: CountryItem | null, options?: { openModal?: boolean }) => void) | null>(null);
     const previewMarketRef = useRef<((country: CountryItem | null) => void) | null>(null);
-    const selectedMarketIsoRef = useRef<string | null>(null);
-    const selectedMarketRef = useRef<CountryItem | null>(selectedMarket);
     const mapErrorsRef = useRef(content.home.map.errors);
     const geoJsonCacheRef = useRef<GeoJSON.FeatureCollection | null>(null);
     const onGeoJsonReadyRef = useRef<((data: GeoJSON.FeatureCollection) => void) | null>(null);
 
     const applyActiveCountry = (country: CountryItem | null): void => {
         const map = mapRef.current;
-        setActiveCountryIso(country?.iso ?? null);
+
+        activeIsoRef.current = country?.iso ?? null;
 
         if (!map) {
             return;
         }
-
-        activeIsoRef.current = country?.iso ?? null;
 
         const activeFilter = buildActiveCountryFilter(country?.highlightIso ?? null);
 
@@ -77,56 +63,16 @@ export function MapSection() {
     };
 
     const previewMarket = (country: CountryItem | null): void => {
-        applyActiveCountry(country ?? selectedMarketRef.current ?? null);
+        applyActiveCountry(country);
     };
 
-    const focusMarket = (country: CountryItem | null, options?: { openModal?: boolean }): void => {
-        const map = mapRef.current;
-
+    const focusMarket = (country: CountryItem | null): void => {
         if (!country) {
-            setSelectedMarketIso(null);
-            applyActiveCountry(null);
-            applyOverviewCameraRef.current?.(true);
+            previewMarket(null);
             return;
         }
 
-        if (options?.openModal && selectedMarketIsoRef.current === country.iso) {
-            setSelectedMarketIso(null);
-            applyActiveCountry(null);
-            applyOverviewCameraRef.current?.(true);
-            return;
-        }
-
-        if (options?.openModal) {
-            setSelectedMarketIso(country?.iso ?? null);
-        }
-
-        if (!map) {
-            if (country) {
-                pendingFocusRef.current = { country, openModal: options?.openModal ?? false };
-            }
-
-            return;
-        }
-
-        applyActiveCountry(country);
-
-        if (!options?.openModal) {
-            return;
-        }
-
-        const focusContainer = mapContainerRef.current;
-
-        map.easeTo({
-            center: country.focus,
-            zoom: getCountryFocusZoom(country),
-            duration: 950,
-            pitch: 46,
-            bearing: 0,
-            padding: focusContainer ? getFocusPadding(focusContainer) : undefined,
-            essential: true,
-            easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
-        });
+        router.push(country.productHref);
     };
 
     useEffect(() => {
@@ -135,32 +81,6 @@ export function MapSection() {
     });
 
     useMapScrollAnimations({ sectionRef, isMapReady, applyOverviewCameraRef, activeIsoRef });
-
-    useEffect(() => {
-        if (!selectedMarketIso) {
-            return;
-        }
-
-        const onKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') {
-                focusMarketRef.current?.(null);
-            }
-        };
-
-        window.addEventListener('keydown', onKeyDown);
-
-        return () => {
-            window.removeEventListener('keydown', onKeyDown);
-        };
-    }, [selectedMarketIso]);
-
-    useEffect(() => {
-        selectedMarketIsoRef.current = selectedMarketIso;
-    }, [selectedMarketIso]);
-
-    useEffect(() => {
-        selectedMarketRef.current = selectedMarket;
-    }, [selectedMarket]);
 
     useEffect(() => {
         mapErrorsRef.current = content.home.map.errors;
@@ -187,11 +107,8 @@ export function MapSection() {
         applyOverviewCameraRef,
         onGeoJsonReadyRef,
         geoJsonCacheRef,
-        pendingFocusRef,
         focusMarketRef,
         previewMarketRef,
-        selectedMarketIsoRef,
-        selectedMarketRef,
         mapErrorsRef,
         activeIsoRef,
         setMapError,
@@ -199,50 +116,32 @@ export function MapSection() {
     });
 
     return (
-        <section ref={sectionRef} id="map-section" className="overflow-hidden bg-(--brand-paper) px-6 py-32 md:px-12 lg:px-20">
-            <div className="mx-auto flex w-full max-w-[100rem] flex-col gap-0">
-                <div className="map-section map-section__map-shell relative overflow-hidden bg-white lg:min-h-[34rem] xl:min-h-[40rem]">
-                    <div className="pointer-events-none absolute left-1/2 top-1/2 z-1 h-160 w-2xl -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle,rgba(255,255,255,0.75)_0%,rgba(255,255,255,0.2)_34%,rgba(255,255,255,0)_72%)] blur-3xl md:h-200 md:w-225 xl:h-250 xl:w-275" />
-                    <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0)_56%,rgba(255,255,255,0.22)_100%)]" />
-                    <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-32 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0)_100%)]" />
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24 bg-[linear-gradient(0deg,rgba(255,255,255,0.96)_0%,rgba(255,255,255,0)_100%)]" />
-
-                    <div className="pointer-events-none absolute left-6 top-3 z-30 md:left-8 md:top-4">
-                        <h2 className="font-heading text-[1.35rem] leading-[0.94] tracking-[-0.04em] text-(--brand-blue) md:text-[1.6rem]">
-                            {content.home.map.sectionTitle}
-                        </h2>
-                    </div>
-
-                    {!mapError ? (
-                        <MapHud
-                            sectionTitle={content.home.map.sectionTitle}
-                            activeMarket={activeMarket}
-                            activeMarketCopy={activeMarketCopy}
-                            selectedMarket={selectedMarket}
-                            marketsSuffix={content.home.map.marketsSuffix}
-                            resetSelectionLabel={content.home.map.resetSelection}
-                            onResetSelection={() => {
-                                setSelectedMarketIso(null);
-                                focusMarket(null);
-                            }}
-                        />
-                    ) : null}
-
-                    <div className="relative h-[32rem] overflow-hidden sm:h-[36rem] lg:h-[42rem] xl:h-[46rem]">
-                        <div className={`absolute inset-0 transition-opacity duration-500 ${isMapReady ? 'opacity-0' : 'opacity-100'}`}>
-                            <Image
-                                src="/images/wp/home/world-presence.jpg"
-                                alt="Aqua Pharma world presence"
-                                fill
-                                className="object-cover object-center opacity-18 saturate-0"
-                                sizes="(min-width: 1280px) 90vw, 100vw"
-                            />
-                            <div className="absolute inset-0 bg-white/70" />
+        <section ref={sectionRef} id="map-section" className="overflow-hidden bg-white px-6 py-28 md:px-12 lg:px-20">
+            <div className="mx-auto w-full max-w-[100rem]">
+                <div className="mb-10">
+                    <h2 className="font-heading text-[clamp(2.2rem,4vw,4.4rem)] font-light leading-[1.02] text-(--brand-blue)">{snapshot.title}</h2>
+                    <div className="mt-10 grid grid-cols-1 border-y border-(--brand-blue)/15 sm:grid-cols-3">
+                        <div className="flex items-baseline gap-3 py-6 sm:border-r sm:border-(--brand-blue)/15 sm:pr-8">
+                            <strong className="font-heading text-[clamp(2.8rem,5vw,5rem)] font-light leading-none text-(--brand-blue)">40</strong>
+                            <span className="text-[0.92rem] text-(--brand-ink-muted)">{snapshot.employees}</span>
                         </div>
+                        <div className="flex items-baseline gap-3 border-t border-(--brand-blue)/15 py-6 sm:border-r sm:border-t-0 sm:px-8 sm:border-(--brand-blue)/15">
+                            <strong className="font-heading text-[clamp(2.8rem,5vw,5rem)] font-light leading-none text-(--brand-blue)">{COUNTRIES.length}</strong>
+                            <span className="text-[0.92rem] text-(--brand-ink-muted)">{snapshot.countries}</span>
+                        </div>
+                        <div className="flex items-baseline gap-3 border-t border-(--brand-blue)/15 py-6 sm:border-t-0 sm:pl-8">
+                            <strong className="font-heading text-[clamp(2.8rem,5vw,5rem)] font-light leading-none text-(--brand-blue)">50/50</strong>
+                            <span className="text-[0.92rem] leading-snug text-(--brand-ink-muted)">{snapshot.jointVenture}<br />{snapshot.partners}</span>
+                        </div>
+                    </div>
+                    <div className="mt-5 flex gap-5 text-[0.78rem] uppercase text-(--brand-blue)/70"><span className="inline-flex items-center gap-2"><span aria-hidden="true" className="map-species-icon map-species-icon--fish" />{snapshot.fish}</span><span className="inline-flex items-center gap-2"><span aria-hidden="true" className="map-species-icon map-species-icon--shrimp" />{snapshot.shrimp}</span></div>
+                </div>
 
+                <div className="map-section map-section__map-shell relative -mx-6 overflow-hidden bg-white sm:mx-0">
+                    <div className="relative aspect-[1.2/1] min-h-[14rem] overflow-hidden sm:aspect-[1.4/1]">
                         <div
                             ref={mapContainerRef}
-                            className={`absolute inset-0 bg-white transition-opacity duration-500 ${isMapReady ? 'opacity-100' : 'opacity-0'}`}
+                            className={`absolute inset-y-0 left-1/2 w-[90.8%] -translate-x-1/2 bg-white transition-opacity duration-500 sm:left-0 sm:w-full sm:translate-x-0 ${isMapReady ? 'opacity-100' : 'opacity-0'}`}
                         />
 
                         {mapError ? (
@@ -250,49 +149,31 @@ export function MapSection() {
                                 {mapError}
                             </div>
                         ) : null}
-                    </div>
 
-                    {!mapError ? (
-                        <div className="pointer-events-none absolute bottom-6 left-6 z-30 inline-flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-(--brand-glaucous)">
-                            <Globe className="h-3 w-3 text-(--brand-tangerine)" strokeWidth={1.9} />
-                            <span>{content.home.map.dragHint}</span>
-                        </div>
-                    ) : null}
+                        {!mapError && !isMapReady ? (
+                            <div className="absolute inset-0 bg-[linear-gradient(180deg,#fff_0%,#f8fafc_100%)]" />
+                        ) : null}
+                    </div>
                 </div>
 
-                <div className="map-section__panel pointer-events-auto min-h-[25vh] border border-(--brand-border) bg-white/56 backdrop-blur-[2px]">
-                    <ScrollReveal className="p-6 md:p-8 xl:p-10" duration={0.86} yOffset={20} start="top 90%">
-                        <div className="flex h-full flex-col justify-between gap-8">
-                            <div>
-                                <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                                    <div>
-                                        <p className="mb-2 text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-(--brand-glaucous)">
-                                            {content.home.map.coverageLabel}
-                                        </p>
-                                    </div>
-                                </div>
+                <nav className="mt-6 grid grid-cols-2 gap-x-5 sm:hidden" aria-label={snapshot.title}>
+                    {COUNTRIES.map((country) => (
+                        <Link
+                            key={country.iso}
+                            href={country.productHref}
+                            className="map-section__mobile-market flex min-h-12 items-center gap-2 border-b border-(--brand-blue)/15 py-2 text-[0.78rem] font-semibold uppercase text-(--brand-blue)"
+                        >
+                            <span className="inline-flex w-10 shrink-0 items-center" aria-hidden="true">
+                                {country.aquacultureLabel === 'Fish' || country.aquacultureLabel === 'Systems' ? <span className="map-species-icon map-species-icon--fish" /> : null}
+                                {country.aquacultureLabel === 'Shrimp' || country.aquacultureLabel === 'Systems' ? <span className="map-species-icon map-species-icon--shrimp" /> : null}
+                            </span>
+                            <span>{country.name}</span>
+                        </Link>
+                    ))}
+                </nav>
 
-                                <div className="mt-5 flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-(--brand-glaucous)">
-                                    <span className="h-2 w-2 rounded-full bg-(--brand-tangerine)" />
-                                    <span>{content.home.map.operatingMarketsLabel}</span>
-                                </div>
-                            </div>
-
-                            <MarketList
-                                activeCountryIso={activeCountryIso}
-                                selectedMarketIso={selectedMarketIso}
-                                selectedMarket={selectedMarket}
-                                getLocalizedMarket={getLocalizedMarket}
-                                onPreview={previewMarket}
-                                onFocus={focusMarket}
-                            />
-
-                            <div className="mt-6 max-w-[58rem] space-y-3 text-[0.84rem] leading-[1.72] text-(--brand-ink-muted)">
-                                <p>{content.home.map.companySummary}</p>
-                                <p>{content.home.map.parentSummary}</p>
-                            </div>
-                        </div>
-                    </ScrollReveal>
+                <div className="type-body mt-10 max-w-[58rem] text-(--brand-ink-muted)">
+                    <p>{content.home.map.parentSummary}</p>
                 </div>
             </div>
         </section>

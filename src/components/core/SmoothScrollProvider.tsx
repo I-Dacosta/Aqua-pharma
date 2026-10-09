@@ -45,19 +45,37 @@ export function SmoothScrollProvider({
   }, []);
 
   useEffect(() => {
-    const resetScroll = () => {
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-      lenisRef.current?.scrollTo(0, {
+    const syncScrollToLocation = () => {
+      let id = window.location.hash.slice(1);
+      try {
+        id = decodeURIComponent(id);
+      } catch {
+        id = "";
+      }
+      const target = id ? document.getElementById(id) : null;
+
+      if (target) {
+        target.scrollIntoView({ behavior: "instant", block: "start" });
+      } else if (!id) {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      }
+      lenisRef.current?.scrollTo(target ? window.scrollY : 0, {
         immediate: true,
         force: true,
       });
       ScrollTrigger.refresh();
     };
 
-    const frameId = window.requestAnimationFrame(resetScroll);
+    const frameId = window.requestAnimationFrame(syncScrollToLocation);
+    const settledId = window.setTimeout(() => {
+      if (window.location.hash) syncScrollToLocation();
+    }, 200);
+    window.addEventListener("hashchange", syncScrollToLocation);
 
     return () => {
       window.cancelAnimationFrame(frameId);
+      window.clearTimeout(settledId);
+      window.removeEventListener("hashchange", syncScrollToLocation);
     };
   }, [pathname]);
 

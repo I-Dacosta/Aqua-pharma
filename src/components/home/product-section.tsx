@@ -5,91 +5,80 @@ import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { AnimatedArrowLink } from "../ui/AnimatedArrowCta";
-import { SplitTextAnimate } from "../ui/SplitTextAnimate";
+import { WordReveal } from "../ui/WordReveal";
 import { getProducts, type ProductRecord } from "@/data/products";
 import { useProductTransition } from "../core/ProductTransitionProvider";
 import { useSiteLocale } from "@/components/core/SiteLocaleProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function formatSectionIndex(index: number) {
-    return String(index + 1).padStart(2, "0");
-}
-
-function SectionCard({
+/** Nolla-style card: photo fades into a solid base carrying centred copy and a pill CTA. */
+function ChapterCard({
     section,
-    index,
+    isActive,
     enterChapterLabel,
     cardRef,
     imageFrameRef,
-    activeCardIndex,
     onNavigate,
-    onPointerEnter,
-    onPointerLeave,
+    onSelect,
 }: {
     section: ProductRecord;
-    index: number;
+    isActive: boolean;
     enterChapterLabel: string;
-    cardRef: React.RefCallback<HTMLDivElement>;
+    cardRef: React.RefCallback<HTMLElement>;
     imageFrameRef: React.RefCallback<HTMLDivElement>;
-    activeCardIndex: number | null;
     onNavigate: (event: React.MouseEvent<HTMLAnchorElement>) => void;
-    onPointerEnter: () => void;
-    onPointerLeave: () => void;
+    onSelect: () => void;
 }) {
-    const isDimmed = activeCardIndex !== null && activeCardIndex !== index;
-    const isActive = activeCardIndex === index;
+    const base = isActive ? "#14110f" : "#ffffff";
 
     return (
         <article
             ref={cardRef}
-            onMouseEnter={onPointerEnter}
-            onMouseLeave={onPointerLeave}
-            className={`group/product-card premium-dark-card-surface relative cursor-pointer overflow-hidden border p-4 transition-all duration-500 hover:-translate-y-1 hover:scale-[1.015] focus-visible:scale-[1.015] focus-visible:outline-none md:p-5 ${isActive ? "border-white/18 shadow-[0_34px_90px_rgba(38,45,98,0.42)]" : "border-white/8"} ${isDimmed ? "scale-[0.985] opacity-58" : "opacity-100"} ${index === 1 ? "lg:translate-y-20" : ""} ${index === 2 ? "lg:translate-y-8" : ""}`}
+            onMouseEnter={onSelect}
+            onFocus={onSelect}
+            style={{ backgroundColor: base }}
+            className="product-card group/product-card relative flex aspect-[432/580] flex-col justify-end overflow-hidden rounded-[10.37px] ring-1 ring-black/5 transition-[background-color,box-shadow,transform] duration-500 hover:-translate-y-1"
         >
-            <Link href={section.href} onClick={onNavigate} onFocus={onPointerEnter} onBlur={onPointerLeave} className="block">
-                <div ref={imageFrameRef} className="relative h-[20rem] overflow-hidden border border-white/8 bg-white/5 md:h-[24rem] lg:h-[27rem]">
-                    <div className="product-card-media absolute inset-0">
-                        <Image
-                            src={section.image}
-                            alt={section.alt}
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 28vw"
-                            className="object-cover transition-transform duration-[1400ms] ease-out group-hover/product-card:scale-[1.05]"
-                        />
-                    </div>
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,45,98,0)_25%,rgba(38,45,98,0.72)_100%)]" />
-
-                    <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
-                        <p className="text-[0.62rem] font-medium uppercase tracking-[0.32em] text-white/55">
-                            {formatSectionIndex(index)} / {section.homeContext}
-                        </p>
-                        <h3 className="mt-4 font-heading text-[clamp(1.6rem,2.6vw,2.6rem)] font-light leading-[1.02] tracking-[-0.03em] text-white break-words">
-                            {section.title.includes('&') ? (
-                                <>{section.title.split('&')[0].trim()} &<br />{section.title.split('&')[1].trim()}</>
-                            ) : section.title}
-                        </h3>
-                    </div>
+            <div ref={imageFrameRef} className="absolute inset-x-0 top-0 h-[58%] overflow-hidden">
+                <div className="product-card-media absolute inset-0">
+                    <Image
+                        src={section.image}
+                        alt={section.alt}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 32vw"
+                        className="object-cover transition-transform duration-[1400ms] ease-out group-hover/product-card:scale-[1.04]"
+                    />
                 </div>
-            </Link>
+                <div
+                    className="absolute inset-x-0 bottom-0 h-1/2 transition-[background] duration-500"
+                    style={{ background: `linear-gradient(180deg, ${isActive ? "rgba(20,17,15,0)" : "rgba(255,255,255,0)"} 0%, ${base} 100%)` }}
+                />
+            </div>
 
-            <div className="mt-5 border-t border-white/10 pt-5 md:mt-6">
-                <p className="max-w-md text-[0.98rem] font-light leading-[1.8] text-white/70">
+            <div className="relative z-10 flex flex-col items-center px-8 pb-9 text-center">
+                <h3
+                    className={`text-[clamp(1.4rem,1.9vw,1.85rem)] font-normal leading-[1.1] tracking-[-0.02em] transition-colors duration-500 ${isActive ? "text-white" : "text-[rgb(30,34,38)]"}`}
+                >
+                    {section.title}
+                </h3>
+                <p
+                    className={`mt-3 max-w-[18rem] text-[0.95rem] font-light leading-[1.5] transition-colors duration-500 ${isActive ? "text-white/65" : "text-[rgb(30,34,38)]/60"}`}
+                >
                     {section.homeStatement}
                 </p>
-
-                <AnimatedArrowLink
+                <Link
                     href={section.href}
                     onClick={onNavigate}
-                    onFocus={onPointerEnter}
-                    onBlur={onPointerLeave}
-                    className="mt-6 text-[0.68rem] font-medium uppercase tracking-[0.32em] text-(--brand-tangerine)"
-                    motionClassName="group-hover/product-card:translate-x-0 group-focus-visible/product-card:translate-x-0"
                     aria-label={`${section.cta}: ${section.description}`}
+                    className={`mt-6 inline-flex h-11 items-center rounded-full px-6 text-[0.7rem] font-normal uppercase tracking-[0.08em] transition-colors duration-500 ${
+                        isActive
+                            ? "bg-white text-[rgb(20,20,20)] hover:bg-white/85"
+                            : "bg-[rgb(30,34,38)] text-white hover:bg-[rgb(30,34,38)]/85"
+                    }`}
                 >
-                    {enterChapterLabel}
-                </AnimatedArrowLink>
+                    <span>{enterChapterLabel}</span>
+                </Link>
             </div>
         </article>
     );
@@ -100,9 +89,9 @@ export function ProductSection() {
     const products = getProducts(locale);
     const { startProductTransition } = useProductTransition();
     const sectionRef = useRef<HTMLElement>(null);
-    const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+    const cardsRef = useRef<(HTMLElement | null)[]>([]);
     const imageFramesRef = useRef<(HTMLDivElement | null)[]>([]);
-    const [activeCardIndex, setActiveCardIndex] = useState<number | null>(null);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     const handleProductNavigation = (
         event: React.MouseEvent<HTMLAnchorElement>,
@@ -149,7 +138,7 @@ export function ProductSection() {
             return;
         }
 
-        const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
+        const cards = cardsRef.current.filter(Boolean) as HTMLElement[];
         if (cards.length === 0) {
             return;
         }
@@ -159,7 +148,9 @@ export function ProductSection() {
             media.add("(prefers-reduced-motion: reduce)", () => {
                 gsap.set(cards, { opacity: 1, y: 0, filter: "none" });
                 cards.forEach((card) => {
-                    const image = card.querySelector<HTMLElement>(".product-card-media");
+                    const image = card.querySelector<HTMLElement>(
+                        ".product-card-media",
+                    );
 
                     if (image) {
                         gsap.set(image, { clearProps: "transform" });
@@ -184,7 +175,9 @@ export function ProductSection() {
                 });
 
                 cards.forEach((card) => {
-                    const image = card.querySelector<HTMLElement>(".product-card-media");
+                    const image = card.querySelector<HTMLElement>(
+                        ".product-card-media",
+                    );
 
                     if (!image) {
                         return;
@@ -203,7 +196,7 @@ export function ProductSection() {
                                 end: "bottom top",
                                 scrub: true,
                             },
-                        }
+                        },
                     );
                 });
             });
@@ -219,79 +212,38 @@ export function ProductSection() {
         <section
             id="products"
             ref={sectionRef}
-            className="premium-ink-surface relative overflow-hidden px-6 py-24 text-white md:px-12 lg:px-20 lg:py-36"
+            className="relative overflow-hidden bg-white px-6 py-16 text-[rgb(30,34,38)] md:px-12 lg:px-20 lg:py-24"
         >
-            <div className="premium-ink-grid pointer-events-none absolute inset-0 opacity-40" />
+            <div className="mx-auto flex max-w-[100rem] flex-col items-center gap-12">
+                <div className="flex flex-col items-center gap-3 text-center">
+                    <h2 className="sr-only">Choose your treatment category.</h2>
+                    <WordReveal
+                        as="p"
+                        text={content.home.productSection.title}
+                        className="text-[clamp(2.2rem,3.8vw,3.4rem)] font-normal leading-[1.05] tracking-[-0.02em] text-balance text-(--brand-blue)"
+                    />
+                    <p className="max-w-[34rem] text-[1.02rem] font-light leading-[1.5] text-[rgb(30,34,38)]/65">
+                        {content.home.productSection.description}
+                    </p>
+                </div>
 
-            <div className="relative z-10 mx-auto max-w-[100rem]">
-                <div className="grid grid-cols-1 gap-14 lg:grid-cols-[0.78fr_1.22fr] lg:gap-20">
-                    <div className="lg:sticky lg:top-28 lg:self-start">
-                        <p className="mb-8 text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white/45">
-                            {content.home.productSection.kicker}
-                        </p>
-                        <h2 className="sr-only">Choose your treatment category.</h2>
-                        <SplitTextAnimate
-                            text={content.home.productSection.title}
-                            triggerRef={sectionRef}
-                            once
-                            className="font-heading text-[clamp(2rem,4.2vw,4.8rem)] font-light leading-[0.9] tracking-[-0.05em] text-white"
+                <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3 md:gap-8 lg:gap-10">
+                    {products.map((section, index) => (
+                        <ChapterCard
+                            key={section.id}
+                            section={section}
+                            isActive={index === activeIndex}
+                            enterChapterLabel={content.home.productSection.enterChapter}
+                            cardRef={(element) => {
+                                cardsRef.current[index] = element;
+                            }}
+                            imageFrameRef={(element) => {
+                                imageFramesRef.current[index] = element;
+                            }}
+                            onNavigate={(event) => handleProductNavigation(event, section, index)}
+                            onSelect={() => setActiveIndex(index)}
                         />
-
-                        <p className="mt-4 text-[1.05rem] font-light leading-[1.3] text-white/86">
-                            {content.home.productSection.subtitle}
-                        </p>
-
-                        <p className="mt-6 max-w-xl text-[1.0rem] font-light leading-[1.9] text-white/68 md:text-[1.06rem]">
-                            {content.home.productSection.description}
-                        </p>
-
-                        {/* feature badges intentionally removed per request */}
-
-                        <div className="mt-8 hidden max-w-xl items-center gap-4 border-t border-white/10 pt-5 lg:flex">
-                            {products.map((product, index) => {
-                                const isActive = activeCardIndex === index;
-
-                                return (
-                                    <button
-                                        key={product.id}
-                                        type="button"
-                                        onMouseEnter={() => setActiveCardIndex(index)}
-                                        onFocus={() => setActiveCardIndex(index)}
-                                        onMouseLeave={() => setActiveCardIndex(null)}
-                                        onBlur={() => setActiveCardIndex(null)}
-                                        onClick={() => cardsRef.current[index]?.scrollIntoView({ behavior: "smooth", block: "center" })}
-                                        className={`flex items-center gap-3 text-left text-[0.66rem] font-medium uppercase tracking-[0.24em] transition-colors ${isActive ? "text-white" : "text-white/42 hover:text-white/72"}`}
-                                    >
-                                        <span className={`block h-px transition-all ${isActive ? "w-12 bg-(--brand-tangerine)" : "w-6 bg-white/18"}`} />
-                                        <span>{formatSectionIndex(index)}</span>
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-5 xl:gap-7">
-                        {products.map((section, index) => (
-                            <SectionCard
-                                key={section.id}
-                                section={section}
-                                index={index}
-                                enterChapterLabel={content.home.productSection.enterChapter}
-                                cardRef={(element) => {
-                                    cardsRef.current[index] = element;
-                                }}
-                                imageFrameRef={(element) => {
-                                    imageFramesRef.current[index] = element;
-                                }}
-                                activeCardIndex={activeCardIndex}
-                                onNavigate={(event) => {
-                                    handleProductNavigation(event, section, index);
-                                }}
-                                onPointerEnter={() => setActiveCardIndex(index)}
-                                onPointerLeave={() => setActiveCardIndex(null)}
-                            />
-                        ))}
-                    </div>
+                    ))}
                 </div>
             </div>
         </section>

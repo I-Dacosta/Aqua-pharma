@@ -113,11 +113,11 @@ export function ProductHeroSection({ product }: ProductHeroSectionProps) {
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(109,198,224,0.16)_0%,rgba(109,198,224,0)_24%),linear-gradient(90deg,rgba(247,243,234,0.05)_0%,rgba(247,243,234,0)_30%)]" />
 
-      <div className="relative mx-auto flex min-h-screen w-full max-w-400 items-end px-8 pb-14 pt-32 md:px-12 md:pb-18 lg:px-16 lg:pb-20">
+      <div className="relative mx-auto flex min-h-screen w-full max-w-400 items-end px-6 pb-14 pt-32 md:px-12 md:pb-18 lg:px-20 lg:pb-20">
         <div className="max-w-[72rem]">
           <p
             ref={eyebrowRef}
-            className="text-[0.76rem] font-semibold uppercase tracking-[0.24em] text-white/70"
+            className="text-[0.875rem] font-semibold uppercase text-white/80"
           >
             {product.eyebrow}
           </p>

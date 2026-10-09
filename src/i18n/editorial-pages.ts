@@ -96,7 +96,7 @@ const english: EditorialPagesContent = {
   about: {
     metadata: {
       title: "About Us | Aqua Pharma",
-      description: "Learn about Aqua Pharma's mission, values, and 50+ years of innovation in aquaculture",
+      description: "Learn about Aqua Pharma's mission, people, and global presence in aquaculture",
     },
     hero: {
       kicker: "About Aqua Pharma",
@@ -107,14 +107,14 @@ const english: EditorialPagesContent = {
     company: {
       kicker: "Who We Are",
       title: "A science-led company shaped by the sea.",
-      bodyPrimary: "Aqua Pharma is a leading veterinary services provider for the aquaculture industry. We design and develop solutions for fish and shrimp health globally. We operate in 9 countries — Australia, Belgium, Canada, Chile, Ecuador, Indonesia, Norway, Scotland and the USA — with around 50 employees across the world.",
+      bodyPrimary: "Founded in Norway in 2009, Aqua Pharma develops health concepts for fish and shrimp farming. We operate in 9 countries — Australia, Belgium, Canada, Chile, Ecuador, Greece, Indonesia, Norway and Scotland — with 40 employees worldwide. Aqua Pharma is a 50/50 joint venture between Solvay and Aquatiq.",
       bodySecondary: "The main market for Aqua Pharma is salmon farming, but we also develop treatment solutions for other species: shrimp, kingfish, trout, seabass, and seabream. Aqua Pharma Group is structurally backed by two innovative parent companies — Solvay (a global leader in sustainable materials and solutions) and Aquatiq (a Norwegian reference in Food Safety).",
     },
     stats: [
+      { stat: "40", label: "Employees" },
       { stat: "9", label: "Countries" },
-      { stat: "50+", label: "Experts" },
-      { stat: "50+", label: "Years" },
-      { stat: "30+", label: "Dosing Systems" },
+      { stat: "50/50", label: "Joint venture" },
+      { stat: "2009", label: "Founded" },
     ],
     values: {
       kicker: "Our Values",
@@ -336,14 +336,14 @@ const spanish: EditorialPagesContent = {
     company: {
       kicker: "Quiénes somos",
       title: "Una empresa guiada por la ciencia y moldeada por el mar.",
-      bodyPrimary: "Aqua Pharma es un proveedor líder de servicios veterinarios para la industria acuícola. Diseñamos y desarrollamos soluciones para la salud de peces y camarones a nivel global. Operamos en 9 países — Australia, Bélgica, Canadá, Chile, Ecuador, Indonesia, Noruega, Escocia y EE. UU. — con alrededor de 50 colaboradores en todo el mundo.",
+      bodyPrimary: "Fundada en Noruega en 2009, Aqua Pharma desarrolla conceptos de salud para la acuicultura de peces y camarones. Operamos en 9 países — Australia, Bélgica, Canadá, Chile, Ecuador, Grecia, Indonesia, Noruega y Escocia — con 40 empleados en todo el mundo. Aqua Pharma es una empresa conjunta al 50/50 entre Solvay y Aquatiq.",
       bodySecondary: "El mercado principal de Aqua Pharma es la salmonicultura, pero también desarrollamos soluciones de tratamiento para otras especies: camarón, seriola, trucha, lubina y dorada. Aqua Pharma Group cuenta con el respaldo estructural de dos empresas matrices innovadoras: Solvay (líder global en materiales y soluciones sostenibles) y Aquatiq (referente noruego en seguridad alimentaria).",
     },
     stats: [
+      { stat: "40", label: "Empleados" },
       { stat: "9", label: "Países" },
-      { stat: "50+", label: "Expertos" },
-      { stat: "50+", label: "Años" },
-      { stat: "30+", label: "Sistemas de dosificación" },
+      { stat: "50/50", label: "Empresa conjunta" },
+      { stat: "2009", label: "Fundación" },
     ],
     values: {
       kicker: "Nuestros valores",
@@ -569,14 +569,14 @@ const norwegian: EditorialPagesContent = {
     company: {
       kicker: "Hvem vi er",
       title: "Et vitenskapsdrevet selskap formet av havet.",
-      bodyPrimary: "Aqua Pharma er en ledende leverandør av veterinærtjenester til akvakulturnæringen. Vi designer og utvikler løsninger for fiske- og rekehelse globalt. Vi opererer i 9 land — Australia, Belgia, Canada, Chile, Ecuador, Indonesia, Norge, Skottland og USA — med rundt 50 ansatte verden over.",
+      bodyPrimary: "Aqua Pharma ble grunnlagt i Norge i 2009 og utvikler helsekonsepter for fiske- og rekeoppdrett. Vi opererer i 9 land — Australia, Belgia, Canada, Chile, Ecuador, Hellas, Indonesia, Norge og Skottland — med 40 ansatte verden over. Aqua Pharma er et 50/50 fellesforetak mellom Solvay og Aquatiq.",
       bodySecondary: "Hovedmarkedet for Aqua Pharma er lakseoppdrett, men vi utvikler også behandlingsløsninger for andre arter: reker, kingfish, ørret, havabbor og havbrasme. Aqua Pharma Group er strukturelt støttet av to innovative morselskaper — Solvay (en global leder innen bærekraftige materialer og løsninger) og Aquatiq (en norsk referanse innen mattrygghet).",
     },
     stats: [
+      { stat: "40", label: "Ansatte" },
       { stat: "9", label: "Land" },
-      { stat: "50+", label: "Eksperter" },
-      { stat: "50+", label: "År" },
-      { stat: "30+", label: "Doseringssystemer" },
+      { stat: "50/50", label: "Fellesforetak" },
+      { stat: "2009", label: "Grunnlagt" },
     ],
     values: {
       kicker: "Våre verdier",

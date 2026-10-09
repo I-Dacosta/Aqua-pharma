@@ -1,45 +1,80 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { LanguageSwitcher } from "@/components/core/LanguageSwitcher";
 import { MobileMenu } from "@/components/core/MobileMenu";
-import { useNavbarLogoMorph } from "@/components/core/useNavbarLogoMorph";
+import { EDGE_WIDE } from "@/lib/edge-wide";
 import { useSiteLocale } from "@/components/core/SiteLocaleProvider";
+import { AquaPharmaCircleMark } from "@/components/ui/AquaPharmaCircleMark";
+import { AquaPharmaWordmark } from "@/components/ui/AquaPharmaWordmark";
+import { NavDropdownPanel } from "@/components/core/NavDropdownPanel";
+import type { NavigationSection } from "@/i18n/site-content";
+
+function PrimaryNavigation({
+    sections,
+    activeKey,
+    onActivate,
+}: {
+    sections: NavigationSection[];
+    activeKey: string | null;
+    onActivate: (key: string) => void;
+}) {
+    return (
+        <div className="hidden flex-1 items-center justify-end pl-8 pr-10 xl:flex">
+            <div className="flex items-center gap-1 text-current" aria-label="Primary navigation">
+                {sections.map((section) => (
+                    <Link
+                        key={section.key}
+                        href={section.href}
+                        onMouseEnter={() => onActivate(section.key)}
+                        onFocus={() => onActivate(section.key)}
+                        aria-expanded={activeKey === section.key}
+                        className={`inline-flex min-h-10 items-center whitespace-nowrap rounded-full px-4 text-[0.975rem] font-light leading-none tracking-[0.06em] transition-[background-color,color,opacity] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current ${activeKey === section.key ? "bg-(--brand-blue) text-white" : activeKey ? "opacity-55" : ""}`}
+                    >
+                        {section.title}
+                    </Link>
+                ))}
+            </div>
+        </div>
+    );
+}
 
 export function Navbar() {
     const { content } = useSiteLocale();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const navInnerRef = useRef<HTMLDivElement>(null);
-    const logoWrapRef = useRef<HTMLDivElement>(null);
+    const [activeKey, setActiveKey] = useState<string | null>(null);
+    const [shownKey, setShownKey] = useState<string | null>(null);
     const mobileMenuRef = useRef<HTMLDivElement>(null);
-    const burgerButtonRef = useRef<HTMLButtonElement>(null);
     const burgerTopRef = useRef<HTMLSpanElement>(null);
     const burgerMiddleRef = useRef<HTMLSpanElement>(null);
     const burgerBottomRef = useRef<HTMLSpanElement>(null);
 
-    const syncBurgerButtonToNavState = () => {
-        const burgerButton = burgerButtonRef.current;
-        const navInner = navInnerRef.current;
+    const activateSection = (key: string) => {
+        cancelClose();
+        setActiveKey(key);
+        setShownKey(key);
+    };
 
-        if (!burgerButton || !navInner) {
-            return;
+    const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const cancelClose = () => {
+        if (closeTimer.current) {
+            clearTimeout(closeTimer.current);
+            closeTimer.current = null;
         }
+    };
 
-        const currentColor = window.getComputedStyle(navInner).color;
-        const isLightNav = currentColor.includes("255");
+    const closeDropdown = () => {
+        cancelClose();
+        setActiveKey(null);
+    };
 
-        gsap.to(burgerButton, {
-            duration: 0.24,
-            color: isLightNav ? "#ffffff" : "var(--brand-blue)",
-            backgroundColor: isLightNav ? "transparent" : "rgba(255,255,255,0.96)",
-            borderColor: isLightNav ? "rgba(255,255,255,0.18)" : "rgba(38,45,98,0.12)",
-            boxShadow: isLightNav ? "none" : "0 14px 32px rgba(38,45,98,0.12)",
-            ease: "power3.out",
-        });
+    const scheduleClose = () => {
+        cancelClose();
+        closeTimer.current = setTimeout(() => setActiveKey(null), 120);
     };
 
     const closeMobileMenu = () => {
@@ -54,10 +89,8 @@ export function Navbar() {
         };
     }, [mobileMenuOpen]);
 
-    useNavbarLogoMorph({ navInnerRef, logoWrapRef, burgerButtonRef });
-
     useGSAP(() => {
-        if (!mobileMenuRef.current || !burgerButtonRef.current || !burgerTopRef.current || !burgerMiddleRef.current || !burgerBottomRef.current) {
+        if (!mobileMenuRef.current || !burgerTopRef.current || !burgerMiddleRef.current || !burgerBottomRef.current) {
             return;
         }
 
@@ -68,15 +101,9 @@ export function Navbar() {
 
             timeline
                 .to(mobileMenuRef.current, { autoAlpha: 1, x: 0 }, 0)
-                .to(burgerButtonRef.current, {
-                    color: "var(--brand-blue)",
-                    backgroundColor: "rgba(255,255,255,0.96)",
-                    borderColor: "rgba(38,45,98,0.12)",
-                    boxShadow: "0 14px 32px rgba(38,45,98,0.12)",
-                }, 0)
-                .to(burgerTopRef.current, { rotate: 45, y: 7 }, 0)
+                .to(burgerTopRef.current, { rotate: 45, y: 5.5 }, 0)
                 .to(burgerMiddleRef.current, { autoAlpha: 0, scaleX: 0.4 }, 0)
-                .to(burgerBottomRef.current, { rotate: -45, y: -7 }, 0);
+                .to(burgerBottomRef.current, { rotate: -45, y: -5.5 }, 0);
 
             return;
         }
@@ -90,59 +117,80 @@ export function Navbar() {
                 x: "100%",
                 onComplete: () => {
                     gsap.set(mobileMenuRef.current, { pointerEvents: "none" });
-                    syncBurgerButtonToNavState();
                 }
             }, 0);
     }, { dependencies: [mobileMenuOpen] });
 
     return (
         <>
-            <nav className="fixed inset-x-0 top-0 z-50 px-4 py-4 md:px-8 md:py-6">
+            <nav
+                className="fixed inset-x-0 top-0 z-50 bg-white px-6 py-3 md:px-12 md:py-4 lg:px-20"
+                onMouseLeave={scheduleClose}
+                onMouseEnter={cancelClose}
+            >
                 <div
-                    ref={navInnerRef}
-                    className="flex w-full items-center justify-between px-[1%] py-0 text-white"
+                    className={`${EDGE_WIDE} flex items-center justify-between py-0 text-(--brand-blue)`}
                 >
-                    <div ref={logoWrapRef} className="flex items-center">
-                        <Link href="/" aria-label="Aqua Pharma" className="block">
-                            <Image
-                                src="/Aqua-Pharma-white.svg"
-                                alt="Aqua Pharma"
-                                width={140}
-                                height={44}
-                                priority
-                                className="h-8 w-auto md:h-10"
-                            />
+                    <div className="flex min-w-0 items-center" onMouseEnter={closeDropdown}>
+                        <Link
+                            href="/"
+                            aria-label="Aqua Pharma"
+                            className="nav-logo-lockup relative block shrink-0 overflow-visible text-current"
+                            onClick={closeDropdown}
+                        >
+                            <span className="nav-logo-wordmark pointer-events-none absolute block">
+                                <AquaPharmaWordmark className="h-full w-full" />
+                            </span>
+                            <span className="nav-corner-mark pointer-events-none absolute block text-current">
+                                <AquaPharmaCircleMark className="h-full w-full" />
+                            </span>
                         </Link>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                        <LanguageSwitcher className="hidden md:block" tone={mobileMenuOpen ? "panel" : "overlay"} />
+                    {mobileMenuOpen ? (
+                        <div className="hidden flex-1 xl:block" aria-hidden="true" />
+                    ) : (
+                        <PrimaryNavigation sections={content.nav.sections} activeKey={activeKey} onActivate={activateSection} />
+                    )}
+
+                    <div className="flex items-center gap-4" onMouseEnter={closeDropdown}>
+                        <LanguageSwitcher className="hidden md:block" tone="overlay" />
                         <button
-                            ref={burgerButtonRef}
                             type="button"
-                            className="group flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-transparent text-current transition-[background-color,border-color,box-shadow,color] duration-300"
-                            onClick={() => setMobileMenuOpen((open) => !open)}
+                            className="group flex h-8 w-8 shrink-0 items-center justify-center bg-transparent text-current"
+                            onClick={() => {
+                                closeDropdown();
+                                setMobileMenuOpen((open) => !open);
+                            }}
                             aria-expanded={mobileMenuOpen}
-                            aria-label="Toggle navigation"
+                            aria-label={mobileMenuOpen ? content.nav.closeLabel : content.nav.menuLabel}
                         >
-                            <span className="sr-only">Open navigation</span>
-                            <span className="flex w-7 flex-col gap-1.5">
-                                <span ref={burgerTopRef} className="block h-px w-full origin-center bg-current" />
-                                <span ref={burgerMiddleRef} className="block h-px w-full origin-center bg-current" />
-                                <span ref={burgerBottomRef} className="block h-px w-full origin-center bg-current" />
+                            <span
+                                className={`flex h-8 w-8 items-center justify-center transition-[background-color,color,border-radius] duration-300 ${mobileMenuOpen ? "rounded-[6px] bg-(--brand-cyan-light) text-(--brand-blue)" : "rounded-full bg-(--brand-blue)/85 text-white group-hover:bg-(--brand-blue)"}`}
+                            >
+                                <span className="flex w-[13px] flex-col gap-[3.5px]">
+                                    <span ref={burgerTopRef} className="block h-[1.5px] w-full origin-center rounded-full bg-current" />
+                                    <span ref={burgerMiddleRef} className="block h-[1.5px] w-full origin-center rounded-full bg-current" />
+                                    <span ref={burgerBottomRef} className="block h-[1.5px] w-full origin-center rounded-full bg-current" />
+                                </span>
                             </span>
                         </button>
                     </div>
                 </div>
+
+                <NavDropdownPanel
+                    section={content.nav.sections.find((section) => section.key === shownKey)}
+                    open={activeKey !== null && !mobileMenuOpen}
+                    onNavigate={closeDropdown}
+                />
             </nav>
 
             <MobileMenu
                 overlayRef={mobileMenuRef}
                 onClose={closeMobileMenu}
-                intro={content.nav.intro}
-                description={content.nav.description}
-                contactLabel={content.nav.contactLabel}
-                links={content.nav.links}
+                menuLabel={content.nav.menuLabel}
+                closeLabel={content.nav.closeLabel}
+                sections={content.nav.sections}
             />
         </>
     );

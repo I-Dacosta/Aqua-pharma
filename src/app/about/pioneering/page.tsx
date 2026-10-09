@@ -86,10 +86,10 @@ export default async function PioneeringPage() {
               >
                 {/* Year + label */}
                 <div>
-                  <span className="font-heading text-[0.78rem] font-light tabular-nums text-(--brand-blue)/30">
+                  <span className="font-heading text-[0.875rem] font-light tabular-nums text-(--brand-blue)/75">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <p className="mt-1 font-heading text-[1rem] font-light text-(--brand-blue)/60">
+                  <p className="mt-1 font-heading text-[1rem] font-light text-(--brand-blue)/80">
                     {ch.year}
                   </p>
                   <p className="mt-1 text-[0.72rem] font-medium uppercase tracking-[0.2em] text-(--brand-glaucous)">
@@ -147,7 +147,7 @@ export default async function PioneeringPage() {
             {page.outcomes.items.map(({ title, body }) => (
               <div key={title} className="bg-(--brand-paper) p-10 md:p-14">
                 <p className="font-heading text-[1.15rem] font-light text-(--brand-blue)">{title}</p>
-                <div className="my-5 h-px w-10 bg-(--brand-tangerine)/60" />
+                <div className="my-5 h-px w-10 bg-(--brand-cyan)/60" />
                 <p className="text-[1.15rem] font-light leading-[1.85] text-(--brand-dark)/70">{body}</p>
               </div>
             ))}
@@ -159,7 +159,7 @@ export default async function PioneeringPage() {
       <section className="bg-(--brand-blue) px-6 py-24 md:px-12 md:py-32 lg:px-20">
         <ScrollReveal className="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-[1fr_1fr] lg:gap-24" duration={0.92} start="top 90%" yOffset={24}>
           <div>
-            <p className="text-[0.65rem] font-medium uppercase tracking-[0.35em] text-white/50">
+            <p className="text-[0.875rem] font-medium uppercase text-white/75">
               {page.forward.kicker}
             </p>
             <h2 className="mt-6 font-heading text-[clamp(3.5rem,8vw,8rem)] font-light leading-[1.05] text-white">
@@ -173,13 +173,13 @@ export default async function PioneeringPage() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/about"
-                className="border border-white/20 px-7 py-3.5 text-[0.8rem] font-medium uppercase tracking-[0.15em] text-white transition-colors hover:bg-white hover:text-(--brand-blue)"
+                className="brand-button brand-button--on-dark"
               >
                 {page.forward.aboutCta}
               </Link>
               <Link
                 href="/about/team"
-                className="text-[0.8rem] font-medium uppercase tracking-[0.15em] text-white/55 transition-colors hover:text-white"
+                className="inline-flex min-h-11 items-center border-b-2 border-(--brand-mint) text-[0.875rem] font-semibold text-white transition-colors hover:text-(--brand-mint)"
               >
                 {page.forward.teamCta}
               </Link>

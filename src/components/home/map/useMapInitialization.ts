@@ -1,5 +1,5 @@
 import { useEffect, type RefObject } from 'react';
-import maplibregl from 'maplibre-gl';
+import * as maplibregl from 'maplibre-gl';
 import {
     ACTIVE_FILL,
     BASE_BACKGROUND,
@@ -28,7 +28,6 @@ import {
     buildActiveCountryFilter,
     buildCountryFilter,
     buildExcludedCountryFilter,
-    getOverviewPadding,
     getOverviewZoom
 } from './mapHelpers';
 
@@ -49,11 +48,8 @@ type UseMapInitializationParams = {
     applyOverviewCameraRef: RefObject<((animate: boolean) => void) | null>;
     onGeoJsonReadyRef: RefObject<((data: GeoJSON.FeatureCollection) => void) | null>;
     geoJsonCacheRef: RefObject<GeoJSON.FeatureCollection | null>;
-    pendingFocusRef: RefObject<{ country: CountryItem; openModal: boolean } | null>;
     focusMarketRef: RefObject<FocusFn | null>;
     previewMarketRef: RefObject<PreviewFn | null>;
-    selectedMarketIsoRef: RefObject<string | null>;
-    selectedMarketRef: RefObject<CountryItem | null>;
     mapErrorsRef: RefObject<MapErrors>;
     activeIsoRef: RefObject<string | null>;
     setMapError: (value: string | null) => void;
@@ -67,11 +63,8 @@ export function useMapInitialization(params: UseMapInitializationParams) {
         applyOverviewCameraRef,
         onGeoJsonReadyRef,
         geoJsonCacheRef,
-        pendingFocusRef,
         focusMarketRef,
         previewMarketRef,
-        selectedMarketIsoRef,
-        selectedMarketRef,
         mapErrorsRef,
         activeIsoRef,
         setMapError,
@@ -88,7 +81,10 @@ export function useMapInitialization(params: UseMapInitializationParams) {
         const initialZoom = getOverviewZoom(container);
 
         if (!browserSupportsWebGL()) {
-            return;
+            queueMicrotask(() => {
+                if (!isDisposed) setMapError(mapErrorsRef.current.unsupportedBrowser);
+            });
+            return () => { isDisposed = true; };
         }
 
         let map: maplibregl.Map;
@@ -105,7 +101,7 @@ export function useMapInitialization(params: UseMapInitializationParams) {
                 dragRotate: false,
                 pitchWithRotate: false,
                 renderWorldCopies: false,
-                minZoom: 0.8,
+                minZoom: -2,
                 maxZoom: 5.4
             });
         } catch {
@@ -118,14 +114,17 @@ export function useMapInitialization(params: UseMapInitializationParams) {
         }
 
         mapRef.current = map;
+        // Keep the initial camera flat even if MapLibre restores a previous view.
+        map.setPitch(0);
+        map.setBearing(0);
 
-        map.dragPan.enable();
+        map.dragPan.disable();
         map.dragRotate.disable();
         map.scrollZoom.disable();
         map.boxZoom.disable();
         map.doubleClickZoom.disable();
         map.keyboard.disable();
-        map.touchZoomRotate.disableRotation();
+        map.touchZoomRotate.disable();
 
         const applyOverviewCamera = (animate: boolean) => {
             const overviewContainer = mapContainerRef.current;
@@ -139,14 +138,13 @@ export function useMapInitialization(params: UseMapInitializationParams) {
                 zoom: getOverviewZoom(overviewContainer),
                 pitch: OVERVIEW_PITCH,
                 bearing: OVERVIEW_BEARING,
-                padding: getOverviewPadding(overviewContainer),
                 essential: true
             } as const;
 
             if (animate) {
                 map.easeTo({
                     ...cameraOptions,
-                    duration: 1500,
+                    duration: 860,
                     easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
                 });
 
@@ -159,6 +157,12 @@ export function useMapInitialization(params: UseMapInitializationParams) {
         applyOverviewCameraRef.current = applyOverviewCamera;
 
         let handleMapClick: ((e: maplibregl.MapMouseEvent) => void) | null = null;
+        let countryMarkers: maplibregl.Marker[] = [];
+
+        const clearCountryMarkers = () => {
+            countryMarkers.forEach((marker) => marker.remove());
+            countryMarkers = [];
+        };
 
         const applyGeoJsonToMap = (data: GeoJSON.FeatureCollection) => {
             if (isDisposed || !mapRef.current) return;
@@ -236,7 +240,7 @@ export function useMapInitialization(params: UseMapInitializationParams) {
                     filter: countryFilter,
                     paint: {
                         'fill-color': MARKET_FILL,
-                        'fill-opacity': 0.96
+                        'fill-opacity': 0.68
                     }
                 } as unknown as MapLayerDefinition;
 
@@ -267,7 +271,7 @@ export function useMapInitialization(params: UseMapInitializationParams) {
                     filter: buildActiveCountryFilter(activeIsoRef.current),
                     paint: {
                         'fill-color': ACTIVE_FILL,
-                        'fill-opacity': 0.96
+                        'fill-opacity': 0.68
                     }
                 } as unknown as MapLayerDefinition;
 
@@ -336,8 +340,67 @@ export function useMapInitialization(params: UseMapInitializationParams) {
                 if (hoverState.iso !== null) {
                     hoverState.iso = null;
                     map.getCanvas().style.cursor = '';
-                    previewMarketRef.current?.(selectedMarketRef.current);
+                    previewMarketRef.current?.(null);
                 }
+            });
+
+            clearCountryMarkers();
+            COUNTRIES.forEach((country) => {
+                const markerLabelAlign = country.markerLabelAlign ?? 'right';
+                const markerElement = document.createElement('button');
+                markerElement.type = 'button';
+                markerElement.className = `map-section__country-marker map-section__country-marker--${markerLabelAlign} map-section__country-marker--${country.iso.toLowerCase()}`;
+                markerElement.setAttribute('aria-label', `${country.name}: ${country.aquacultureLabel}`);
+
+                const symbolElement = document.createElement('span');
+                symbolElement.className = 'map-section__country-marker-symbol';
+                symbolElement.setAttribute('aria-hidden', 'true');
+
+                const species = country.aquacultureLabel === 'Fish'
+                    ? ['fish']
+                    : country.aquacultureLabel === 'Shrimp'
+                        ? ['shrimp']
+                        : ['fish', 'shrimp'];
+
+                if (species.length > 1) {
+                    symbolElement.classList.add('map-section__country-marker-symbol--mixed');
+                }
+
+                species.forEach((name) => {
+                    const icon = document.createElement('span');
+                    icon.className = `map-species-icon map-species-icon--${name}`;
+                    symbolElement.append(icon);
+                });
+
+                const copyElement = document.createElement('span');
+                copyElement.className = 'map-section__country-marker-copy';
+
+                const nameElement = document.createElement('span');
+                nameElement.className = 'map-section__country-marker-name';
+                nameElement.textContent = country.name;
+
+                const typeElement = document.createElement('span');
+                typeElement.className = 'map-section__country-marker-type';
+                typeElement.textContent = country.aquacultureLabel;
+
+                copyElement.append(nameElement, typeElement);
+                markerElement.append(symbolElement, copyElement);
+
+                markerElement.addEventListener('mouseenter', () => previewMarketRef.current?.(country));
+                markerElement.addEventListener('mouseleave', () => previewMarketRef.current?.(null));
+                markerElement.addEventListener('focus', () => previewMarketRef.current?.(country));
+                markerElement.addEventListener('blur', () => previewMarketRef.current?.(null));
+                markerElement.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    focusMarketRef.current?.(country, { openModal: true });
+                });
+
+                const marker = new maplibregl.Marker({ element: markerElement, anchor: 'center' })
+                    .setLngLat(country.markerCoordinates)
+                    .addTo(map);
+
+                countryMarkers.push(marker);
             });
 
             handleMapClick = (e) => {
@@ -348,9 +411,7 @@ export function useMapInitialization(params: UseMapInitializationParams) {
                     return;
                 }
                 if (features.length > 0) return;
-                if (!selectedMarketIsoRef.current) return;
-                const focus = focusMarketRef.current;
-                if (focus) focus(null);
+                previewMarketRef.current?.(null);
             };
 
             map.on('click', handleMapClick);
@@ -359,15 +420,6 @@ export function useMapInitialization(params: UseMapInitializationParams) {
                 setMapError(null);
                 setIsMapReady(true);
 
-                const pending = pendingFocusRef.current;
-                if (pending) {
-                    pendingFocusRef.current = null;
-                    setTimeout(() => {
-                        if (!isDisposed && mapRef.current) {
-                            focusMarketRef.current?.(pending.country, { openModal: pending.openModal });
-                        }
-                    }, 400);
-                }
             }
         };
 
@@ -419,7 +471,7 @@ export function useMapInitialization(params: UseMapInitializationParams) {
                 }
             });
 
-            [
+            ([
                 ['countries', 'fill-color', BASE_FILL],
                 ['countries', 'fill-outline-color', BASE_LINE],
                 ['countries-fill', 'fill-color', BASE_FILL],
@@ -427,7 +479,7 @@ export function useMapInitialization(params: UseMapInitializationParams) {
                 ['coastline', 'line-color', '#ffffff'],
                 ['geolines', 'line-color', 'rgba(38,45,98,0.12)'],
                 ['crimea-fill', 'fill-color', BASE_FILL]
-            ].forEach(([layerId, property, value]) => {
+            ] as const).forEach(([layerId, property, value]) => {
                 if (map.getLayer(layerId)) {
                     try {
                         map.setPaintProperty(layerId, property, value);
@@ -459,6 +511,19 @@ export function useMapInitialization(params: UseMapInitializationParams) {
             applyOverviewCamera(false);
         };
 
+        const resizeObserver = typeof ResizeObserver !== 'undefined'
+            ? new ResizeObserver(() => {
+                if (!mapRef.current || !mapContainerRef.current) {
+                    return;
+                }
+
+                map.resize();
+                applyOverviewCamera(false);
+            })
+            : null;
+
+        resizeObserver?.observe(container);
+
         window.addEventListener('resize', handleResize);
 
         map.on('error', (event) => {
@@ -475,8 +540,10 @@ export function useMapInitialization(params: UseMapInitializationParams) {
         return () => {
             isDisposed = true;
             onGeoJsonReadyRef.current = null;
+            resizeObserver?.disconnect();
             window.removeEventListener('resize', handleResize);
             applyOverviewCameraRef.current = null;
+            clearCountryMarkers();
             try {
                 if (handleMapClick) {
                     map.off('click', handleMapClick);
@@ -493,11 +560,8 @@ export function useMapInitialization(params: UseMapInitializationParams) {
         applyOverviewCameraRef,
         onGeoJsonReadyRef,
         geoJsonCacheRef,
-        pendingFocusRef,
         focusMarketRef,
         previewMarketRef,
-        selectedMarketIsoRef,
-        selectedMarketRef,
         mapErrorsRef,
         activeIsoRef,
         setMapError,

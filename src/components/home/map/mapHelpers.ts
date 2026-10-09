@@ -30,17 +30,8 @@ export function browserSupportsWebGL() {
 }
 
 export function getOverviewZoom(container: HTMLDivElement) {
-    const aspectRatio = container.offsetWidth / Math.max(container.offsetHeight, 1);
-
-    if (aspectRatio > 2.2) {
-        return 1.12;
-    }
-
-    if (aspectRatio > 1.55) {
-        return 1.2;
-    }
-
-    return 1.08;
+    // One nonrepeating world is the smallest view MapLibre permits across the canvas.
+    return Math.log2(Math.max(container.offsetWidth, 1) / 512);
 }
 
 export function getOverviewPadding(container: HTMLDivElement) {

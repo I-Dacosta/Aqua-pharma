@@ -51,10 +51,10 @@ export function ProductIntroSection({ product }: ProductIntroSectionProps) {
       ref={sectionRef}
       className="w-full overflow-hidden bg-(--brand-paper-mist) py-24 text-(--brand-dark) lg:py-32"
     >
-      <div className="product-intro-trigger px-8 md:px-12 lg:px-16">
+      <div className="product-intro-trigger px-6 md:px-12 lg:px-20">
         <ScrollReveal duration={0.78} yOffset={16} start="top 92%">
           <div className="mx-auto grid w-full max-w-400 grid-cols-1 gap-y-6 gap-x-8 border-b border-(--brand-blue)/8 pb-12 md:grid-cols-[12rem_minmax(0,1fr)] md:pb-14">
-            <div className="whitespace-nowrap pt-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-(--brand-blue)/52">
+            <div className="whitespace-nowrap pt-1 text-[0.875rem] font-semibold uppercase text-(--brand-blue)/80">
               {content.productsUi.introLabel}
             </div>
 
@@ -66,7 +66,7 @@ export function ProductIntroSection({ product }: ProductIntroSectionProps) {
       </div>
 
       <div
-        className="mx-auto mt-12 grid w-full max-w-400 grid-cols-1 items-start gap-12 px-8 md:mt-16 md:grid-cols-[minmax(0,1fr)_minmax(19rem,0.56fr)] md:px-12 lg:px-16"
+        className="mx-auto mt-12 grid w-full max-w-400 grid-cols-1 items-start gap-12 px-6 md:mt-16 md:grid-cols-[minmax(0,1fr)_minmax(19rem,0.56fr)] md:px-12 lg:px-20"
         style={{ columnGap: "11%" }}
       >
         <ScrollReveal duration={0.82} yOffset={18} start="top 92%">
@@ -80,7 +80,7 @@ export function ProductIntroSection({ product }: ProductIntroSectionProps) {
               className="product-intro-media-img h-[58vh] w-full object-cover object-center md:h-[72vh]"
             />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,45,98,0.08)_0%,rgba(38,45,98,0.42)_100%)]" />
-            <p className="absolute left-6 top-6 z-10 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-white/70 md:left-8 md:top-8">
+            <p className="absolute left-6 top-6 z-10 text-[0.875rem] font-medium uppercase text-white/80 md:left-8 md:top-8">
               {product.eyebrow}
             </p>
           </div>
@@ -89,7 +89,7 @@ export function ProductIntroSection({ product }: ProductIntroSectionProps) {
         <div className="flex flex-col justify-between gap-10 md:pt-4">
           <ScrollReveal duration={0.78} yOffset={16} start="top 92%">
             <div>
-              <p className="text-[0.72rem] font-medium uppercase tracking-[0.22em] text-(--brand-glaucous)">
+              <p className="text-[0.875rem] font-medium uppercase text-(--brand-glaucous)">
                 {content.productsUi.editorialOverview}
               </p>
               <h3 className="mt-5 max-w-[11ch] text-[clamp(2.1rem,3.2vw,4.2rem)] font-heading font-light leading-[0.96] tracking-[-0.055em] text-(--brand-blue)">
@@ -106,7 +106,8 @@ export function ProductIntroSection({ product }: ProductIntroSectionProps) {
 
               <AnimatedArrowLink
                 href="#product-info"
-                className="mt-8 text-sm font-medium uppercase tracking-[0.18em] text-(--brand-tangerine)"
+                className="brand-button mt-8"
+                motionClassName="!translate-x-0"
               >
                 {content.productsUi.continueChapter}
               </AnimatedArrowLink>

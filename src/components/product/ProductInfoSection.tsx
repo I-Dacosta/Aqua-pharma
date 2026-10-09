@@ -16,12 +16,12 @@ export function ProductInfoSection({ product }: ProductInfoSectionProps) {
   return (
     <section
       id="product-info"
-      className="border-t border-[rgba(38,45,98,0.08)] bg-(--brand-paper) px-8 py-24 md:px-12 lg:px-16 lg:py-32"
+      className="border-t border-[rgba(38,45,98,0.08)] bg-(--brand-paper) px-6 py-24 md:px-12 lg:px-20 lg:py-32"
     >
       <div className="mx-auto grid w-full max-w-400 grid-cols-1 gap-16 lg:grid-cols-[minmax(18rem,0.8fr)_minmax(0,1.2fr)] lg:gap-22">
         <ScrollReveal className="lg:sticky lg:top-24 lg:self-start" duration={0.78} yOffset={16} start="top 92%">
           <div>
-            <p className="whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.28em] text-(--brand-blue)/55">
+            <p className="whitespace-nowrap text-[0.875rem] font-semibold uppercase text-(--brand-blue)/80">
               {content.productsUi.fieldStoryLabel}
             </p>
 
@@ -47,14 +47,14 @@ export function ProductInfoSection({ product }: ProductInfoSectionProps) {
             >
               <article className="grid grid-cols-1 gap-8 py-10 md:py-12 lg:grid-cols-[5rem_minmax(0,1fr)_18rem] lg:gap-10">
                 <div>
-                  <span className="font-heading text-[2.6rem] font-light leading-none tracking-[-0.08em] text-(--brand-tangerine)/70 md:text-[4rem]">
+                  <span className="font-heading text-[2.6rem] font-light leading-none text-(--brand-blue)/75 md:text-[4rem]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
 
                 <div>
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-(--brand-blue)/42">
+                    <p className="text-[0.875rem] font-semibold uppercase text-(--brand-blue)/80">
                       {chapter.eyebrow}
                     </p>
                     <h3 className="mt-5 max-w-[16ch] text-[clamp(1.7rem,2.7vw,3rem)] font-heading font-light leading-[0.98] tracking-[-0.05em] text-(--brand-blue)">
@@ -77,7 +77,7 @@ export function ProductInfoSection({ product }: ProductInfoSectionProps) {
                       className="object-cover"
                     />
                   </div>
-                  <p className="text-[0.72rem] font-medium uppercase tracking-[0.2em] text-(--brand-glaucous)">
+                  <p className="text-[0.875rem] font-medium uppercase text-(--brand-glaucous)">
                     {content.productsUi.whyItMatters}
                   </p>
                   <p className="mt-4 text-[0.92rem] font-light leading-[1.75] text-(--brand-dark)/66">
