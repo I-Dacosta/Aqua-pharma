@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // MapLibre's pre-built worker is served as a static runtime asset.
+    "public/maplibre-gl-worker.mjs",
     // Ignore other projects in this monorepo directory
     "aqua-pharma/**",
     "aquatiq/**",

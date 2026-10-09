@@ -157,6 +157,9 @@ export const COUNTRIES: CountryItem[] = [
 ];
 
 export const MAP_STYLE = 'https://demotiles.maplibre.org/style.json';
+// Turbopack cannot infer MapLibre's worker URL from its ESM bundle, so ship the
+// matching worker as a first-party public asset.
+export const MAPLIBRE_WORKER_URL = '/maplibre-gl-worker.mjs';
 export const LOCAL_COUNTRY_GEOJSON_URL = '/data/map-countries.geojson';
 export const INITIAL_CENTER: [number, number] = [18, 32];
 export const OVERVIEW_CENTER: [number, number] = [18, 32];

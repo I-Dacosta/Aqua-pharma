@@ -16,6 +16,7 @@ import {
     COUNTRY_STROKE_LAYER,
     INITIAL_CENTER,
     MAP_STYLE,
+    MAPLIBRE_WORKER_URL,
     MARKET_FILL,
     OVERVIEW_BEARING,
     OVERVIEW_CENTER,
@@ -90,6 +91,7 @@ export function useMapInitialization(params: UseMapInitializationParams) {
         let map: maplibregl.Map;
 
         try {
+            maplibregl.setWorkerUrl(MAPLIBRE_WORKER_URL);
             map = new maplibregl.Map({
                 container,
                 style: MAP_STYLE,
