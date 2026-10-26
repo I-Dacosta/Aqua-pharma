@@ -247,7 +247,7 @@ const sharedNavigation = {
 							href: "/concepts/shrimp#field-support",
 						},
 						{
-							name: "HSE and SDS Docs",
+							name: "HSE & SDS Docs",
 							href: "/concepts/shrimp#hse-sds-docs",
 						},
 					],

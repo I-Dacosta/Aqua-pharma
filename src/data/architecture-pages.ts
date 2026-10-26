@@ -38,9 +38,9 @@ export const architecturePages = {
         imageAlt: "Shrimp aquaculture ponds",
         sections: [
             { id: "pond-oxygenation", title: "Pond Oxygenation", body: "Food-grade H₂O₂ is applied through controlled dosing to support dissolved oxygen levels. The system can integrate with oxygen sensors and respond to pond conditions.", link: { label: "Explore water conditioning", href: "/products/water-conditioning-oxygenation" } },
-            { id: "outbreak-control", title: "Outbreak Control", body: "For Asia only, our separate PAA-based water-treatment concept supports Vibrio management. This is distinct from the H₂O₂-based pond oxygenation platform." },
+            { id: "outbreak-control", title: "Outbreak Control: Vibrio, Asia", body: "For Asia only, our separate PAA-based water-treatment concept supports Vibrio management. This is distinct from the H₂O₂-based pond oxygenation platform." },
             { id: "field-support", title: "Field Support", body: "Farm teams can access protocols, training, dosing guidance and on-site or remote follow-up, with technical and microbiological expertise as needed." },
-            { id: "hse-sds-docs", title: "HSE and SDS Docs", body: "Shrimp-sector safety documents are managed separately from fish-sector materials and can be requested for the relevant market.", link: { label: "Contact our Global HSE manager", href: "/systems-services#hse-product-stewardship" } },
+            { id: "hse-sds-docs", title: "HSE & SDS Docs", body: "Shrimp-sector safety documents are managed separately from fish-sector materials and can be requested for the relevant market.", link: { label: "Contact our Global HSE manager", href: "/systems-services#hse-product-stewardship" } },
         ],
     },
     systems: {

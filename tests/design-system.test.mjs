@@ -85,6 +85,24 @@ test("concepts hub and fish page expose the requested solution architecture", as
     }
 });
 
+test("shrimp page exposes the requested pond-health architecture", async () => {
+    const browser = await chromium.launch();
+    try {
+        const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+        await page.goto(`${baseUrl}/concepts/shrimp`, { waitUntil: "networkidle" });
+
+        assert.equal(await page.locator("header h1").count(), 1);
+        for (const id of ["pond-oxygenation", "outbreak-control", "field-support", "hse-sds-docs"]) {
+            assert.equal(await page.locator(`#${id}`).count(), 1, `#${id} should be present once`);
+        }
+        assert.equal(await page.locator("#contact").count(), 0);
+        assert.match(await page.locator("#outbreak-control h2").textContent() ?? "", /Vibrio.*Asia/);
+        assert.equal(await page.locator("#hse-sds-docs h2").textContent(), "HSE & SDS Docs");
+    } finally {
+        await browser.close();
+    }
+});
+
 for (const [width, gutter, h2Size] of [[390, 24, 36], [1440, 80, 56]]) {
     test(`homepage keeps a consistent content edge and section heading scale at ${width}px`, async () => {
         const browser = await chromium.launch();
