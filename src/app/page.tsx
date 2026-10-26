@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/core/Navbar";
+import { Hero } from "@/components/home/Hero";
 import { News } from "@/components/home/News";
 import { MarketsSnapshot } from "@/components/home/MarketsSnapshot";
 import { QuickNavBlocks } from "@/components/home/QuickNavBlocks";
@@ -15,7 +16,7 @@ export default function Home() {
 	return (
 		<main className="min-h-screen bg-(--brand-paper) text-(--brand-dark)">
 			<Navbar />
-			<h1 className="sr-only">Aqua Pharma</h1>
+			<Hero />
 			<MarketsSnapshot />
 			<QuickNavBlocks />
 			<News today={today} />

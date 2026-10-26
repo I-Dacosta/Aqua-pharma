@@ -13,16 +13,20 @@ const routes = [
     "/products/water-conditioning-oxygenation", "/products/dosing-units-services",
 ];
 
-test("homepage is limited to the market snapshot, solution navigation, and events news", async () => {
+test("homepage includes the hero, market snapshot, solution navigation, and events news", async () => {
     const browser = await chromium.launch();
     try {
         const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
         await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
 
+        assert.equal(await page.locator("#hero").count(), 1);
+        assert.equal(await page.locator("#hero h1").count(), 1);
         assert.equal(await page.locator("#markets-snapshot").count(), 1);
         assert.equal(await page.locator("#quick-nav").count(), 1);
         assert.equal(await page.locator("#news").count(), 1);
-        assert.equal(await page.locator("#hero, #what-we-do, #products, #contact, #map-section").count(), 0);
+        assert.equal(await page.locator("#what-we-do, #products, #contact, #map-section").count(), 0);
+        assert.equal(await page.locator("#hero .hero-pill-solid").getAttribute("href"), "/contact");
+        assert.equal(await page.locator("#hero .hero-pill-ghost").getAttribute("href"), "#quick-nav");
 
         const quickNavLinks = await page.locator("#quick-nav article").evaluateAll((items) =>
             items.map((item) => ({

@@ -19,12 +19,12 @@ export function Hero() {
     const handleExploreClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
 
-        const productsSection = document.getElementById("products") || document.getElementById("what-we-do");
-        if (!productsSection) {
+        const quickNavigation = document.getElementById("quick-nav");
+        if (!quickNavigation) {
             return;
         }
 
-        const sectionTop = productsSection.getBoundingClientRect().top + window.scrollY;
+        const sectionTop = quickNavigation.getBoundingClientRect().top + window.scrollY;
 
         window.scrollTo({
             top: Math.max(sectionTop - 40, 0),
@@ -121,13 +121,13 @@ export function Hero() {
 
                         <div className="hero-reference-actions">
                             <a
-                                href="#contact"
+                                href="/contact"
                                 className="hero-pill hero-pill-solid"
                             >
                                 {content.home.hero.contact}
                             </a>
                             <a
-                                href="#products"
+                                href="#quick-nav"
                                 onClick={handleExploreClick}
                                 className="hero-pill hero-pill-ghost"
                             >
