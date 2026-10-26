@@ -59,7 +59,7 @@ export function QuickNavBlocks() {
     const section = copy[locale];
 
     return (
-        <section id="quick-nav" aria-labelledby="quick-nav-title" className="border-y border-(--brand-blue)/12 bg-(--brand-paper) px-6 py-20 md:px-12 md:py-24 lg:px-20">
+        <section id="quick-nav" aria-labelledby="quick-nav-title" className="bg-(--brand-paper) px-6 py-20 md:px-12 md:py-24 lg:px-20">
             <div className="mx-auto w-full max-w-[100rem]">
                 <div className="max-w-[44rem]">
                     <h2 id="quick-nav-title" className="font-heading text-[clamp(2.25rem,4vw,4.25rem)] font-light leading-[1.02] text-(--brand-blue)">{section.title}</h2>
