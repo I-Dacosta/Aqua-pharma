@@ -50,9 +50,12 @@ export type SiteContent = {
 		copyright: string;
 		navigationLabel: string;
 		contact: string;
+		findLocalExpert: string;
 		privacyPolicy: string;
 		legalNotice: string;
 		cookieSettings: string;
+		cookieSettingsDescription: string;
+		closeCookieSettings: string;
 		privacy: string;
 		terms: string;
 		transparency: string;
@@ -818,10 +821,13 @@ const siteContentByLocale: Record<Locale, SiteContent> = {
 		footer: {
 			copyright: "Copyright © 2025 Aqua Pharma",
 			navigationLabel: "Footer Navigation",
-			contact: "Contact",
+			contact: "Contact us",
+			findLocalExpert: "Find a local expert",
 			privacyPolicy: "Privacy Policy",
 			legalNotice: "Legal Notice",
-			cookieSettings: "Cookie Settings?",
+			cookieSettings: "Cookie Settings",
+			cookieSettingsDescription: "This site uses necessary cookies for your selected language and core functionality. Optional cookie categories will appear here when they are enabled.",
+			closeCookieSettings: "Close cookie settings",
 			privacy: "Privacy Notice and Cookie Policy",
 			terms: "Terms and Conditions",
 			transparency: "Transparency Act",
@@ -1019,10 +1025,13 @@ const siteContentByLocale: Record<Locale, SiteContent> = {
 		footer: {
 			copyright: "Copyright © 2025 Aqua Pharma",
 			navigationLabel: "Navegación de pie de página",
-			contact: "Contacto",
+			contact: "Contáctanos",
+			findLocalExpert: "Encuentra un experto local",
 			privacyPolicy: "Política de privacidad",
 			legalNotice: "Aviso legal",
-			cookieSettings: "¿Configurar cookies?",
+			cookieSettings: "Configuración de cookies",
+			cookieSettingsDescription: "Este sitio utiliza cookies necesarias para el idioma seleccionado y las funciones básicas. Las categorías opcionales aparecerán aquí cuando estén habilitadas.",
+			closeCookieSettings: "Cerrar configuración de cookies",
 			privacy: "Aviso de privacidad y política de cookies",
 			terms: "Términos y condiciones",
 			transparency: "Ley de transparencia",
@@ -1222,10 +1231,13 @@ const siteContentByLocale: Record<Locale, SiteContent> = {
 		footer: {
 			copyright: "Copyright © 2025 Aqua Pharma",
 			navigationLabel: "Bunnmeny",
-			contact: "Kontakt",
+			contact: "Kontakt oss",
+			findLocalExpert: "Finn en lokal ekspert",
 			privacyPolicy: "Personvern",
 			legalNotice: "Juridisk informasjon",
-			cookieSettings: "Cookie-innstillinger?",
+			cookieSettings: "Cookie-innstillinger",
+			cookieSettingsDescription: "Dette nettstedet bruker nødvendige informasjonskapsler for valgt språk og grunnleggende funksjonalitet. Valgfrie kategorier vises her når de tas i bruk.",
+			closeCookieSettings: "Lukk cookie-innstillinger",
 			privacy: "Personvernerklæring og cookie-policy",
 			terms: "Vilkår og betingelser",
 			transparency: "Åpenhetsloven",

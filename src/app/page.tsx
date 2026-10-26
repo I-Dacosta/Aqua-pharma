@@ -1,10 +1,7 @@
 import { Navbar } from "@/components/core/Navbar";
-import { Hero } from "@/components/home/Hero";
-import { WhatWeDo } from "@/components/home/WhatWeDo";
-import { ProductSectionV2 } from "@/components/home/ProductSectionV2";
 import { News } from "@/components/home/News";
 import { MapSection } from "@/components/home/MapSection";
-import { ContactSection } from "@/components/core/ContactSection";
+import { QuickNavBlocks } from "@/components/home/QuickNavBlocks";
 import { Footer } from "@/components/core/Footer";
 
 export const metadata = {
@@ -18,25 +15,10 @@ export default function Home() {
 	return (
 		<main className="min-h-screen bg-(--brand-paper) text-(--brand-dark)">
 			<Navbar />
-
-			{/* 1. Hero Section */}
-			<Hero />
-
+			<h1 className="sr-only">Aqua Pharma</h1>
 			<MapSection />
-
-			{/* 3. WHAT WE DO */}
-			<WhatWeDo />
-
-			{/* 3. Product / Service highlights (Bath, Conditioning, Dosing) */}
-			<ProductSectionV2 />
-
-			{/* 5. News */}
+			<QuickNavBlocks />
 			<News today={today} />
-
-			{/* 7. get in touch (Contact us) */}
-			<ContactSection />
-
-			{/* Footer */}
 			<Footer />
 		</main>
 	);

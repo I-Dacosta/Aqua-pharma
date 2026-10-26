@@ -1,134 +1,82 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { X } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { useSiteLocale } from "@/components/core/SiteLocaleProvider";
 
-const footerGroups = [
-    {
-        title: "Salmon Farming",
-        links: [
-            { label: "Bath treatments", href: "/products/bath-treatments" },
-            { label: "Dosing units and services", href: "/products/dosing-units-services" },
-        ],
-    },
-    {
-        title: "Shrimp Farming",
-        links: [
-            { label: "Water conditioning and oxygenation", href: "/products/water-conditioning-oxygenation" },
-            { label: "Sustainability", href: "/sustainability" },
-        ],
-    },
-    {
-        title: "About",
-        links: [
-            { label: "About us", href: "/about" },
-            { label: "Team", href: "/about/team" },
-            { label: "Pioneering", href: "/about/pioneering" },
-            { label: "Media", href: "/about/media" },
-        ],
-    },
-];
+const privacyPolicyUrl = "https://aqua-pharma.com/wp-content/uploads/2024/09/Aqua-Pharma-Privacy-statement-and-cookie-policy_-Aug-2024.pdf";
+const legalNoticeUrl = "https://aqua-pharma.com/terms-and-conditions/";
+const linkedInUrl = "https://www.linkedin.com/company/aqua-pharma/";
+const utilityLinkClass = "text-[0.82rem] font-medium leading-5 text-white/78 transition-colors hover:text-(--brand-cyan-light) focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
 
-const legalLinks = [
-    { label: "Privacy Notice and Cookie Policy", href: "/wp-content/uploads/2024/09/Aqua-Pharma-Privacy-statement-and-cookie-policy_-Aug-2024.pdf" },
-    { label: "Terms and Conditions", href: "/terms-and-conditions/" },
-    { label: "Transparency Act", href: "/transparency-act/" },
-    { label: "🇬🇧 APG Supplier Code of Conduct", href: "/wp-content/uploads/2025/03/English-APG-Supplier-Code-of-Conduct-June-2024.pdf" },
-    { label: "🇪🇸 APG Supplier Code of Conduct", href: "/wp-content/uploads/2025/03/Spanish-APG-Supplier-Code-of-Conduct-June-2024.pdf" },
-];
+type CookieSettingsDialogProps = {
+    closeLabel: string;
+    description: string;
+    isOpen: boolean;
+    title: string;
+    onClose: () => void;
+};
 
-function FooterLink({ href, children }: { href: string; children: ReactNode }) {
+function CookieSettingsDialog({ closeLabel, description, isOpen, title, onClose }: CookieSettingsDialogProps) {
+    if (!isOpen) {
+        return null;
+    }
+
     return (
-        <Link
-            href={href}
-            className="block w-fit text-[0.95rem] font-light leading-7 text-white/72 transition-colors hover:text-(--brand-cyan-light) focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-        >
-            {children}
-        </Link>
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-(--brand-blue-dark)/72 p-6" onClick={onClose}>
+            <section
+                aria-labelledby="cookie-settings-title"
+                aria-modal="true"
+                className="relative w-full max-w-[32rem] border border-white/20 bg-(--brand-blue-dark) p-7 text-white shadow-2xl md:p-9"
+                role="dialog"
+                onClick={(event) => event.stopPropagation()}
+            >
+                <button
+                    aria-label={closeLabel}
+                    className="absolute right-4 top-4 inline-flex size-10 items-center justify-center text-white/80 transition-colors hover:text-(--brand-cyan-light) focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                    onClick={onClose}
+                    type="button"
+                >
+                    <X aria-hidden="true" size={20} strokeWidth={1.8} />
+                </button>
+                <h2 id="cookie-settings-title" className="pr-12 font-heading text-[2rem] font-light leading-none text-white">
+                    {title}
+                </h2>
+                <p className="mt-5 max-w-[26rem] text-[1rem] font-light leading-7 text-white/76">{description}</p>
+                <button className="brand-button mt-8" onClick={onClose} type="button">
+                    {closeLabel}
+                </button>
+            </section>
+        </div>
     );
 }
 
 export function Footer() {
+    const { content } = useSiteLocale();
+    const [isCookieSettingsOpen, setIsCookieSettingsOpen] = useState(false);
+    const footer = content.footer;
+
     return (
-        <footer className="bg-(--brand-blue-dark) px-6 py-16 text-white md:px-12 lg:px-20 lg:py-20">
-            <div className="mx-auto max-w-[100rem]">
-                <div className="grid gap-10 border-b border-white/18 pb-14 md:grid-cols-2 lg:grid-cols-[0.85fr_0.9fr_0.75fr_1.05fr_1fr] lg:gap-14">
-                    {footerGroups.map((group) => (
-                        <section key={group.title}>
-                            <Link
-                                href={group.links[0]?.href ?? "/"}
-                                className="mb-5 block w-fit text-[1rem] font-semibold leading-6 text-white transition-colors hover:text-(--brand-cyan-light) focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-                            >
-                                {group.title}
-                            </Link>
-                            <div className="space-y-1">
-                                {group.links.map((link) => (
-                                    <FooterLink key={link.label} href={link.href}>
-                                        {link.label}
-                                    </FooterLink>
-                                ))}
-                            </div>
-                        </section>
-                    ))}
-
-                    <section>
-                        <Link
-                            href="/#contact"
-                            className="mb-5 block w-fit text-[1rem] font-semibold leading-6 text-white transition-colors hover:text-(--brand-cyan-light) focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-                        >
-                            Contact
-                        </Link>
-                        <p className="text-[1rem] font-semibold leading-6 text-white">Aqua Pharma</p>
-                        <div className="mt-4 space-y-2 text-[0.95rem] font-light leading-7 text-white/72">
-                            <p>Phone: +47 61 24 70 10</p>
-                            <p>
-                                E-mail:{" "}
-                                <a href="mailto:contact@aqua-pharma.com" className="transition-colors hover:text-(--brand-cyan-light)">
-                                    contact@aqua-pharma.com
-                                </a>
-                            </p>
-                        </div>
-                        <a
-                            href="https://www.linkedin.com/company/aqua-pharma/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="mt-7 block w-fit text-[0.95rem] font-light text-white/72 transition-colors hover:text-(--brand-cyan-light) focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-                        >
-                            Find us on Linkedin
-                        </a>
-                    </section>
-
-                    <section>
-                        <p className="mb-5 text-[1rem] font-semibold leading-6 text-white">Headquarters</p>
-                        <address className="not-italic text-[0.95rem] font-light leading-7 text-white/72">
-                            Hovemoveien 1<br />
-                            2624 Lillehammer<br />
-                            Norway
-                        </address>
-                        <a
-                            href="https://www.google.no/maps/place/Aqua+Pharma+AS"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="mt-7 block w-fit text-[0.95rem] font-light text-white/72 transition-colors hover:text-(--brand-cyan-light) focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-                        >
-                            Directions at Google maps
-                        </a>
-                    </section>
-                </div>
-
-                <div className="flex flex-col gap-5 pt-8 text-[0.82rem] font-light leading-6 text-white/58 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-8">
-                    <span>Copyright © 2025 Aqua Pharma</span>
-                    {legalLinks.map((link) => (
-                        <Link
-                            key={link.label}
-                            href={link.href}
-                            className="w-fit transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
-                </div>
+        <footer className="border-t border-white/14 bg-(--brand-blue-dark) px-6 py-5 text-white md:px-12 lg:px-20">
+            <div className="mx-auto flex max-w-[100rem] flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <span className="shrink-0 text-[0.78rem] font-medium uppercase tracking-[0.08em] text-white/62">{footer.copyright}</span>
+                <nav aria-label={footer.navigationLabel} className="flex flex-wrap items-center gap-x-5 gap-y-3 md:justify-end">
+                    <Link className={utilityLinkClass} href="/contact">{footer.contact}</Link>
+                    <Link className={utilityLinkClass} href="/contact#local-experts">{footer.findLocalExpert}</Link>
+                    <a className={utilityLinkClass} href={linkedInUrl} rel="noopener noreferrer" target="_blank">{footer.linkedin}</a>
+                    <a className={utilityLinkClass} href={privacyPolicyUrl} rel="noopener noreferrer" target="_blank">{footer.privacyPolicy}</a>
+                    <a className={utilityLinkClass} href={legalNoticeUrl} rel="noopener noreferrer" target="_blank">{footer.legalNotice}</a>
+                    <button className={utilityLinkClass} onClick={() => setIsCookieSettingsOpen(true)} type="button">{footer.cookieSettings}</button>
+                </nav>
             </div>
+            <CookieSettingsDialog
+                closeLabel={footer.closeCookieSettings}
+                description={footer.cookieSettingsDescription}
+                isOpen={isCookieSettingsOpen}
+                onClose={() => setIsCookieSettingsOpen(false)}
+                title={footer.cookieSettings}
+            />
         </footer>
     );
 }

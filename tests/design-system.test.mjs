@@ -13,8 +13,36 @@ const routes = [
     "/products/water-conditioning-oxygenation", "/products/dosing-units-services",
 ];
 
-for (const [width, gutter, h1Size, h2Size] of [[390, 24, 48, 36], [1440, 80, 80, 56]]) {
-    test(`homepage has one content edge and heading scale at ${width}px`, async () => {
+test("homepage is limited to markets, solution navigation, and events news", async () => {
+    const browser = await chromium.launch();
+    try {
+        const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+        await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+
+        assert.equal(await page.locator("#map-section").count(), 1);
+        assert.equal(await page.locator("#quick-nav").count(), 1);
+        assert.equal(await page.locator("#news").count(), 1);
+        assert.equal(await page.locator("#hero, #what-we-do, #products, #contact").count(), 0);
+
+        const quickNavLinks = await page.locator("#quick-nav article").evaluateAll((items) =>
+            items.map((item) => ({
+                title: item.querySelector("h3")?.textContent?.trim(),
+                href: item.querySelector("a")?.getAttribute("href"),
+                cta: item.querySelector(".brand-button")?.textContent?.trim(),
+            }))
+        );
+        assert.deepEqual(quickNavLinks, [
+            { title: "Fish - Parasite Control", href: "/concepts/fish", cta: "Explore fish" },
+            { title: "Shrimp - Pond Health", href: "/concepts/shrimp", cta: "Explore shrimp" },
+            { title: "Systems & Services", href: "/systems-services", cta: "Explore systems" },
+        ]);
+    } finally {
+        await browser.close();
+    }
+});
+
+for (const [width, gutter, h2Size] of [[390, 24, 36], [1440, 80, 56]]) {
+    test(`homepage keeps a consistent content edge and section heading scale at ${width}px`, async () => {
         const browser = await chromium.launch();
         try {
             const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: "reduce" });
@@ -26,19 +54,15 @@ for (const [width, gutter, h1Size, h2Size] of [[390, 24, 48, 36], [1440, 80, 80,
                 };
                 return {
                     edges: [
-                        "nav.fixed > div", "#hero .hero-reference-layout", "#map-section > div",
-                        "#what-we-do > div", "#products > div", "#news > div",
-                        "#contact > div > div:first-child", "footer > div",
+                        "nav.fixed > div", "#map-section > div", "#quick-nav > div", "#news > div", "footer > div",
                     ].map(measure),
-                    h1: measure("#hero h1"),
-                    h2: ["#map-section h2", "#what-we-do h2", "#products h2", "#news h2", "#contact h2"].map(measure),
+                    h2: ["#map-section h2", "#quick-nav h2", "#news h2"].map(measure),
                     overflow: document.documentElement.scrollWidth - window.innerWidth,
                 };
             });
 
             assert.equal(measurements.overflow, 0);
             for (const edge of measurements.edges) assert.ok(Math.abs(edge.x - gutter) <= 2, `content edge ${edge.x} differs from ${gutter}`);
-            assert.equal(measurements.h1.size, h1Size);
             for (const heading of measurements.h2) assert.equal(heading.size, h2Size);
         } finally {
             await browser.close();
@@ -99,6 +123,35 @@ for (const width of [390, 1440]) {
     });
 }
 
+test("footer presents a compact, functional utility navigation", async () => {
+    const browser = await chromium.launch();
+    try {
+        const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+        await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+
+        const footer = page.locator("footer");
+        const utilityLinks = await footer.locator("a").evaluateAll((links) =>
+            links.map((link) => ({ text: link.textContent?.trim(), href: link.getAttribute("href") }))
+        );
+        assert.deepEqual(utilityLinks, [
+            { text: "Contact us", href: "/contact" },
+            { text: "Find a local expert", href: "/contact#local-experts" },
+            { text: "LinkedIn", href: "https://www.linkedin.com/company/aqua-pharma/" },
+            { text: "Privacy Policy", href: "https://aqua-pharma.com/wp-content/uploads/2024/09/Aqua-Pharma-Privacy-statement-and-cookie-policy_-Aug-2024.pdf" },
+            { text: "Legal Notice", href: "https://aqua-pharma.com/terms-and-conditions/" },
+        ]);
+        assert.ok((await footer.boundingBox()).height <= 144, "desktop footer should remain a slim utility band");
+
+        await footer.getByRole("button", { name: "Cookie Settings" }).click();
+        const dialog = page.getByRole("dialog", { name: "Cookie Settings" });
+        await dialog.waitFor({ state: "visible" });
+        await dialog.getByLabel("Close cookie settings").click();
+        await dialog.waitFor({ state: "hidden" });
+    } finally {
+        await browser.close();
+    }
+});
+
 for (const [width, gutter] of [[390, 24], [1440, 80]]) {
     test(`product detail sections share the site gutter at ${width}px`, async () => {
         const browser = await chromium.launch();
@@ -115,7 +168,7 @@ for (const [width, gutter] of [[390, 24], [1440, 80]]) {
     });
 }
 
-test("primary calls to action use the Aqua cyan accent and remain easy to target", async () => {
+test("homepage calls to action use the Aqua cyan accent and remain easy to target", async () => {
     const browser = await chromium.launch();
     try {
         const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
@@ -123,11 +176,8 @@ test("primary calls to action use the Aqua cyan accent and remain easy to target
         const result = await page.evaluate(() => {
             const styles = getComputedStyle(document.documentElement);
             const selectors = [
-                "#hero .hero-pill-solid",
-                "#what-we-do .brand-button",
-                "#products .brand-button",
+                "#quick-nav .brand-button",
                 "#news .brand-button",
-                "#contact button[type=submit]",
             ];
             return {
                 deepBlue: styles.getPropertyValue("--brand-blue-dark").trim(),
@@ -144,9 +194,7 @@ test("primary calls to action use the Aqua cyan accent and remain easy to target
             assert.equal(action.background, "rgb(109, 198, 224)", `${action.selector} should use the Aqua cyan accent`);
             assert.equal(action.color, "rgb(29, 34, 74)", `${action.selector} needs dark brand text`);
             assert.ok(action.height >= 44, `${action.selector} is too small to target`);
-            if (action.selector !== "#hero .hero-pill-solid") {
-                assert.equal(action.border, "none", `${action.selector} should not have a visible border`);
-            }
+            assert.equal(action.border, "none", `${action.selector} should not have a visible border`);
         }
         const secondary = await page.locator("#news .brand-button-outline").evaluate((element) => {
             const computed = getComputedStyle(element);
@@ -155,7 +203,7 @@ test("primary calls to action use the Aqua cyan accent and remain easy to target
         assert.equal(secondary.background, "rgb(109, 198, 224)");
         assert.equal(secondary.border, "none");
         assert.equal(await page.locator('nav.fixed [aria-haspopup="menu"]').evaluate((element) => getComputedStyle(element).borderTopWidth), "0px");
-        for (const selector of ["#what-we-do .brand-button", "#products .brand-button", "#news .brand-button", "#contact button[type=submit]"]) {
+        for (const selector of ["#quick-nav .brand-button", "#news .brand-button"]) {
             await page.locator(selector).first().hover();
             await page.waitForFunction((target) => {
                 const style = getComputedStyle(document.querySelector(target));
@@ -169,19 +217,19 @@ test("primary calls to action use the Aqua cyan accent and remain easy to target
             assert.equal(hovered.color, "rgb(29, 34, 74)", `${selector} hover text`);
             assert.equal(await page.locator(selector).first().evaluate((element) => getComputedStyle(element).borderTopStyle), "none");
         }
-        await page.locator("#contact button[type=submit]").focus();
-        const focus = await page.locator("#contact button[type=submit]").evaluate((element) => {
+        await page.locator("#quick-nav a").first().focus();
+        const focus = await page.locator("#quick-nav a").first().evaluate((element) => {
             const computed = getComputedStyle(element);
             return { style: computed.outlineStyle, width: computed.outlineWidth };
         });
         assert.equal(focus.style, "solid");
-        assert.equal(focus.width, "3px");
+        assert.ok(parseFloat(focus.width) >= 2, "quick-navigation links need a visible focus indicator");
     } finally {
         await browser.close();
     }
 });
 
-test("market labels and What We Do controls use the updated shared treatment", async () => {
+test("market labels and joint-venture statistic use the updated shared treatment", async () => {
     const browser = await chromium.launch();
     try {
         const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
@@ -222,21 +270,6 @@ test("market labels and What We Do controls use the updated shared treatment", a
         });
         assert.ok(jointVentureAlignment.centerOffset <= 2, "joint-venture statistic should be centered in its desktop column");
         assert.ok(jointVentureAlignment.labelWithinValue, "joint-venture copy should stay beside the 50/50 figure");
-
-        const tabs = page.locator("#what-we-do [role=tab]");
-        assert.equal(await tabs.count(), 2);
-        assert.equal(await page.locator("#what-we-do [role=tablist]").evaluate((element) => getComputedStyle(element).borderTopWidth), "0px");
-        assert.equal(await tabs.first().evaluate((element) => getComputedStyle(element).backgroundColor), "rgba(0, 0, 0, 0)");
-        assert.equal(await tabs.first().evaluate((element) => getComputedStyle(element).borderBottomColor), "rgb(38, 45, 98)");
-
-        await tabs.nth(1).click();
-        assert.equal(await tabs.nth(1).getAttribute("aria-selected"), "true");
-        await page.waitForFunction(() => {
-            const tab = document.querySelectorAll("#what-we-do [role=tab]")[1];
-            return tab && getComputedStyle(tab).borderBottomColor === "rgb(38, 45, 98)";
-        });
-        assert.equal(await tabs.nth(1).evaluate((element) => getComputedStyle(element).backgroundColor), "rgba(0, 0, 0, 0)");
-        assert.equal(await tabs.nth(1).evaluate((element) => getComputedStyle(element).borderBottomColor), "rgb(38, 45, 98)");
     } finally {
         await browser.close();
     }
