@@ -103,6 +103,24 @@ test("shrimp page exposes the requested pond-health architecture", async () => {
     }
 });
 
+test("systems page exposes the requested equipment and services architecture", async () => {
+    const browser = await chromium.launch();
+    try {
+        const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+        await page.goto(`${baseUrl}/systems-services`, { waitUntil: "networkidle" });
+
+        assert.equal(await page.locator("header h1").count(), 1);
+        for (const id of ["dosing-systems", "protocols", "on-site-support", "hse-product-stewardship"]) {
+            assert.equal(await page.locator(`#${id}`).count(), 1, `#${id} should be present once`);
+        }
+        assert.equal(await page.locator("#safety-guides, #contact").count(), 0);
+        assert.match(await page.locator("#dosing-systems").textContent() ?? "", /S.*N.*W/s);
+        assert.match(await page.locator("#hse-product-stewardship").textContent() ?? "", /Safety guides/);
+    } finally {
+        await browser.close();
+    }
+});
+
 for (const [width, gutter, h2Size] of [[390, 24, 36], [1440, 80, 56]]) {
     test(`homepage keeps a consistent content edge and section heading scale at ${width}px`, async () => {
         const browser = await chromium.launch();
