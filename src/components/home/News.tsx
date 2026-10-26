@@ -9,9 +9,9 @@ import type { Locale } from "@/i18n/config";
 import { getEditorialPagesContent } from "@/i18n/editorial-pages";
 
 const copy: Record<Locale, { title: string; intro: string; upcoming: string; next: string; empty: string; organiser: string; meet: string; all: string; archive: string; read: string }> = {
-    en: { title: "Events & News", intro: "Research, partnerships and company stories from Aqua Pharma.", upcoming: "Upcoming", next: "Next up", empty: "More events to be announced.", organiser: "Visit organiser", meet: "Meet us there", all: "All news", archive: "From the archive", read: "Read story" },
-    es: { title: "Eventos y noticias", intro: "Investigación, alianzas e historias de Aqua Pharma.", upcoming: "Próximamente", next: "A continuación", empty: "Pronto anunciaremos más eventos.", organiser: "Visitar organizador", meet: "Encuéntranos allí", all: "Todas las noticias", archive: "Del archivo", read: "Leer noticia" },
-    no: { title: "Arrangementer og nyheter", intro: "Forskning, samarbeid og historier fra Aqua Pharma.", upcoming: "Kommende", next: "Neste", empty: "Flere arrangementer kunngjøres snart.", organiser: "Besøk arrangør", meet: "Møt oss der", all: "Alle nyheter", archive: "Fra arkivet", read: "Les saken" },
+    en: { title: "Events & News", intro: "Meet Aqua Pharma at events and meetings around the world.", upcoming: "Upcoming", next: "Next up", empty: "More events to be announced.", organiser: "Visit organiser", meet: "Meet us there", all: "All news", archive: "From About - Events & News", read: "Read story" },
+    es: { title: "Eventos y noticias", intro: "Conoce a Aqua Pharma en eventos y reuniones en todo el mundo.", upcoming: "Próximamente", next: "A continuación", empty: "Pronto anunciaremos más eventos.", organiser: "Visitar organizador", meet: "Encuéntranos allí", all: "Todas las noticias", archive: "De Nosotros - Eventos y noticias", read: "Leer noticia" },
+    no: { title: "Arrangementer og nyheter", intro: "Møt Aqua Pharma på arrangementer og møter over hele verden.", upcoming: "Kommende", next: "Neste", empty: "Flere arrangementer kunngjøres snart.", organiser: "Besøk arrangør", meet: "Møt oss der", all: "Alle nyheter", archive: "Fra Om oss - Arrangementer og nyheter", read: "Les saken" },
 };
 
 export function News({ today, onAbout = false }: { today: string; onAbout?: boolean }) {
@@ -44,7 +44,7 @@ export function News({ today, onAbout = false }: { today: string; onAbout?: bool
                             <p className="mt-6 max-w-[38rem] font-light leading-[1.7] text-(--brand-dark)/70">{featured.excerpt[locale]}</p>
                             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4 text-sm text-(--brand-blue)">
                                 <a href={featured.organizerUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:underline">{labels.organiser}<ArrowUpRight aria-hidden="true" size={16} /></a>
-                                <Link href="/#contact" className="brand-button">{labels.meet}<ArrowRight aria-hidden="true" size={16} /></Link>
+                                <Link href="/contact" className="brand-button">{labels.meet}<ArrowRight aria-hidden="true" size={16} /></Link>
                             </div>
                         </div>
                     </div>

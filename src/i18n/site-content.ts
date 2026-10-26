@@ -88,6 +88,7 @@ export type SiteContent = {
 		hero: {
 			kicker: string;
 			titleLines: string[];
+			mission: string;
 			description: string;
 			explore: string;
 			contact: string;
@@ -859,6 +860,7 @@ const siteContentByLocale: Record<Locale, SiteContent> = {
 			hero: {
 				kicker: "Chapter 01 / Welfare systems at sea",
 				titleLines: ["WELFARE BELOW WATER"],
+				mission: "We provide Concepts and Products for Disease Prevention and Control in Fish and Shrimp Farming.",
 				description:
 					"Aqua Pharma is an aquaculture health company focused on disease prevention and control in fish and shrimp farming. Founded in Norway in 2009, we bring high-quality, evidence-based health concepts to salmon and shrimp farmers worldwide.",
 				explore: "Explore Solutions",
@@ -1062,9 +1064,10 @@ const siteContentByLocale: Record<Locale, SiteContent> = {
 			},
 			hero: {
 				kicker: "Capítulo 01 / Sistemas de bienestar en el mar",
-				titleLines: ["Bienestar", "bajo el agua."],
+				titleLines: ["WELFARE BELOW WATER"],
+				mission: "Ofrecemos conceptos y productos para la prevención y el control de enfermedades en la acuicultura de peces y camarones.",
 				description:
-					"Aqua Pharma combina sistemas de tratamiento en terreno, precisión científica y ejecución centrada en el bienestar para ayudar a los equipos acuícolas a operar con mayor control y menos estrés sobre la biomasa.",
+					"Aqua Pharma es una empresa de salud acuícola centrada en la prevención y el control de enfermedades en la acuicultura de peces y camarones. Fundada en Noruega en 2009, aportamos conceptos de salud de alta calidad y basados en evidencia a productores de salmón y camarón de todo el mundo.",
 				explore: "Explorar soluciones",
 				contact: "Contáctanos",
 				backdropAlt:
@@ -1268,9 +1271,10 @@ const siteContentByLocale: Record<Locale, SiteContent> = {
 			},
 			hero: {
 				kicker: "Kapittel 01 / Velferdssystemer til sjøs",
-				titleLines: ["Velferd", "under vann."],
+				titleLines: ["WELFARE BELOW WATER"],
+				mission: "Vi tilbyr konsepter og produkter for forebygging og kontroll av sykdom i oppdrett av fisk og reker.",
 				description:
-					"Aqua Pharma kombinerer behandlingssystemer i felt, vitenskapelig presisjon og velferdsførst-utførelse for å hjelpe akvakulturteam med mer kontroll og mindre stress på biomassen.",
+					"Aqua Pharma er et selskap innen akvakulturhelse med fokus på forebygging og kontroll av sykdom i oppdrett av fisk og reker. Selskapet ble grunnlagt i Norge i 2009 og leverer helsekonsepter av høy kvalitet, basert på dokumentert kunnskap, til lakse- og rekeprodusenter over hele verden.",
 				explore: "Utforsk løsninger",
 				contact: "Kontakt oss",
 				backdropAlt: "Luftfoto av akvakulturbehandling i skumringen",

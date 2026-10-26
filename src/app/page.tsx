@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/core/Navbar";
 import { Hero } from "@/components/home/Hero";
 import { News } from "@/components/home/News";
-import { MarketsSnapshot } from "@/components/home/MarketsSnapshot";
+import { MapSection } from "@/components/home/MapSection";
 import { QuickNavBlocks } from "@/components/home/QuickNavBlocks";
 import { Footer } from "@/components/core/Footer";
 
@@ -17,7 +17,7 @@ export default function Home() {
 		<main className="min-h-screen bg-(--brand-paper) text-(--brand-dark)">
 			<Navbar />
 			<Hero />
-			<MarketsSnapshot />
+			<MapSection id="markets-snapshot" />
 			<QuickNavBlocks />
 			<News today={today} />
 			<Footer />

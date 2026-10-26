@@ -361,6 +361,16 @@ body h2[class]:not(#menu-offer-heading):not(#menu-company-heading) {
 	max-width: 24rem;
 }
 
+.hero-reference-mission {
+	color: var(--brand-cyan-light);
+	font-family: var(--font-brand);
+	font-size: clamp(1rem, 1.35vw, 1.3rem);
+	font-weight: 600;
+	line-height: 1.35;
+	margin: 0 0 0.8rem;
+	max-width: 34rem;
+}
+
 .hero-reference-layout {
 	align-items: flex-end;
 	display: flex;

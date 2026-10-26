@@ -13,7 +13,7 @@ const routes = [
     "/products/water-conditioning-oxygenation", "/products/dosing-units-services",
 ];
 
-test("homepage includes the hero, market snapshot, solution navigation, and events news", async () => {
+test("homepage includes the requested hero, market snapshot, solution navigation, and events news", async () => {
     const browser = await chromium.launch();
     try {
         const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
@@ -22,9 +22,11 @@ test("homepage includes the hero, market snapshot, solution navigation, and even
         assert.equal(await page.locator("#hero").count(), 1);
         assert.equal(await page.locator("#hero h1").count(), 1);
         assert.equal(await page.locator("#markets-snapshot").count(), 1);
+        assert.equal(await page.locator("#markets-snapshot .map-section__map-shell").count(), 1);
         assert.equal(await page.locator("#quick-nav").count(), 1);
         assert.equal(await page.locator("#news").count(), 1);
         assert.equal(await page.locator("#what-we-do, #products, #contact, #map-section").count(), 0);
+        assert.match(await page.locator("#hero").textContent() ?? "", /We provide Concepts and Products for Disease Prevention and Control in Fish and Shrimp Farming/);
         assert.equal(await page.locator("#hero .hero-pill-solid").getAttribute("href"), "/contact");
         assert.equal(await page.locator("#hero .hero-pill-ghost").getAttribute("href"), "#quick-nav");
 
@@ -36,10 +38,13 @@ test("homepage includes the hero, market snapshot, solution navigation, and even
             }))
         );
         assert.deepEqual(quickNavLinks, [
-            { title: "Fish - Parasite Control", href: "/concepts/fish", cta: "Explore fish" },
-            { title: "Shrimp - Pond Health", href: "/concepts/shrimp", cta: "Explore shrimp" },
+            { title: "Fish – Parasite Control", href: "/concepts/fish", cta: "Explore fish" },
+            { title: "Shrimp – Pond Health", href: "/concepts/shrimp", cta: "Explore shrimp" },
             { title: "Systems & Services", href: "/systems-services", cta: "Explore systems" },
         ]);
+        assert.equal(await page.locator("#quick-nav [class*='aspect-square']").count(), 3);
+        assert.match(await page.locator("#quick-nav > div > div > p").textContent() ?? "", /Two proven platforms\. One mission/);
+        assert.match(await page.locator("#news").textContent() ?? "", /More events to be announced\./);
     } finally {
         await browser.close();
     }

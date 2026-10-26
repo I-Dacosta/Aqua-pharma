@@ -24,17 +24,17 @@ type QuickNavCopy = {
 const copy: Record<Locale, QuickNavCopy> = {
     en: {
         title: "Aquaculture Health Concepts",
-        intro: "Specialist solutions for healthier fish and shrimp farming.",
+        intro: "Two proven platforms. One mission: healthier fish and shrimp farming.",
         navigationLabel: "Aquaculture health concepts",
         solutions: [
-            { title: "Fish - Parasite Control", href: "/concepts/fish", image: "/images/wp/products/bath-hero.jpg", imageAlt: "Salmon treatment at a sea farm", cta: "Explore fish" },
-            { title: "Shrimp - Pond Health", href: "/concepts/shrimp", image: "/images/wp/products/water-chapter-seatru.jpg", imageAlt: "Shrimp farming ponds", cta: "Explore shrimp" },
+            { title: "Fish – Parasite Control", href: "/concepts/fish", image: "/images/wp/products/bath-hero.jpg", imageAlt: "Salmon treatment at a sea farm", cta: "Explore fish" },
+            { title: "Shrimp – Pond Health", href: "/concepts/shrimp", image: "/images/wp/products/water-chapter-seatru.jpg", imageAlt: "Shrimp farming ponds", cta: "Explore shrimp" },
             { title: "Systems & Services", href: "/systems-services", image: "/images/wp/products/dosing-hero.jpg", imageAlt: "Automated dosing equipment", cta: "Explore systems" },
         ],
     },
     es: {
         title: "Conceptos de salud acuícola",
-        intro: "Soluciones especializadas para una acuicultura de peces y camarones más saludable.",
+        intro: "Dos plataformas probadas. Una misión: una acuicultura de peces y camarones más saludable.",
         navigationLabel: "Conceptos de salud acuícola",
         solutions: [
             { title: "Peces - Control de parásitos", href: "/concepts/fish", image: "/images/wp/products/bath-hero.jpg", imageAlt: "Tratamiento de salmón en una granja marina", cta: "Explorar peces" },
@@ -44,7 +44,7 @@ const copy: Record<Locale, QuickNavCopy> = {
     },
     no: {
         title: "Helsekonsepter for akvakultur",
-        intro: "Spesialistløsninger for sunnere oppdrett av fisk og reker.",
+        intro: "To dokumenterte plattformer. Ett mål: sunnere oppdrett av fisk og reker.",
         navigationLabel: "Helsekonsepter for akvakultur",
         solutions: [
             { title: "Fisk - Parasittkontroll", href: "/concepts/fish", image: "/images/wp/products/bath-hero.jpg", imageAlt: "Laksebehandling ved et sjøanlegg", cta: "Utforsk fisk" },
@@ -69,7 +69,7 @@ export function QuickNavBlocks() {
                     {section.solutions.map((solution, index) => (
                         <article key={solution.href} className="border-t border-(--brand-blue)/20 pt-5">
                             <Link href={solution.href} className="group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-(--brand-blue)">
-                                <div className="relative aspect-[16/10] overflow-hidden rounded-[8px] bg-(--brand-blue-soft)">
+                                <div className="relative aspect-square overflow-hidden rounded-[8px] bg-(--brand-blue-soft)">
                                     <Image src={solution.image} alt={solution.imageAlt} fill sizes="(max-width: 767px) 100vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
                                 </div>
                                 <p className="mt-4 text-[0.72rem] font-medium uppercase tracking-[0.1em] text-(--brand-ink-muted)">{String(index + 1).padStart(2, "0")}</p>

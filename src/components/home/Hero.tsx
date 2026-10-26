@@ -117,6 +117,7 @@ export function Hero() {
                     </h1>
 
                     <div className="hero-copy hero-reference-copy-block">
+                        <p className="hero-reference-mission">{content.home.hero.mission}</p>
                         <p className="hero-reference-copy">{content.home.hero.description}</p>
 
                         <div className="hero-reference-actions">
