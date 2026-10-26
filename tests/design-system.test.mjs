@@ -121,6 +121,23 @@ test("systems page exposes the requested equipment and services architecture", a
     }
 });
 
+test("research page exposes the requested two-section architecture", async () => {
+    const browser = await chromium.launch();
+    try {
+        const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+        await page.goto(`${baseUrl}/rd`, { waitUntil: "networkidle" });
+
+        assert.equal(await page.locator("header h1").count(), 1);
+        assert.equal(await page.locator("#seatru-research-facilities").count(), 1);
+        assert.equal(await page.locator("#trial-research-pictures").count(), 1);
+        assert.equal(await page.locator("#contact").count(), 0);
+        assert.match(await page.locator("#seatru-research-facilities").textContent() ?? "", /Indonesia.*Australia.*Ecuador/s);
+        assert.equal(await page.locator("#trial-research-pictures h2").textContent(), "Applications – Trial Research Pictures");
+    } finally {
+        await browser.close();
+    }
+});
+
 for (const [width, gutter, h2Size] of [[390, 24, 36], [1440, 80, 56]]) {
     test(`homepage keeps a consistent content edge and section heading scale at ${width}px`, async () => {
         const browser = await chromium.launch();
