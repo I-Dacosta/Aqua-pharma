@@ -6,7 +6,7 @@ import { Footer } from "@/components/core/Footer";
 import { ContactSection } from "@/components/core/ContactSection";
 import type { ArchitecturePage } from "@/data/architecture-pages";
 
-export function ArchitectureLanding({ page }: { page: ArchitecturePage }) {
+export function ArchitectureLanding({ page, showContact = true }: { page: ArchitecturePage; showContact?: boolean }) {
     return (
         <main className="bg-(--brand-paper) text-(--brand-dark)">
             <Navbar />
@@ -39,7 +39,7 @@ export function ArchitectureLanding({ page }: { page: ArchitecturePage }) {
                 </section>
             ))}
 
-            <ContactSection />
+            {showContact ? <ContactSection /> : null}
             <Footer />
         </main>
     );

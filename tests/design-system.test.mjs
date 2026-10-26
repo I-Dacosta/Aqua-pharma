@@ -62,6 +62,29 @@ test("about page keeps the requested company information architecture", async ()
     }
 });
 
+test("concepts hub and fish page expose the requested solution architecture", async () => {
+    const browser = await chromium.launch();
+    try {
+        const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+        await page.goto(`${baseUrl}/concepts`, { waitUntil: "networkidle" });
+        assert.equal(await page.locator("h1").count(), 1);
+        assert.deepEqual(
+            await page.locator("#products article a").evaluateAll((links) => links.map((link) => link.getAttribute("href"))),
+            ["/concepts/fish", "/concepts/shrimp", "/systems-services"]
+        );
+
+        await page.goto(`${baseUrl}/concepts/fish`, { waitUntil: "networkidle" });
+        assert.equal(await page.locator("header h1").count(), 1);
+        for (const id of ["bath-treatments", "species-applications", "dosing-systems", "field-support", "hse-sds-docs"]) {
+            assert.equal(await page.locator(`#${id}`).count(), 1, `#${id} should be present once`);
+        }
+        assert.equal(await page.locator("#contact").count(), 0);
+        assert.equal(await page.locator("#dosing-systems a[href='/systems-services#dosing-systems']").count(), 1);
+    } finally {
+        await browser.close();
+    }
+});
+
 for (const [width, gutter, h2Size] of [[390, 24, 36], [1440, 80, 56]]) {
     test(`homepage keeps a consistent content edge and section heading scale at ${width}px`, async () => {
         const browser = await chromium.launch();

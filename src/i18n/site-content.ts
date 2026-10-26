@@ -208,7 +208,7 @@ const sharedNavigation = {
 							href: "/concepts/fish#bath-treatments",
 						},
 						{
-							name: "Species and Applications",
+							name: "Species & Applications",
 							href: "/concepts/fish#species-applications",
 						},
 						{
@@ -222,7 +222,7 @@ const sharedNavigation = {
 							href: "/concepts/fish#field-support",
 						},
 						{
-							name: "HSE and SDS Docs",
+							name: "HSE & SDS Docs",
 							href: "/concepts/fish#hse-sds-docs",
 						},
 					],
