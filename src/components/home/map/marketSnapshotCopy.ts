@@ -2,6 +2,7 @@ import type { Locale } from "@/i18n/config";
 
 export type MarketSnapshotCopy = {
     title: string;
+    globalPresence: string;
     employees: string;
     countries: string;
     jointVenture: string;
@@ -11,7 +12,7 @@ export type MarketSnapshotCopy = {
 };
 
 export const marketSnapshotCopy: Record<Locale, MarketSnapshotCopy> = {
-    en: { title: "Markets Snapshot", employees: "EMPLOYEES", countries: "COUNTRIES", jointVenture: "JOINT VENTURE", partners: "Solvay & Aquatiq", fish: "Fish", shrimp: "Shrimp" },
-    es: { title: "Presencia global", employees: "EMPLEADOS", countries: "PAÍSES", jointVenture: "EMPRESA CONJUNTA", partners: "Solvay y Aquatiq", fish: "Peces", shrimp: "Camarón" },
-    no: { title: "Markeder i korte trekk", employees: "ANSATTE", countries: "LAND", jointVenture: "FELLESFORETAK", partners: "Solvay og Aquatiq", fish: "Fisk", shrimp: "Reker" },
+    en: { title: "Markets Snapshot", globalPresence: "Global Presence", employees: "EMPLOYEES", countries: "COUNTRIES", jointVenture: "JOINT VENTURE", partners: "Solvay & Aquatiq", fish: "Fish", shrimp: "Shrimp" },
+    es: { title: "Presencia global", globalPresence: "Presencia global", employees: "EMPLEADOS", countries: "PAÍSES", jointVenture: "EMPRESA CONJUNTA", partners: "Solvay y Aquatiq", fish: "Peces", shrimp: "Camarón" },
+    no: { title: "Markeder i korte trekk", globalPresence: "Global tilstedeværelse", employees: "ANSATTE", countries: "LAND", jointVenture: "FELLESFORETAK", partners: "Solvay og Aquatiq", fish: "Fisk", shrimp: "Reker" },
 };

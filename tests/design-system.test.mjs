@@ -45,6 +45,23 @@ test("homepage includes the hero, market snapshot, solution navigation, and even
     }
 });
 
+test("about page keeps the requested company information architecture", async () => {
+    const browser = await chromium.launch();
+    try {
+        const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+        await page.goto(`${baseUrl}/about`, { waitUntil: "networkidle" });
+
+        assert.equal(await page.locator("main #about-hero h1").count(), 1);
+        for (const selector of ["#who-we-are", "#our-mission", "#global-presence", "#team", "#events-news"]) {
+            assert.equal(await page.locator(selector).count(), 1, `${selector} should be present once`);
+        }
+        assert.equal(await page.locator("#history, #values, #contact").count(), 0);
+        assert.equal(await page.locator("#team a[href='/about/team']").count(), 1);
+    } finally {
+        await browser.close();
+    }
+});
+
 for (const [width, gutter, h2Size] of [[390, 24, 36], [1440, 80, 56]]) {
     test(`homepage keeps a consistent content edge and section heading scale at ${width}px`, async () => {
         const browser = await chromium.launch();

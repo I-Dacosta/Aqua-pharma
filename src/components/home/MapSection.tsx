@@ -19,10 +19,11 @@ import { marketSnapshotCopy } from './map/marketSnapshotCopy';
 import { useMapInitialization } from './map/useMapInitialization';
 import { useMapScrollAnimations } from './map/useMapScrollAnimations';
 
-export function MapSection() {
+export function MapSection({ id = "map-section", titleMode = "snapshot" }: { id?: string; titleMode?: "snapshot" | "global-presence" }) {
     const router = useRouter();
     const { content, locale } = useSiteLocale();
     const snapshot = marketSnapshotCopy[locale];
+    const sectionTitle = titleMode === "global-presence" ? snapshot.globalPresence : snapshot.title;
     const sectionRef = useRef<HTMLElement>(null);
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const mapRef = useRef<maplibregl.Map | null>(null);
@@ -110,10 +111,10 @@ export function MapSection() {
     });
 
     return (
-        <section ref={sectionRef} id="map-section" className="overflow-hidden bg-white px-6 py-28 md:px-12 lg:px-20">
+        <section ref={sectionRef} id={id} className="overflow-hidden bg-white px-6 py-28 md:px-12 lg:px-20">
             <div className="mx-auto w-full max-w-[100rem]">
                 <div className="mb-10">
-                    <h2 className="font-heading text-[clamp(2.2rem,4vw,4.4rem)] font-light leading-[1.02] text-(--brand-blue)">{snapshot.title}</h2>
+                    <h2 className="font-heading text-[clamp(2.2rem,4vw,4.4rem)] font-light leading-[1.02] text-(--brand-blue)">{sectionTitle}</h2>
                     <div className="mt-10 grid grid-cols-1 border-y border-(--brand-blue)/15 sm:grid-cols-3">
                         <div className="flex items-baseline gap-3 py-6 sm:border-r sm:border-(--brand-blue)/15 sm:pr-8">
                             <strong className="font-heading text-[clamp(2.8rem,5vw,5rem)] font-light leading-none text-(--brand-blue)">40</strong>
@@ -150,7 +151,7 @@ export function MapSection() {
                     </div>
                 </div>
 
-                <nav className="mt-6 grid grid-cols-2 gap-x-5 sm:hidden" aria-label={snapshot.title}>
+                <nav className="mt-6 grid grid-cols-2 gap-x-5 sm:hidden" aria-label={sectionTitle}>
                     {COUNTRIES.map((country) => (
                         <Link
                             key={country.iso}
