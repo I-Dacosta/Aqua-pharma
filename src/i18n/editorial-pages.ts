@@ -9,6 +9,12 @@ type EditorialPagesContent = {
     values: {
       kicker: string;
       title: string;
+      intro: string;
+      body: string;
+      ambition: string;
+      humanRights: string;
+      certificationsTitle: string;
+      certificationsBody: string;
       careTitle: string;
       careBody: string;
       dareTitle: string;
@@ -25,7 +31,7 @@ type EditorialPagesContent = {
       description: string;
       items: Array<{ src: string; alt: string; label: string }>;
     };
-    explore: { text: string; teamCta: string; innovationCta: string };
+    explore: { text: string; teamCta: string; localExpertsCta: string; innovationCta: string };
   };
   team: {
     metadata: { title: string; description: string };
@@ -106,9 +112,9 @@ const english: EditorialPagesContent = {
     },
     company: {
       kicker: "Who We Are",
-      title: "A science-led company shaped by the sea.",
-      bodyPrimary: "Founded in Norway in 2009, Aqua Pharma develops health concepts for fish and shrimp farming. We operate in 9 countries — Australia, Belgium, Canada, Chile, Ecuador, Greece, Indonesia, Norway and Scotland — with 40 employees worldwide. Aqua Pharma is a 50/50 joint venture between Solvay and Aquatiq.",
-      bodySecondary: "The main market for Aqua Pharma is salmon farming, but we also develop treatment solutions for other species: shrimp, kingfish, trout, seabass, and seabream. Aqua Pharma Group is structurally backed by two innovative parent companies — Solvay (a global leader in sustainable materials and solutions) and Aquatiq (a Norwegian reference in Food Safety).",
+      title: "Who We Are",
+      bodyPrimary: "Founded in Norway in 2009, Aqua Pharma has grown from salmon parasite treatment in Norway into a global aquaculture-health company serving salmon and shrimp farmers across nine countries. Aqua Pharma is a 50/50 Joint Venture between Solvay & Aquatiq.",
+      bodySecondary: "",
     },
     stats: [
       { stat: "40", label: "Employees" },
@@ -117,8 +123,14 @@ const english: EditorialPagesContent = {
       { stat: "2009", label: "Founded" },
     ],
     values: {
-      kicker: "Our Values",
-      title: "We Care. We Dare.",
+      kicker: "Mission and Values",
+      title: "Mission and Values",
+      intro: "Welfare Below Water. We provide concepts and products for disease prevention and control in fish and shrimp farming — built on sustainability and evidence.",
+      body: "Aqua Pharma Group is committed to supporting the industry by delivering concepts and services that safeguard the wellbeing of both the environment and the people who work in it — through an ongoing focus on research and innovation.",
+      ambition: "Our ambition is simple: to help farmers lower their environmental impact and improve welfare in fish and shrimp farming, backed by factual evidence. Only then can we reassure consumers that the fish and shrimp they eat are farmed sustainably and to the highest welfare standards.",
+      humanRights: "We believe that respect for human life stands above all else. In practice, that means protecting the safety and rights of the people who make this industry work — and we support the UN Sustainable Development Goals wherever we can have a material impact.",
+      certificationsTitle: "Certifications & Engagement",
+      certificationsBody: "Aqua Pharma Group complies with the Norwegian Transparency Act, which upholds human rights and decent working conditions, and is committed to responsible business practices. Our dedication to sustainability, ethics, and animal welfare is reflected in our Responsible Care®, WelfCert, and \"Bienestar Animal\" certifications.",
       careTitle: "We Care",
       careBody: "Aqua Pharma goes beyond basic expectations and continuously improves in prevention and control methods, where technology allows it. We contribute to maintaining a responsible aquaculture industry by evolving our systems to support producers in meeting their objectives.",
       dareTitle: "We Dare",
@@ -149,6 +161,7 @@ const english: EditorialPagesContent = {
     explore: {
       text: "Learn more about the people and ideas behind Aqua Pharma",
       teamCta: "Meet the Team",
+      localExpertsCta: "Find a local expert",
       innovationCta: "Innovation Story",
     },
   },
@@ -335,9 +348,9 @@ const spanish: EditorialPagesContent = {
     },
     company: {
       kicker: "Quiénes somos",
-      title: "Una empresa guiada por la ciencia y moldeada por el mar.",
-      bodyPrimary: "Fundada en Noruega en 2009, Aqua Pharma desarrolla conceptos de salud para la acuicultura de peces y camarones. Operamos en 9 países — Australia, Bélgica, Canadá, Chile, Ecuador, Grecia, Indonesia, Noruega y Escocia — con 40 empleados en todo el mundo. Aqua Pharma es una empresa conjunta al 50/50 entre Solvay y Aquatiq.",
-      bodySecondary: "El mercado principal de Aqua Pharma es la salmonicultura, pero también desarrollamos soluciones de tratamiento para otras especies: camarón, seriola, trucha, lubina y dorada. Aqua Pharma Group cuenta con el respaldo estructural de dos empresas matrices innovadoras: Solvay (líder global en materiales y soluciones sostenibles) y Aquatiq (referente noruego en seguridad alimentaria).",
+      title: "Quiénes somos",
+      bodyPrimary: "Fundada en Noruega en 2009, Aqua Pharma ha evolucionado desde el tratamiento de parásitos del salmón en Noruega hasta convertirse en una compañía global de salud acuícola que atiende a productores de salmón y camarón en nueve países. Aqua Pharma es una empresa conjunta 50/50 entre Solvay y Aquatiq.",
+      bodySecondary: "",
     },
     stats: [
       { stat: "40", label: "Empleados" },
@@ -346,8 +359,14 @@ const spanish: EditorialPagesContent = {
       { stat: "2009", label: "Fundación" },
     ],
     values: {
-      kicker: "Nuestros valores",
-      title: "Nos importa. Nos atrevemos.",
+      kicker: "Misión y valores",
+      title: "Misión y valores",
+      intro: "Bienestar bajo el agua. Ofrecemos conceptos y productos para la prevención y el control de enfermedades en la acuicultura de peces y camarones, basados en la sostenibilidad y la evidencia.",
+      body: "Aqua Pharma Group se compromete a apoyar a la industria mediante conceptos y servicios que protegen el bienestar del entorno y de las personas que trabajan en él, con un enfoque continuo en la investigación y la innovación.",
+      ambition: "Nuestra ambición es simple: ayudar a los productores a reducir su impacto ambiental y mejorar el bienestar de peces y camarones, respaldados por evidencia objetiva. Solo así podemos asegurar a los consumidores que los peces y camarones que consumen se cultivan de forma sostenible y con el mayor bienestar.",
+      humanRights: "Creemos que el respeto por la vida humana está por encima de todo. En la práctica, esto significa proteger la seguridad y los derechos de las personas que hacen funcionar esta industria, y apoyar los Objetivos de Desarrollo Sostenible de la ONU allí donde podamos generar un impacto material.",
+      certificationsTitle: "Certificaciones y compromiso",
+      certificationsBody: "Aqua Pharma Group cumple con la Ley de Transparencia de Noruega, que defiende los derechos humanos y unas condiciones de trabajo dignas, y está comprometida con prácticas empresariales responsables. Nuestra dedicación a la sostenibilidad, la ética y el bienestar animal se refleja en las certificaciones Responsible Care®, WelfCert y \"Bienestar Animal\".",
       careTitle: "Nos importa",
       careBody: "Aqua Pharma va más allá de lo básico y mejora continuamente en métodos de prevención y control donde la tecnología lo permite. Contribuimos a una acuicultura responsable al evolucionar nuestros sistemas para apoyar a los productores en el cumplimiento de sus objetivos.",
       dareTitle: "Nos atrevemos",
@@ -378,6 +397,7 @@ const spanish: EditorialPagesContent = {
     explore: {
       text: "Conoce más sobre las personas e ideas detrás de Aqua Pharma",
       teamCta: "Conoce al equipo",
+      localExpertsCta: "Encuentra un experto local",
       innovationCta: "Historia de innovación",
     },
   },
@@ -568,9 +588,9 @@ const norwegian: EditorialPagesContent = {
     },
     company: {
       kicker: "Hvem vi er",
-      title: "Et vitenskapsdrevet selskap formet av havet.",
-      bodyPrimary: "Aqua Pharma ble grunnlagt i Norge i 2009 og utvikler helsekonsepter for fiske- og rekeoppdrett. Vi opererer i 9 land — Australia, Belgia, Canada, Chile, Ecuador, Hellas, Indonesia, Norge og Skottland — med 40 ansatte verden over. Aqua Pharma er et 50/50 fellesforetak mellom Solvay og Aquatiq.",
-      bodySecondary: "Hovedmarkedet for Aqua Pharma er lakseoppdrett, men vi utvikler også behandlingsløsninger for andre arter: reker, kingfish, ørret, havabbor og havbrasme. Aqua Pharma Group er strukturelt støttet av to innovative morselskaper — Solvay (en global leder innen bærekraftige materialer og løsninger) og Aquatiq (en norsk referanse innen mattrygghet).",
+      title: "Hvem vi er",
+      bodyPrimary: "Aqua Pharma ble grunnlagt i Norge i 2009 og har vokst fra behandling av lakseparasitter i Norge til et globalt selskap innen akvakulturhelse som betjener lakse- og rekeprodusenter i ni land. Aqua Pharma er et 50/50 fellesforetak mellom Solvay og Aquatiq.",
+      bodySecondary: "",
     },
     stats: [
       { stat: "40", label: "Ansatte" },
@@ -579,8 +599,14 @@ const norwegian: EditorialPagesContent = {
       { stat: "2009", label: "Grunnlagt" },
     ],
     values: {
-      kicker: "Våre verdier",
-      title: "Vi bryr oss. Vi tør.",
+      kicker: "Oppdrag og verdier",
+      title: "Oppdrag og verdier",
+      intro: "Velferd under vann. Vi tilbyr konsepter og produkter for forebygging og kontroll av sykdom i oppdrett av fisk og reker, bygget på bærekraft og dokumentert kunnskap.",
+      body: "Aqua Pharma Group er forpliktet til å støtte næringen med konsepter og tjenester som ivaretar både miljøet og menneskene som arbeider i den, gjennom et kontinuerlig fokus på forskning og innovasjon.",
+      ambition: "Ambisjonen vår er enkel: å hjelpe produsenter med å redusere miljøpåvirkningen og forbedre velferden i fiske- og rekeoppdrett, basert på faktisk dokumentasjon. Først da kan vi forsikre forbrukerne om at fisken og rekene de spiser er oppdrettet bærekraftig og med høyest mulig velferd.",
+      humanRights: "Vi mener at respekt for menneskeliv står over alt annet. I praksis betyr det å beskytte sikkerheten og rettighetene til menneskene som får denne næringen til å fungere, og å støtte FNs bærekraftsmål der vi kan ha en vesentlig effekt.",
+      certificationsTitle: "Sertifiseringer og engasjement",
+      certificationsBody: "Aqua Pharma Group følger åpenhetsloven, som ivaretar menneskerettigheter og anstendige arbeidsforhold, og er forpliktet til ansvarlig virksomhet. Vår dedikasjon til bærekraft, etikk og dyrevelferd gjenspeiles i sertifiseringene Responsible Care®, WelfCert og \"Bienestar Animal\".",
       careTitle: "Vi bryr oss",
       careBody: "Aqua Pharma går lenger enn grunnleggende forventninger og forbedrer kontinuerlig forebyggings- og kontrollmetoder der teknologien tillater det. Vi bidrar til å opprettholde en ansvarlig akvakulturnæring ved å utvikle systemene våre slik at produsentene kan nå målene sine.",
       dareTitle: "Vi tør",
@@ -611,6 +637,7 @@ const norwegian: EditorialPagesContent = {
     explore: {
       text: "Lær mer om menneskene og ideene bak Aqua Pharma",
       teamCta: "Møt teamet",
+      localExpertsCta: "Finn en lokal ekspert",
       innovationCta: "Innovasjonshistorie",
     },
   },

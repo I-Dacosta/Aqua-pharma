@@ -62,6 +62,11 @@ test("about page keeps the requested company information architecture", async ()
         }
         assert.equal(await page.locator("#history, #values, #contact").count(), 0);
         assert.equal(await page.locator("#team a[href='/about/team']").count(), 1);
+        assert.equal(await page.locator("#team a[href='/contact#local-experts']").count(), 1);
+        assert.match(await page.locator("#who-we-are").textContent() ?? "", /50\/50 Joint Venture between Solvay & Aquatiq/);
+        assert.match(await page.locator("#our-mission").textContent() ?? "", /Norwegian Transparency Act/);
+        assert.match(await page.locator("#our-mission").textContent() ?? "", /Responsible Care®.*WelfCert.*Bienestar Animal/s);
+        assert.match(await page.locator("#global-presence").textContent() ?? "", /40/);
     } finally {
         await browser.close();
     }

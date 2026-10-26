@@ -55,7 +55,7 @@ export default async function AboutPage() {
                     </div>
                     <div className="space-y-7 lg:pt-2">
                         <p className="type-body font-light text-(--brand-dark)/80">{page.company.bodyPrimary}</p>
-                        <p className="type-body font-light text-(--brand-dark)/80">{page.company.bodySecondary}</p>
+                        {page.company.bodySecondary ? <p className="type-body font-light text-(--brand-dark)/80">{page.company.bodySecondary}</p> : null}
                     </div>
                 </ScrollReveal>
             </section>
@@ -66,15 +66,15 @@ export default async function AboutPage() {
                         <p className="text-[0.75rem] font-medium uppercase tracking-[0.14em] text-white/68">{page.values.kicker}</p>
                         <h2 className="mt-6 font-heading text-[clamp(2.25rem,4vw,4.25rem)] font-light leading-[1.05] text-white">{page.values.title}</h2>
                     </div>
-                    <div className="grid gap-10 sm:grid-cols-2">
-                        <article className="border-t border-white/25 pt-5">
-                            <h3 className="font-heading text-[1.7rem] font-light text-white">{page.values.careTitle}</h3>
-                            <p className="mt-5 font-light leading-7 text-white/78">{page.values.careBody}</p>
-                        </article>
-                        <article className="border-t border-white/25 pt-5">
-                            <h3 className="font-heading text-[1.7rem] font-light text-white">{page.values.dareTitle}</h3>
-                            <p className="mt-5 font-light leading-7 text-white/78">{page.values.dareBody}</p>
-                        </article>
+                    <div className="max-w-[52rem] space-y-6 lg:pt-1">
+                        <p className="text-[clamp(1.2rem,1.8vw,1.6rem)] font-light leading-[1.5] text-white">{page.values.intro}</p>
+                        <p className="font-light leading-7 text-white/80">{page.values.body}</p>
+                        <p className="font-light leading-7 text-white/80">{page.values.ambition}</p>
+                        <p className="font-light leading-7 text-white/80">{page.values.humanRights}</p>
+                        <aside className="border-t border-white/25 pt-6">
+                            <h3 className="font-heading text-[1.5rem] font-light text-white">{page.values.certificationsTitle}</h3>
+                            <p className="mt-4 font-light leading-7 text-white/80">{page.values.certificationsBody}</p>
+                        </aside>
                     </div>
                 </ScrollReveal>
             </section>
@@ -90,7 +90,10 @@ export default async function AboutPage() {
                         <p className="text-[0.75rem] font-medium uppercase tracking-[0.14em] text-(--brand-glaucous)">{team.intro.kicker}</p>
                         <h2 className="mt-6 max-w-[16ch] font-heading text-[clamp(2.25rem,4vw,4.25rem)] font-light leading-[1.05] text-(--brand-blue)">{team.intro.title}</h2>
                         <p className="type-body mt-6 max-w-[38rem] font-light text-(--brand-dark)/80">{team.intro.body}</p>
-                        <Link href="/about/team" className="brand-button mt-8">{page.explore.teamCta}</Link>
+                        <div className="mt-8 flex flex-wrap gap-3">
+                            <Link href="/about/team" className="brand-button">{page.explore.teamCta}</Link>
+                            <Link href="/contact#local-experts" className="brand-button-outline">{page.explore.localExpertsCta}</Link>
+                        </div>
                     </div>
                 </ScrollReveal>
             </section>
