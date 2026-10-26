@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import * as maplibregl from 'maplibre-gl';
 import { useSiteLocale } from '../core/SiteLocaleProvider';
-import type { Locale } from '@/i18n/config';
 import {
     COUNTRIES,
     COUNTRY_ACTIVE_FILL_LAYER,
@@ -16,19 +15,14 @@ import {
     buildActiveCountryFilter,
     loadCountriesGeoJson
 } from './map/mapHelpers';
+import { marketSnapshotCopy } from './map/marketSnapshotCopy';
 import { useMapInitialization } from './map/useMapInitialization';
 import { useMapScrollAnimations } from './map/useMapScrollAnimations';
-
-const snapshotCopy: Record<Locale, { title: string; employees: string; countries: string; jointVenture: string; partners: string; fish: string; shrimp: string }> = {
-    en: { title: 'Markets Snapshot', employees: 'EMPLOYEES', countries: 'COUNTRIES', jointVenture: 'JOINT VENTURE', partners: 'Solvay & Aquatiq', fish: 'Fish', shrimp: 'Shrimp' },
-    es: { title: 'Presencia global', employees: 'EMPLEADOS', countries: 'PAÍSES', jointVenture: 'EMPRESA CONJUNTA', partners: 'Solvay y Aquatiq', fish: 'Peces', shrimp: 'Camarón' },
-    no: { title: 'Markeder i korte trekk', employees: 'ANSATTE', countries: 'LAND', jointVenture: 'FELLESFORETAK', partners: 'Solvay og Aquatiq', fish: 'Fisk', shrimp: 'Reker' },
-};
 
 export function MapSection() {
     const router = useRouter();
     const { content, locale } = useSiteLocale();
-    const snapshot = snapshotCopy[locale];
+    const snapshot = marketSnapshotCopy[locale];
     const sectionRef = useRef<HTMLElement>(null);
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const mapRef = useRef<maplibregl.Map | null>(null);

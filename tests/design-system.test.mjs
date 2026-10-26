@@ -13,16 +13,16 @@ const routes = [
     "/products/water-conditioning-oxygenation", "/products/dosing-units-services",
 ];
 
-test("homepage is limited to markets, solution navigation, and events news", async () => {
+test("homepage is limited to the market snapshot, solution navigation, and events news", async () => {
     const browser = await chromium.launch();
     try {
         const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
         await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
 
-        assert.equal(await page.locator("#map-section").count(), 1);
+        assert.equal(await page.locator("#markets-snapshot").count(), 1);
         assert.equal(await page.locator("#quick-nav").count(), 1);
         assert.equal(await page.locator("#news").count(), 1);
-        assert.equal(await page.locator("#hero, #what-we-do, #products, #contact").count(), 0);
+        assert.equal(await page.locator("#hero, #what-we-do, #products, #contact, #map-section").count(), 0);
 
         const quickNavLinks = await page.locator("#quick-nav article").evaluateAll((items) =>
             items.map((item) => ({
@@ -54,9 +54,9 @@ for (const [width, gutter, h2Size] of [[390, 24, 36], [1440, 80, 56]]) {
                 };
                 return {
                     edges: [
-                        "nav.fixed > div", "#map-section > div", "#quick-nav > div", "#news > div", "footer > div",
+                        "nav.fixed > div", "#markets-snapshot > div", "#quick-nav > div", "#news > div", "footer > div",
                     ].map(measure),
-                    h2: ["#map-section h2", "#quick-nav h2", "#news h2"].map(measure),
+                    h2: ["#markets-snapshot h2", "#quick-nav h2", "#news h2"].map(measure),
                     overflow: document.documentElement.scrollWidth - window.innerWidth,
                 };
             });
@@ -229,11 +229,11 @@ test("homepage calls to action use the Aqua cyan accent and remain easy to targe
     }
 });
 
-test("market labels and joint-venture statistic use the updated shared treatment", async () => {
+test("market labels and joint-venture statistic use the shared treatment", async () => {
     const browser = await chromium.launch();
     try {
         const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
-        await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+        await page.goto(`${baseUrl}/contact`, { waitUntil: "networkidle" });
 
         const marketUi = await page.locator("#map-section").evaluate((section) => {
             const labels = [...section.querySelectorAll(".map-snapshot-label")];
@@ -298,13 +298,13 @@ test("filled actions across inner pages share the Aqua cyan treatment", async ()
     }
 });
 
-test("homepage hydrates without a map fallback mismatch", async () => {
+test("interactive map hydrates without a fallback mismatch", async () => {
     const browser = await chromium.launch();
     try {
         const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
         const pageErrors = [];
         page.on("pageerror", (error) => pageErrors.push(error.message));
-        await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+        await page.goto(`${baseUrl}/contact`, { waitUntil: "networkidle" });
         assert.deepEqual(pageErrors.filter((message) => message.includes("Hydration failed")), []);
     } finally {
         await browser.close();
