@@ -11,23 +11,20 @@ import type { Locale } from "@/i18n/config";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type ConceptCard = { title: string; href: string; image: string; alt: string; cta: string };
+type ConceptCard = { title: string; description: string; href: string; image: string; alt: string; cta: string };
 
 const cards: Record<Locale, ConceptCard[]> = {
     en: [
-        { title: "Fish – Parasite Control", href: "/concepts/fish", image: "/images/wp/products/bath-hero.jpg", alt: "Salmon treatment at a sea farm", cta: "Explore fish" },
-        { title: "Shrimp – Pond Health", href: "/concepts/shrimp", image: "/images/wp/products/water-chapter-seatru.jpg", alt: "Shrimp farming ponds", cta: "Explore shrimp" },
-        { title: "Systems & Services", href: "/systems-services", image: "/images/wp/products/dosing-hero.jpg", alt: "Automated dosing equipment", cta: "Explore systems" },
+        { title: "Fish – Parasite Control", description: "H₂O₂-based veterinary treatments for sea lice and Amoebic Gill Disease (AGD), delivered with automated dosing systems and on-site expert support. In use across established salmon markets worldwide.", href: "/concepts/fish", image: "/images/wp/products/bath-hero.jpg", alt: "Salmon treatment at a sea farm", cta: "Explore fish" },
+        { title: "Shrimp – Pond Health", description: "H₂O₂-based concepts for preventative pond oxygenation and outbreak management, backed by our own R&D facilities and supported by dosing systems and farm expertise.", href: "/concepts/shrimp", image: "/images/wp/products/water-chapter-seatru.jpg", alt: "Shrimp farming ponds", cta: "Explore shrimp" },
     ],
     es: [
-        { title: "Peces – Control de parásitos", href: "/concepts/fish", image: "/images/wp/products/bath-hero.jpg", alt: "Tratamiento de salmón en una granja marina", cta: "Explorar peces" },
-        { title: "Camarón – Salud del estanque", href: "/concepts/shrimp", image: "/images/wp/products/water-chapter-seatru.jpg", alt: "Estanques de cultivo de camarón", cta: "Explorar camarón" },
-        { title: "Sistemas y servicios", href: "/systems-services", image: "/images/wp/products/dosing-hero.jpg", alt: "Equipo de dosificación automatizado", cta: "Explorar sistemas" },
+        { title: "Peces – Control de parásitos", description: "Tratamientos veterinarios basados en H₂O₂ contra piojos de mar y enfermedad de las branquias amebiana (AGD), suministrados con sistemas de dosificación automatizados y apoyo experto en sitio.", href: "/concepts/fish", image: "/images/wp/products/bath-hero.jpg", alt: "Tratamiento de salmón en una granja marina", cta: "Explorar peces" },
+        { title: "Camarón – Salud del estanque", description: "Conceptos basados en H₂O₂ para oxigenación preventiva de estanques y gestión de brotes, respaldados por instalaciones propias de I+D y experiencia en campo.", href: "/concepts/shrimp", image: "/images/wp/products/water-chapter-seatru.jpg", alt: "Estanques de cultivo de camarón", cta: "Explorar camarón" },
     ],
     no: [
-        { title: "Fisk – Parasittkontroll", href: "/concepts/fish", image: "/images/wp/products/bath-hero.jpg", alt: "Laksebehandling ved et sjøanlegg", cta: "Utforsk fisk" },
-        { title: "Reker – Damhelse", href: "/concepts/shrimp", image: "/images/wp/products/water-chapter-seatru.jpg", alt: "Rekedammer", cta: "Utforsk reker" },
-        { title: "Systemer og tjenester", href: "/systems-services", image: "/images/wp/products/dosing-hero.jpg", alt: "Automatisert doseringsutstyr", cta: "Utforsk systemer" },
+        { title: "Fisk – Parasittkontroll", description: "H₂O₂-baserte veterinærbehandlinger mot lakselus og amøbegjellesykdom (AGD), levert med automatiserte doseringssystemer og ekspertstøtte på stedet.", href: "/concepts/fish", image: "/images/wp/products/bath-hero.jpg", alt: "Laksebehandling ved et sjøanlegg", cta: "Utforsk fisk" },
+        { title: "Reker – Damhelse", description: "H₂O₂-baserte konsepter for forebyggende oksygenering av dammer og utbruddskontroll, støttet av egne FoU-anlegg, doseringssystemer og driftskompetanse.", href: "/concepts/shrimp", image: "/images/wp/products/water-chapter-seatru.jpg", alt: "Rekedammer", cta: "Utforsk reker" },
     ],
 };
 
@@ -69,16 +66,17 @@ export function ProductSectionV2({ asPage = false }: { asPage?: boolean }) {
                     )}
                     <p className="type-body mt-5 font-light text-(--brand-dark)/80">{headings[locale].subtitle}</p>
                 </div>
-                <div className="grid grid-cols-1 gap-x-[clamp(1.25rem,2.4vw,2.5rem)] gap-y-14 md:grid-cols-3 md:gap-y-0">
+                <div className="grid grid-cols-1 gap-x-[clamp(1.25rem,2.4vw,2.5rem)] gap-y-14 md:grid-cols-2 md:gap-y-0">
                     {cards[locale].map((card, index) => (
                         <article key={card.href} ref={(element) => { cardsRef.current[index] = element; }} className="group product-card-v2">
                             <Link href={card.href} className="block focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-(--brand-blue)">
-                                <div className="relative aspect-[16/9] overflow-hidden rounded-[8px] bg-(--brand-paper-mist)">
-                                    <Image src={card.image} alt={card.alt} fill sizes="(max-width: 767px) 100vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.035]" />
+                                <div className="relative aspect-[4/3] overflow-hidden rounded-[8px] bg-(--brand-paper-mist)">
+                                    <Image src={card.image} alt={card.alt} fill sizes="(max-width: 767px) 100vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.035]" />
                                 </div>
                                 <div className="pt-5 md:pt-6">
                                     <p className="text-[0.7rem] text-(--brand-ink-muted)">{String(index + 1).padStart(3, "0")}</p>
                                     <h3 className="mt-3 min-h-[2.3em] max-w-[18ch] font-heading text-[clamp(1.5rem,2.05vw,2.05rem)] font-light leading-[1.08] text-(--brand-dark)">{card.title}</h3>
+                                    <p className="mt-4 max-w-[42rem] font-light leading-7 text-(--brand-dark)/75">{card.description}</p>
                                     <div className="mt-5 border-t border-(--brand-dark)/20" />
                                     <span className="brand-button mt-5">{card.cta}<ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={1.5} /></span>
                                 </div>

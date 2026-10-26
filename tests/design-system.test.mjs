@@ -80,8 +80,10 @@ test("concepts hub and fish page expose the requested solution architecture", as
         assert.equal(await page.locator("h1").count(), 1);
         assert.deepEqual(
             await page.locator("#products article a").evaluateAll((links) => links.map((link) => link.getAttribute("href"))),
-            ["/concepts/fish", "/concepts/shrimp", "/systems-services"]
+            ["/concepts/fish", "/concepts/shrimp"]
         );
+        assert.match(await page.locator("#products").textContent() ?? "", /H₂O₂-based veterinary treatments for sea lice and Amoebic Gill Disease \(AGD\)/);
+        assert.match(await page.locator("#products").textContent() ?? "", /H₂O₂-based concepts for preventative pond oxygenation and outbreak management/);
 
         await page.goto(`${baseUrl}/concepts/fish`, { waitUntil: "networkidle" });
         assert.equal(await page.locator("header h1").count(), 1);
