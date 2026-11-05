@@ -265,6 +265,7 @@ const sharedNavigation = {
 				{ name: "Protocols", href: "/systems-services#protocols" },
 				{ name: "On-Site Support", href: "/systems-services#on-site-support" },
 				{ name: "HSE & Product Stewardship", href: "/systems-services#hse-product-stewardship" },
+				{ name: "Safety guides", href: "/systems-services#safety-guides", indent: true },
 			],
 		},
 		{
@@ -371,6 +372,7 @@ const sharedNavigation = {
 				{ name: "Protocolos", href: "/systems-services#protocols" },
 				{ name: "Soporte en sitio", href: "/systems-services#on-site-support" },
 				{ name: "HSE y gestión responsable del producto", href: "/systems-services#hse-product-stewardship" },
+				{ name: "Guías de seguridad", href: "/systems-services#safety-guides", indent: true },
 			],
 		},
 		{
@@ -477,6 +479,7 @@ const sharedNavigation = {
 				{ name: "Protokoller", href: "/systems-services#protocols" },
 				{ name: "Støtte på stedet", href: "/systems-services#on-site-support" },
 				{ name: "HSE og produktansvar", href: "/systems-services#hse-product-stewardship" },
+				{ name: "Sikkerhetsveiledninger", href: "/systems-services#safety-guides", indent: true },
 			],
 		},
 		{

@@ -33,8 +33,8 @@ export function getNavFeature(section: NavigationSection, content: SiteContent):
         return {
             heading: section.title,
             cards: [
-                { image: "/images/wp/about/about-team.jpg", title: section.items?.find((item) => item.href === "/about/team")?.name ?? section.title, href: "/about/team", cta: explore },
-                { image: "/images/wp/about/about-operations.jpg", title: section.items?.find((item) => item.href === "/about#map-section")?.name ?? section.title, href: "/about#map-section", cta: explore },
+                { image: "/images/wp/about/about-team.jpg", title: section.items?.find((item) => item.href === "/about#team")?.name ?? section.title, href: "/about#team", cta: explore },
+                { image: "/images/wp/about/about-operations.jpg", title: section.items?.find((item) => item.href === "/about#global-presence")?.name ?? section.title, href: "/about#global-presence", cta: explore },
             ],
         };
     }

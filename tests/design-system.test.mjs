@@ -128,7 +128,8 @@ test("systems page exposes the requested equipment and services architecture", a
         for (const id of ["dosing-systems", "protocols", "on-site-support", "hse-product-stewardship"]) {
             assert.equal(await page.locator(`#${id}`).count(), 1, `#${id} should be present once`);
         }
-        assert.equal(await page.locator("#safety-guides, #contact").count(), 0);
+        assert.equal(await page.locator("#safety-guides").count(), 1);
+        assert.equal(await page.locator("#contact").count(), 0);
         assert.match(await page.locator("#dosing-systems").textContent() ?? "", /S.*N.*W/s);
         assert.match(await page.locator("#hse-product-stewardship").textContent() ?? "", /Safety guides/);
     } finally {
