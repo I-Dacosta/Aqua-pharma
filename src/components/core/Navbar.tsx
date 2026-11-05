@@ -51,6 +51,17 @@ export function Navbar() {
     const burgerTopRef = useRef<HTMLSpanElement>(null);
     const burgerMiddleRef = useRef<HTMLSpanElement>(null);
     const burgerBottomRef = useRef<HTMLSpanElement>(null);
+    const navbarRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        const navbar = navbarRef.current;
+        if (!navbar) return;
+        const updateHeight = () => document.documentElement.style.setProperty("--navbar-height", `${navbar.getBoundingClientRect().height}px`);
+        updateHeight();
+        const observer = new ResizeObserver(updateHeight);
+        observer.observe(navbar);
+        return () => { observer.disconnect(); document.documentElement.style.removeProperty("--navbar-height"); };
+    }, []);
 
     const activateSection = (key: string) => {
         cancelClose();
@@ -124,6 +135,7 @@ export function Navbar() {
     return (
         <>
             <nav
+                ref={navbarRef}
                 className="fixed inset-x-0 top-0 z-50 bg-white px-6 py-3 md:px-12 md:py-4 lg:px-20"
                 onMouseLeave={scheduleClose}
                 onMouseEnter={cancelClose}

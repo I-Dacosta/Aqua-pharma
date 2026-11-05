@@ -5,8 +5,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { useSiteLocale } from "@/components/core/SiteLocaleProvider";
 
-const privacyPolicyUrl = "https://aqua-pharma.com/wp-content/uploads/2024/09/Aqua-Pharma-Privacy-statement-and-cookie-policy_-Aug-2024.pdf";
-const legalNoticeUrl = "https://aqua-pharma.com/terms-and-conditions/";
 const linkedInUrl = "https://www.linkedin.com/company/aqua-pharma/";
 const utilityLinkClass = "text-[0.82rem] font-medium leading-5 text-white/78 transition-colors hover:text-(--brand-cyan-light) focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
 
@@ -65,8 +63,8 @@ export function Footer() {
                     <Link className={utilityLinkClass} href="/contact">{footer.contact}</Link>
                     <Link className={utilityLinkClass} href="/contact#local-experts">{footer.findLocalExpert}</Link>
                     <a className={utilityLinkClass} href={linkedInUrl} rel="noopener noreferrer" target="_blank">{footer.linkedin}</a>
-                    <a className={utilityLinkClass} href={privacyPolicyUrl} rel="noopener noreferrer" target="_blank">{footer.privacyPolicy}</a>
-                    <a className={utilityLinkClass} href={legalNoticeUrl} rel="noopener noreferrer" target="_blank">{footer.legalNotice}</a>
+                    <Link className={utilityLinkClass} href="/privacy">{footer.privacyPolicy}</Link>
+                    <Link className={utilityLinkClass} href="/legal-notice">{footer.legalNotice}</Link>
                     <button className={utilityLinkClass} onClick={() => setIsCookieSettingsOpen(true)} type="button">{footer.cookieSettings}</button>
                 </nav>
             </div>

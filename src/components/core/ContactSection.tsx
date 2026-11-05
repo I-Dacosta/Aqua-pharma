@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatedArrowButton, AnimatedArrowLink } from "../ui/AnimatedArrowCta";
+import { AnimatedArrowButton } from "../ui/AnimatedArrowCta";
 import { SectionDivider } from "../ui/SectionDivider";
 import { useSiteLocale } from "@/components/core/SiteLocaleProvider";
 
@@ -31,23 +31,13 @@ export function ContactSection() {
                     <div className="pt-12">
                         <h3 className="mb-4 text-[0.875rem] font-medium uppercase text-(--brand-blue)/80">{content.contact.headquartersLabel}</h3>
                         <p className="mb-6 text-[1.05rem] font-light leading-[1.8] text-(--brand-dark)/70">
-                            Hovemoveien 1<br />
-                            2624 Lillehammer<br />
-                            Norway
+                            Belgium
                         </p>
-                        <AnimatedArrowLink
-                            href="https://www.google.no/maps/place/Aqua+Pharma+AS"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[0.875rem] font-medium uppercase text-(--brand-glaucous) transition-colors hover:text-(--brand-blue)"
-                        >
-                            {content.contact.directions}
-                        </AnimatedArrowLink>
                     </div>
                 </div>
 
                 <div className="rounded-none border-[1px] border-(--brand-blue)/10 bg-transparent backdrop-blur-sm p-8 md:p-14">
-                    <form className="space-y-8">
+                    <form className="space-y-8" onSubmit={(event) => { event.preventDefault(); const form = event.currentTarget; const get = (id: string) => (form.querySelector(`#${id}`) as HTMLInputElement | HTMLTextAreaElement).value; const subject = encodeURIComponent(get("contact-subject")); const message = encodeURIComponent(`${get("contact-first-name")} ${get("contact-last-name")}\n${get("contact-email")}\n\n${get("contact-message")}`); window.location.href = `mailto:contact@aqua-pharma.com?subject=${subject}&body=${message}`; }}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div className="space-y-3">
                                 <label htmlFor="contact-first-name" className="text-[0.875rem] font-medium uppercase text-(--brand-blue)/80">{content.contact.form.firstName}</label>
@@ -72,7 +62,7 @@ export function ContactSection() {
                         </div>
 
                         <div className="flex items-start gap-4 mt-10">
-                            <input type="checkbox" id="terms" className="mt-1 h-4 w-4 shrink-0 rounded-none border-(--brand-blue)/55 text-(--brand-blue) focus:ring-(--brand-blue)" />
+                            <input type="checkbox" id="terms" required className="mt-1 h-4 w-4 shrink-0 rounded-none border-(--brand-blue)/55 text-(--brand-blue) focus:ring-(--brand-blue)" />
                             <label htmlFor="terms" className="cursor-pointer text-[0.95rem] font-light leading-relaxed text-(--brand-dark)/75">
                                 {content.contact.form.consent}
                             </label>

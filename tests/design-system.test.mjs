@@ -104,12 +104,15 @@ test("shrimp page exposes the requested pond-health architecture", async () => {
         await page.goto(`${baseUrl}/concepts/shrimp`, { waitUntil: "networkidle" });
 
         assert.equal(await page.locator("header h1").count(), 1);
-        for (const id of ["pond-oxygenation", "outbreak-control", "field-support", "hse-sds-docs"]) {
+        for (const id of ["pond-oxygenation", "outbreak-control", "field-support", "hse-sds-docs", "rd-markets-contacts"]) {
             assert.equal(await page.locator(`#${id}`).count(), 1, `#${id} should be present once`);
         }
         assert.equal(await page.locator("#contact").count(), 0);
         assert.match(await page.locator("#outbreak-control h2").textContent() ?? "", /Vibrio.*Asia/);
         assert.equal(await page.locator("#hse-sds-docs h2").textContent(), "HSE & SDS Docs");
+        assert.match(await page.locator("#pond-oxygenation").textContent() ?? "", /food-grade H₂O₂/i);
+        assert.match(await page.locator("#outbreak-control").textContent() ?? "", /PAA-based.*Asia only/s);
+        assert.equal(await page.locator("#rd-markets-contacts a[href='/rd#seatru-research-facilities']").count(), 1);
     } finally {
         await browser.close();
     }

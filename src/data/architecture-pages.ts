@@ -4,6 +4,7 @@ export type ArchitectureSection = {
     body: string;
     points?: string[];
     link?: { label: string; href: string };
+    image?: { src: string; alt: string };
 };
 
 export type ArchitecturePage = {
@@ -19,28 +20,30 @@ export const architecturePages = {
     fish: {
         eyebrow: "Aquaculture Health Concepts / Fish",
         title: "Fish – Parasite Control",
-        intro: "Veterinary-grade H₂O₂ parasite treatments for salmon, supported by automated dosing systems, documented protocols and field expertise.",
+        intro: "Founded in Norway in 2009, Aqua Pharma has expanded its salmon activities to Scotland, Canada and Chile, built around H₂O₂-based parasite treatments, dosing systems and field support. Our salmon concept provides veterinary-grade treatment for sea lice and Amoebic Gill Disease (AGD), alongside automated dosing and expert support.",
         image: "/images/wp/products/bath-hero.jpg",
         imageAlt: "Salmon treatment at a sea farm",
         sections: [
-            { id: "bath-treatments", title: "Bath Treatments: Tarpaulin & Wellboat", body: "Controlled treatment can take place in a sea cage under tarpaulin or in a wellboat. Our teams plan the set-up, place the hoses, monitor dosing and support the safe completion of treatment.", points: ["Gentle crowding and hose placement", "Pre-dose, titration and controlled main dose", "Documented application under a tarpaulin or in vessel wells"], link: { label: "Explore bath treatments", href: "/products/bath-treatments" } },
+            { id: "bath-treatments", title: "Bath Treatments: Tarpaulin & Wellboat", body: "Controlled treatment can take place in a sea cage under tarpaulin or in a wellboat. Our teams plan the set-up, place the hoses, monitor dosing and support the safe completion of treatment.", points: ["1. Gentle crowding of fish", "2. Placing the hoses", "3. Enclosing the cage with a tarpaulin for treatment", "Pre-dose: oxygen and hydrogen peroxide are applied, mixed with compressed air and measured by titration.", "Main dose: dosing and treatment are monitored with titration before releasing the tarpaulin in accordance with the treatment protocol.", "H₂O₂ breaks down into water and oxygen after use. CO₂-neutral products are available on request."], link: { label: "Explore bath treatments", href: "/products/bath-treatments" } },
             { id: "species-applications", title: "Species & Applications", body: "Our fish concept addresses sea lice and Amoebic Gill Disease (AGD) in salmon farming. Controlled H₂O₂ application is also being developed for seabass and seabream parasite challenges in Mediterranean waters.", points: ["Sea lice, including Caligus and Lepeophtheirus", "Amoebic Gill Disease", "Seabass and seabream trials"] },
             { id: "dosing-systems", title: "Dosing Systems", body: "Automated S, N and W units support accurate application across sea cages and wellboats. Equipment specifications and comparisons live in Systems & Services.", link: { label: "Read more – Systems & Services", href: "/systems-services#dosing-systems" } },
-            { id: "field-support", title: "Field Support", body: "Veterinarians, treatment experts and technical teams can assist with diagnostics, planning, calibration, training, equipment maintenance and on-site or remote follow-up." },
+            { id: "field-support", title: "Field Support", body: "Veterinarians, treatment experts and technical teams can assist with diagnostics, planning, calibration, training, equipment maintenance and on-site or remote follow-up.", points: ["HSE stewardship and training", "Calibration, bath treatment support and field training", "Equipment maintenance and storage inspections", "Parasite diagnostics and treatment protocols", "Microbial management and diagnostic services", "Disinfection, biosecurity and R&D trials"] },
             { id: "hse-sds-docs", title: "HSE & SDS Docs", body: "Market-specific fish safety documentation and product stewardship guidance are provided by our HSE team.", link: { label: "Contact our Global HSE manager", href: "/systems-services#hse-product-stewardship" } },
+            { id: "markets-contacts", title: "Markets & Contacts", body: "Connect with our teams in Canada, Chile, Greece, Norway and Scotland.", link: { label: "Find a local expert", href: "/contact#local-experts" } },
         ],
     },
     shrimp: {
         eyebrow: "Aquaculture Health Concepts / Shrimp",
         title: "Shrimp – Pond Health",
-        intro: "SEATRU™ concepts for preventative pond oxygenation and outbreak management, backed by dosing guidance, farm expertise and applied R&D.",
+        intro: "We provide H₂O₂-based solutions for preventative pond oxygenation and are developing our SEATRU™ concepts for shrimp farming in Ecuador, Indonesia and Australia, backed by our own R&D facilities. Our shrimp platform combines H₂O₂-based oxygenation with a separate PAA-based Vibrio management concept for Asia, supported by dosing systems, farm expertise and technical support.",
         image: "/images/wp/products/water-chapter-seatru.jpg",
         imageAlt: "Shrimp aquaculture ponds",
         sections: [
-            { id: "pond-oxygenation", title: "Pond Oxygenation", body: "Food-grade H₂O₂ is applied through controlled dosing to support dissolved oxygen levels. The system can integrate with oxygen sensors and respond to pond conditions.", link: { label: "Explore water conditioning", href: "/products/water-conditioning-oxygenation" } },
-            { id: "outbreak-control", title: "Outbreak Control: Vibrio, Asia", body: "For Asia only, our separate PAA-based water-treatment concept supports Vibrio management. This is distinct from the H₂O₂-based pond oxygenation platform." },
-            { id: "field-support", title: "Field Support", body: "Farm teams can access protocols, training, dosing guidance and on-site or remote follow-up, with technical and microbiological expertise as needed." },
-            { id: "hse-sds-docs", title: "HSE & SDS Docs", body: "Shrimp-sector safety documents are managed separately from fish-sector materials and can be requested for the relevant market.", link: { label: "Contact our Global HSE manager", href: "/systems-services#hse-product-stewardship" } },
+            { id: "pond-oxygenation", title: "Pond Oxygenation", body: "SEATRU™ for Pond Oxygenation: food-grade H₂O₂ with dissolved-oxygen sensor integration.", points: ["Use: increase dissolved oxygen levels in shrimp ponds", "Product: food-grade H₂O₂ for preventative oxygenation", "Application: controlled pond dosing during the relevant production phase", "Set-up: dosing designed to work with dissolved-oxygen sensors and pond conditions", "H₂O₂ breaks down into water and oxygen after use. CO₂-neutral products are available on request."], link: { label: "Explore water conditioning", href: "/products/water-conditioning-oxygenation" } },
+            { id: "outbreak-control", title: "Outbreak Control: Vibrio, Asia only", body: "SEATRU™ for Vibrio management is a separate PAA-based pond water-treatment concept for Asia only. It is distinct from H₂O₂-based pond oxygenation.", points: ["Use: pond water conditioning", "Product: PAA-based water treatment", "Application: controlled dosing in ponds", "Support: protocols, training, dosing guidance and follow-up"] },
+            { id: "field-support", title: "Field Support", body: "Protocols, training, dosing guidance and on-site follow-up for shrimp farms.", points: ["HSE: product stewardship and training", "Farm support and field training", "Technical: equipment maintenance and service", "Logistics: storage facility inspections", "Veterinarians: parasite diagnostics and treatment protocols", "Microbiologists: microbial management and diagnostics", "Technical sales: disinfection and biosecurity", "Biologists, microbiologists and veterinarians: R&D trials"] },
+            { id: "hse-sds-docs", title: "HSE & SDS Docs", body: "Request shrimp-sector Safety Data Sheets for your market from our HSE team. These documents are managed separately from fish-sector materials.", link: { label: "Contact our Global HSE manager", href: "/systems-services#hse-product-stewardship" } },
+            { id: "rd-markets-contacts", title: "R&D / Markets & Contacts", body: "Our shrimp concepts are being developed in Ecuador, Indonesia and Australia, supported by research facilities and local expertise.", image: { src: "/images/wp/media/seatru.jpg", alt: "SEATRU research team" }, link: { label: "Read more about R&D", href: "/rd#seatru-research-facilities" } },
         ],
     },
     systems: {
